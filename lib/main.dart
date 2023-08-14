@@ -1,18 +1,22 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
+import 'package:exopek_workout_app/AppConfig.dart';
+import 'package:exopek_workout_app/components/WorkoutCard.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
+import 'package:exopek_workout_app/presentation/Dicover.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'data/repository/WorkoutRepository.dart';
 
 void main() {
-
   /* final workoutRepositoryProvider = Provider<WorkoutRepository>((ref) {
   return WorkoutRepository(dio);
 }); */
-
-  runApp(ProviderScope(child: MyApp()) );
+  print(AppConfig.apiBaseUrl);
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +39,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:
+          const Discover(), //const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -74,16 +79,17 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       _counter++;
     });
   }
+
   @override
   void initState() {
     super.initState();
-    
+
     //ref.watch(dioWorkoutProvider).getWorkouts().then((value) => workouts = value);
     //print("Workouts: $workouts");
     //context.read(weatherRepositoryProvider).getWorkouts();
   }
 
-  @override
+  /* @override
   void didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
@@ -94,7 +100,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         _isLoading = false;
       });
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +110,14 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: _isLoading && workouts != null ? Container() : Center(
+      body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -132,7 +138,36 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              child: Image.network(workouts[0]['previewImage']),
+              child: Container(
+                height: 300,
+                child: FutureBuilder<List<Workout>>(
+                    future: ref.watch(dioWorkoutProvider).getWorkouts(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const Center(
+                          child: Text('Error'),
+                        );
+                      } else if (snapshot.hasData) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return WorkoutCard(
+                              imageUrl: snapshot.data![index].previewImage,
+                            );
+                          },
+                        );
+                      } else {
+                        return const Center(
+                          child: Text('No data'),
+                        );
+                      }
+                    }),
+              ),
             ),
             const Text(
               'You have pushed the button this many times:',

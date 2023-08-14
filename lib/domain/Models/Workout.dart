@@ -1,15 +1,27 @@
-
-
 class Workout {
   final String id;
   final String name;
   final String description;
+  final String previewImage;
 
-  Workout(this.id, this.name, this.description);
+  Workout(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.previewImage});
 
-  Workout.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        description = json['description'];
-  
+  // FromReadDto
+  factory Workout.fromJson(Map<String, dynamic> json) {
+    final id = json['id'];
+    final name = json['name'];
+    final description = json['description'];
+    final previewImage = json['previewImage'];
+
+    return Workout(
+      id: id,
+      name: name,
+      description: description,
+      previewImage: previewImage,
+    );
+  }
 }
