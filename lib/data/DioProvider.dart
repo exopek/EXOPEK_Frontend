@@ -6,6 +6,7 @@ import 'package:exopek_workout_app/data/repository/WorkoutRepository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../AppConfig.dart';
+import '../domain/Models/Workout.dart';
 
 final dioProvider = Provider((ref) {
   Dio dio = Dio();
@@ -20,4 +21,16 @@ final dioProvider = Provider((ref) {
 
 final dioWorkoutProvider = Provider<WorkoutRepository>((ref) {
   return WorkoutRepository(ref);
+});
+
+final combinedWorkoutProvider =
+    FutureProvider.autoDispose<Map<String, List<Workout>>>((ref) async {
+  final data1 = await ref.watch(dioWorkoutProvider).getWorkouts();
+  /* final data2 = await ref.watch(data2Provider.future);
+  final data3 = await ref.watch(data3Provider.future); */
+
+  //return data1 != null && data2 != null && data3 != null;
+  final Map<String, List<Workout>> result = {};
+  result["workouts"] = data1;
+  return result;
 });
