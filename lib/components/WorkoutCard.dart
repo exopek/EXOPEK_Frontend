@@ -38,8 +38,8 @@ class WorkoutCard extends StatelessWidget {
               height: 206,
               decoration: ShapeDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(workout.previewImage),
-                  fit: BoxFit.fill,
+                  image: NetworkImage(workout.previewImageUrl),
+                  fit: BoxFit.cover,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -68,7 +68,7 @@ class WorkoutCard extends StatelessWidget {
           ),
           Positioned(
             left: 10,
-            top: 206,
+            top: 214,
             child: SizedBox(
               width: 135.06,
               height: 29.92,
@@ -85,7 +85,7 @@ class WorkoutCard extends StatelessWidget {
           ),
           Positioned(
             left: 6,
-            top: 228,
+            top: 236,
             child: Container(
               width: 152.21,
               height: 31.50,
@@ -186,13 +186,13 @@ class WorkoutCard extends StatelessWidget {
                   ),
                   Positioned(
                     left: 53.59,
-                    top: 4.72,
+                    top: 2.72,
                     child: Transform(
                       transform: Matrix4.identity()
                         ..translate(0.0, 0.0)
                         ..rotateZ(1.57),
                       child: Container(
-                        width: 22.05,
+                        width: 16.05,
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             side: BorderSide(

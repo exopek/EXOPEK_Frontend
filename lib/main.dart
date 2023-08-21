@@ -6,16 +6,20 @@ import 'package:exopek_workout_app/components/WorkoutCard.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/presentation/Dicover.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
+import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'data/repository/WorkoutRepository.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   /* final workoutRepositoryProvider = Provider<WorkoutRepository>((ref) {
   return WorkoutRepository(dio);
 }); */
   print(AppConfig.apiBaseUrl);
+  await ThemeBase.initialize();
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -25,9 +29,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: AppRouter.router,
       title: 'Flutter Demo',
       theme: ThemeData(
+        brightness: Brightness.dark,
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -39,8 +45,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home:
-          const Discover(), //const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+
+      //const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

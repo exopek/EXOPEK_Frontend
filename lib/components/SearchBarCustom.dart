@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 
 class SearchBarCustom extends StatefulWidget {
   const SearchBarCustom(
-      {required this.controller, super.key, required this.xsize});
+      {required this.controller,
+      super.key,
+      required this.xsize,
+      this.focusNode,
+      required this.hint});
 
   final TextEditingController? controller;
   final double xsize;
+  final String hint;
+  final FocusNode? focusNode;
 
   @override
   State<SearchBarCustom> createState() => _SearchBarCustomState();
@@ -55,9 +61,10 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
                 height: 16,
                 child: TextFormField(
                   controller: widget.controller,
+                  focusNode: widget.focusNode,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Training finden',
+                    hintText: widget.hint,
                     hintStyle: TextStyle(
                       color: Color(0xFF838282),
                       fontSize: 14,
@@ -71,6 +78,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w400,
                   ),
+                  onTapOutside: (event) => widget.focusNode!.unfocus(),
                 ),
               ),
             )

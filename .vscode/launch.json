@@ -22,10 +22,9 @@
             "flutterMode": "profile"
         },
         {
-            "name": "exopek_workout_app (release mode)",
+            "name": "exopek_workout_app (azure)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
             "program": "lib/main.dart",
             "args": [
                 "--dart-define=API_BASE_URL=http://exopek.azurewebsites.net/api/",
