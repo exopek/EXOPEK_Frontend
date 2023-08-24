@@ -183,7 +183,6 @@ class _DiscoverState extends ConsumerState<Discover> {
                               );
                             }),
                       )),
-                  Positioned(left: 0, top: 764, child: NavigationBarCustom()),
                 ],
               ),
             ),

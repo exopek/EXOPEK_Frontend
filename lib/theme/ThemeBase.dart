@@ -81,7 +81,7 @@ abstract class ThemeBase {
   @Deprecated('Use bodySmallFamily instead')
   String get bodyText2Family => typography.bodySmallFamily;
   @Deprecated('Use bodySmall instead')
-  TextStyle get bodyText2 => typography.bodySmall;
+  TextStyle get bodyText2 => typography.bodySmallSecondary;
 
   String get displayLargeFamily => typography.displayLargeFamily;
   TextStyle get displayLarge => typography.displayLarge;
@@ -112,7 +112,8 @@ abstract class ThemeBase {
   String get bodyMediumFamily => typography.bodyMediumFamily;
   TextStyle get bodyMedium => typography.bodyMedium;
   String get bodySmallFamily => typography.bodySmallFamily;
-  TextStyle get bodySmall => typography.bodySmall;
+  TextStyle get bodySmallSecondary => typography.bodySmallSecondary;
+  TextStyle get bodySmallPrimary => typography.bodySmallPrimary;
 
   Typography get typography => ThemeTypography(this);
 }
@@ -173,7 +174,8 @@ abstract class Typography {
   String get bodyMediumFamily;
   TextStyle get bodyMedium;
   String get bodySmallFamily;
-  TextStyle get bodySmall;
+  TextStyle get bodySmallSecondary;
+  TextStyle get bodySmallPrimary;
 }
 
 class ThemeTypography extends Typography {
@@ -251,9 +253,9 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.w500,
         fontSize: 14.0,
       );
-  String get labelMediumFamily => 'Poppins';
+  String get labelMediumFamily => 'Roboto';
   TextStyle get labelMedium => GoogleFonts.getFont(
-        'Poppins',
+        'Roboto',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 12.0,
@@ -277,9 +279,15 @@ class ThemeTypography extends Typography {
         fontSize: 16.0,
       );
   String get bodySmallFamily => 'Roboto';
-  TextStyle get bodySmall => GoogleFonts.getFont(
+  TextStyle get bodySmallSecondary => GoogleFonts.getFont(
         'Roboto',
         color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 14.0,
+      );
+  TextStyle get bodySmallPrimary => GoogleFonts.getFont(
+        'Roboto',
+        color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );

@@ -18,76 +18,76 @@ class _NavigationBarCustomState extends ConsumerState<NavigationBarCustom> {
     final selectedNavigationBarCustomIndex =
         ref.watch(selectedNavigationBarIndexProvider);
     return Container(
-      width: 390,
-      height: 80,
+      width: MediaQuery.of(context).size.width,
+      height: 50,
       decoration: BoxDecoration(color: Color(0xFF262323)),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 16,
-          ),
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: IconButton(
-              onPressed: () {
-                ref.read(selectedNavigationBarIndexProvider.notifier).state = 0;
-                AppRouter.goToCoach();
-              },
-              icon: Icon(
-                Icons.home,
-                color: selectedNavigationBarCustomIndex == 0
-                    ? Colors.red
-                    : Color(0xFFD9D9D9),
-                size: 24,
+      child: Align(
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 16,
+            ),
+            Container(
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  ref.read(selectedNavigationBarIndexProvider.notifier).state =
+                      0;
+                },
+                icon: Icon(
+                  Icons.home,
+                  color: selectedNavigationBarCustomIndex == 0
+                      ? Colors.red
+                      : Color(0xFFD9D9D9),
+                  size: 24,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 24,
-          ),
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: IconButton(
-              onPressed: () {
-                ref.read(selectedNavigationBarIndexProvider.notifier).state = 1;
-                AppRouter.goToDiscover();
-              },
-              icon: Icon(
-                Icons.search,
-                color: selectedNavigationBarCustomIndex == 1
-                    ? Colors.red
-                    : Color(0xFFD9D9D9),
-                size: 24,
+            SizedBox(
+              width: 24,
+            ),
+            SizedBox(
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  ref.read(selectedNavigationBarIndexProvider.notifier).state =
+                      1;
+                },
+                icon: Icon(
+                  Icons.search,
+                  color: selectedNavigationBarCustomIndex == 1
+                      ? Colors.red
+                      : Color(0xFFD9D9D9),
+                  size: 24,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 24,
-          ),
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: IconButton(
-              onPressed: () {
-                ref.read(selectedNavigationBarIndexProvider.notifier).state = 2;
-                //context.go('/profile');
-                AppRouter.goToProfile();
-              },
-              icon: Icon(
-                Icons.bookmark,
-                color: selectedNavigationBarCustomIndex == 2
-                    ? Colors.red
-                    : Color(0xFFD9D9D9),
-                size: 24,
+            SizedBox(
+              width: 24,
+            ),
+            SizedBox(
+              height: 50,
+              child: IconButton(
+                onPressed: () {
+                  ref.read(selectedNavigationBarIndexProvider.notifier).state =
+                      2;
+                },
+                icon: Icon(
+                  Icons.bookmark,
+                  color: selectedNavigationBarCustomIndex == 2
+                      ? Colors.red
+                      : Color(0xFFD9D9D9),
+                  size: 24,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 16,
-          ),
-        ],
+            SizedBox(
+              width: 16,
+            ),
+          ],
+        ),
       ),
     );
   }

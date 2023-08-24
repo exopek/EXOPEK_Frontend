@@ -23,6 +23,11 @@ final dioWorkoutProvider = Provider<WorkoutRepository>((ref) {
   return WorkoutRepository(ref);
 });
 
+final workoutProvider = FutureProvider.autoDispose<List<Workout>>((ref) async {
+  final data = await ref.watch(dioWorkoutProvider).getWorkouts();
+  return data;
+});
+
 final combinedWorkoutProvider =
     FutureProvider.autoDispose<Map<String, List<Workout>>>((ref) async {
   final data1 = await ref.watch(dioWorkoutProvider).getWorkouts();
