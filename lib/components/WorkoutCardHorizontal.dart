@@ -2,7 +2,7 @@ import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutCardHorizontal extends StatelessWidget {
-  final Workout workout;
+  final WorkoutListItem workout;
 
   const WorkoutCardHorizontal({super.key, required this.workout});
 
@@ -17,7 +17,7 @@ class WorkoutCardHorizontal extends StatelessWidget {
             left: 0,
             top: 0,
             child: Container(
-              width: MediaQuery.of(context).size.width - 56,
+              width: MediaQuery.sizeOf(context).width - 56,
               height: 105,
               decoration: ShapeDecoration(
                 color: Color(0xFF262424),
@@ -84,13 +84,19 @@ class WorkoutCardHorizontal extends StatelessWidget {
           Positioned(
             left: 122,
             top: 20,
-            child: Text(
-              '#POWER  #POWER  #POWER  #POWER ',
-              style: TextStyle(
-                color: Color(0xFF838282),
-                fontSize: 10,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w300,
+            child: SizedBox(
+              width: MediaQuery.sizeOf(context).width - 180,
+              child: Text(
+                workout.hashtagsStringWithHash as String,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                style: TextStyle(
+                  color: Color(0xFF838282),
+                  fontSize: 10,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w300,
+                ),
               ),
             ),
           ),
@@ -135,7 +141,7 @@ class WorkoutCardHorizontal extends StatelessWidget {
                               width: 23.58,
                               height: 18.90,
                               child: Text(
-                                '22 m',
+                                workout.durationString as String,
                                 style: TextStyle(
                                   color: Color(0xFF838282),
                                   fontSize: 10,

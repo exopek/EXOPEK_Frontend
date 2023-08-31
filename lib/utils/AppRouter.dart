@@ -1,5 +1,6 @@
 import 'package:exopek_workout_app/presentation/Dicover.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
+import 'package:exopek_workout_app/presentation/WorkoutDetail.dart';
 import 'package:exopek_workout_app/presentation/Workouts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,6 +33,11 @@ class AppRouter {
         path: "/profile",
         builder: (context, state) => const Profile(),
       ),
+      GoRoute(
+          path: "/workoutDetails",
+          builder: (context, state) {
+            return WorkoutDetail();
+          }),
     ],
   );
 
@@ -49,5 +55,9 @@ class AppRouter {
 
   static void goToWorkouts() {
     router.push("/workouts");
+  }
+
+  static void goToWorkoutDetail() {
+    router.push("/workoutDetails");
   }
 }
