@@ -4,6 +4,7 @@ import 'package:exopek_workout_app/components/WorkoutOverviewCard.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
+import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -89,8 +90,10 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                             left: 16,
                             right: 16,
                             top: 582,
-                            child:
-                                CtaButton(label: 'Starten', onPressed: () {})),
+                            child: CtaButton(
+                                label: 'Starten',
+                                onPressed: () =>
+                                    AppRouter.goToVideoLoops(result))),
                         Positioned(
                           left: 16,
                           top: 851,
@@ -110,7 +113,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                           child: SizedBox(
                             width: 350,
                             child: Text(
-                              'Get ready to sweat and burn calories with this intense full body workout. It combines cardio and strength exercises to target all major groups.',
+                              result.description,
                               style: TextStyle(
                                 color: Color(0xFF838282),
                                 fontSize: 12,

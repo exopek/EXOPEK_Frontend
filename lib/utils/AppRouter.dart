@@ -1,4 +1,7 @@
+import 'package:exopek_workout_app/domain/Models/Exercise.dart';
+import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/presentation/Dicover.dart';
+import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
 import 'package:exopek_workout_app/presentation/WorkoutDetail.dart';
 import 'package:exopek_workout_app/presentation/Workouts.dart';
@@ -38,6 +41,12 @@ class AppRouter {
           builder: (context, state) {
             return WorkoutDetail();
           }),
+      GoRoute(
+          path: "/videoLoops",
+          builder: (context, state) {
+            //final workoutConfig = state./* queryParams['workoutConfig']; */
+            return LoopVideos(workoutDetails: state.extra as WorkoutDetails);
+          }),
     ],
   );
 
@@ -59,5 +68,9 @@ class AppRouter {
 
   static void goToWorkoutDetail() {
     router.push("/workoutDetails");
+  }
+
+  static void goToVideoLoops(WorkoutDetails workoutConfig) {
+    router.push("/videoLoops", extra: workoutConfig);
   }
 }

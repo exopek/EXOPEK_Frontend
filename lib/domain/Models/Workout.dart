@@ -66,17 +66,19 @@ class WorkoutDetails extends Workout {
   final List<ExcerciseWorkoutConfig> exercises;
   final Map<int, List<ExcerciseWorkoutConfig>> exerciseMap;
   final List<int> currentStageTypes;
+  final String description;
 
-  WorkoutDetails(
-      {required this.id,
-      required this.name,
-      required this.previewImageUrl,
-      required this.muscleImageUrl,
-      required this.hashtags,
-      required this.exercises,
-      required this.exerciseMap,
-      required this.currentStageTypes})
-      : super(
+  WorkoutDetails({
+    required this.id,
+    required this.name,
+    required this.previewImageUrl,
+    required this.muscleImageUrl,
+    required this.hashtags,
+    required this.exercises,
+    required this.exerciseMap,
+    required this.currentStageTypes,
+    required this.description,
+  }) : super(
             id: id,
             name: name,
             previewImageUrl: previewImageUrl,
@@ -90,6 +92,7 @@ class WorkoutDetails extends Workout {
     final muscleImageUrl = json['muscleImageUrl'] as String;
     final hashtags = json['hashtags'] as String;
     final exercises = json['exercises'] as List<dynamic>?;
+    final description = json['description'] as String;
 
     final exercisesList = exercises != null
         ? exercises
@@ -118,11 +121,13 @@ class WorkoutDetails extends Workout {
         hashtags: hashtags,
         exercises: exercisesList,
         exerciseMap: exerciseMap,
-        currentStageTypes: currentStageTypes);
+        currentStageTypes: currentStageTypes,
+        description: description);
   }
 
-  get sortedExercises =>
-      exercises..sort((a, b) => a.stageType.compareTo(b.stageType));
+  get sortedExercises => exercises
+    ..sort((a, b) => a.stageType.compareTo(b.stageType))
+    ..sort((a, b) => a.stageOrder.compareTo(b.stageOrder));
 
   get sortedCurrentStageTypes =>
       currentStageTypes..sort((a, b) => a.compareTo(b));
