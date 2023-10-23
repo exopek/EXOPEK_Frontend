@@ -9,6 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../presentation/Coach.dart';
+import '../presentation/Plan/PlanDetailPage.dart';
+import '../presentation/Plan_Phase/PlanPhasePage.dart';
+import '../presentation/Plans/PlansPage.dart';
 import '../presentation/Profile.dart';
 
 class AppRouter {
@@ -23,6 +26,10 @@ class AppRouter {
       GoRoute(
         path: "/workouts",
         builder: (context, state) => const Workouts(),
+      ),
+      GoRoute(
+        path: "/plans",
+        builder: (context, state) => const PlansPage(),
       ),
       GoRoute(
         path: "/coach",
@@ -42,6 +49,17 @@ class AppRouter {
             return WorkoutDetail();
           }),
       GoRoute(
+          path: "/planDetails",
+          builder: (context, state) {
+            return PlanDetailPage();
+          }),
+      GoRoute(
+          path: "/planPhase",
+          builder: (context, state) {
+            return PlanPhasePage(
+                workoutPlanConfig: state.extra as List<WorkoutPlanConfig>);
+          }),
+      GoRoute(
           path: "/videoLoops",
           builder: (context, state) {
             //final workoutConfig = state./* queryParams['workoutConfig']; */
@@ -58,6 +76,10 @@ class AppRouter {
     router.go("/discover");
   }
 
+  static void goToMainPage() {
+    router.go("/");
+  }
+
   static void goToProfile() {
     router.go("/profile");
   }
@@ -66,8 +88,20 @@ class AppRouter {
     router.push("/workouts");
   }
 
+  static void goToPlans() {
+    router.push("/plans");
+  }
+
+  static void goToPlanPhase(List<WorkoutPlanConfig> workoutPlanConfig) {
+    router.push("/planPhase", extra: workoutPlanConfig);
+  }
+
   static void goToWorkoutDetail() {
     router.push("/workoutDetails");
+  }
+
+  static void goToPlanDetail() {
+    router.push("/planDetails");
   }
 
   static void goToVideoLoops(WorkoutDetails workoutConfig) {

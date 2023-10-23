@@ -114,7 +114,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                         _animationController.forward(from: 0.0);
                       });
                     } else {
-                      AppRouter.goToCoach();
+                      AppRouter.goToMainPage();
                     }
                   },
                   child: AppVideoPlayer(

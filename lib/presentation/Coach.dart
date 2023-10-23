@@ -51,7 +51,8 @@ class _CoachState extends State<Coach> {
                         itemBuilder: (context, index) {
                           return TextButton(
                             onPressed: () {
-                              AppRouter.goToWorkouts();
+                              if (index == 0) AppRouter.goToWorkouts();
+                              if (index == 1) AppRouter.goToPlans();
                             },
                             child: AreaSelection(
                                 label: "Workouts",

@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
       routerConfig: AppRouter.router,
       title: 'Flutter Demo',
       theme: ThemeData(
+        androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
         brightness: Brightness.dark,
         // This is the theme of your application.
         //

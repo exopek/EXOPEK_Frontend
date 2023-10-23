@@ -1,5 +1,16 @@
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 
+enum PhaseType {
+  phase1,
+  phase2,
+  phase3,
+  phase4,
+  phase5,
+  phase6,
+  phase7,
+  phase8,
+}
+
 sealed class Workout {
   final String id;
   final String name;
@@ -131,4 +142,54 @@ class WorkoutDetails extends Workout {
 
   get sortedCurrentStageTypes =>
       currentStageTypes..sort((a, b) => a.compareTo(b));
+}
+
+class WorkoutPlanConfig extends Workout {
+  final String id;
+  final String name;
+  final String previewImageUrl;
+  final int phaseType;
+  final int order;
+
+  WorkoutPlanConfig({
+    required this.id,
+    required this.name,
+    required this.previewImageUrl,
+    required this.phaseType,
+    required this.order,
+  }) : super(
+            id: id, name: name, previewImageUrl: previewImageUrl, hashtags: '');
+
+  // FromReadDto
+  factory WorkoutPlanConfig.fromJson(Map<String, dynamic> json) {
+    final id = json['id'] as String;
+    final name = json['name'] as String;
+    final previewImageUrl = json['previewImageUrl'] as String;
+    final phaseType = json['phaseType'] as int;
+    final order = json['order'] as int;
+
+    return WorkoutPlanConfig(
+      id: id,
+      name: name,
+      previewImageUrl: previewImageUrl,
+      phaseType: phaseType,
+      order: order,
+    );
+  }
+  get phaseTypeAsType => StageType.values[phaseType];
+
+  get phaseTypeAsString {
+    switch (phaseType) {
+      case 0:
+        return 'Phase 1';
+      case 1:
+        return 'Phase 2';
+      case 2:
+        return 'Phase 3';
+      case 3:
+        return 'Phase 4';
+      default:
+        return 'Phase 1';
+    }
+  }
 }

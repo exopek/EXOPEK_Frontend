@@ -17,11 +17,16 @@ class WorkoutCardHorizontal extends StatelessWidget {
             left: 0,
             top: 0,
             child: Container(
-              width: MediaQuery.sizeOf(context).width - 56,
+              width: MediaQuery.sizeOf(context).width -
+                  56, // das noch responsive machen
               height: 105,
               decoration: ShapeDecoration(
-                color: Color(0xFF262424),
+                //color: Color(0xFF262424),
                 shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      //width: 1.5,
+                      //strokeAlign: BorderSide.strokeAlignCenter,
+                      color: Color(0xFF262424)),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
