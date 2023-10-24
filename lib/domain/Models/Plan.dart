@@ -166,4 +166,7 @@ class PlanPhase extends Plan {
             name: plan.name,
             previewImageUrl: plan.previewImageUrl,
             hashtags: plan.hashtags);
+
+  get completedWorkoutsCounter =>
+      workouts.where((element) => plan.workoutIds.contains(element.id)).length;
 }

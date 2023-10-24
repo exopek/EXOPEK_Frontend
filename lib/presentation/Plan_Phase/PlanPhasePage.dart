@@ -27,7 +27,7 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            width: 390,
+            width: MediaQuery.sizeOf(context).width,
             height: 844,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
@@ -62,8 +62,10 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
                             child: Container(
                               height: 7,
                               decoration: ShapeDecoration(
-                                color: (i <=
-                                        widget.planPhase.plan.workoutIds.length)
+                                color: (i <
+                                        int.parse(widget
+                                            .planPhase.completedWorkoutsCounter
+                                            .toString()))
                                     ? Color(0xFFCE2323)
                                     : Color(0xFF262424),
                                 shape: RoundedRectangleBorder(
@@ -80,7 +82,7 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
                   left: 16,
                   top: 118,
                   child: Text(
-                    'Abgeschlossene Workouts: ${widget.planPhase.plan.workoutIds.length} von ${widget.planPhase.workouts.length}',
+                    'Abgeschlossene Workouts: ${widget.planPhase.completedWorkoutsCounter} von ${widget.planPhase.workouts.length}',
                     style: TextStyle(
                       color: Color(0xFF838282),
                       fontSize: 10,

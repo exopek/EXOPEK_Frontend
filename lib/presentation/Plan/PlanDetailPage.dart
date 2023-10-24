@@ -119,7 +119,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                           const EdgeInsets.only(right: 8.0),
                                       child: PlanOverviewCard(
                                         round: index,
-                                        planPhase: new PlanPhase(
+                                        planPhase: PlanPhase(
                                             workouts: result.workoutMap[
                                                 result.sortedCurrentPhaseTypes[
                                                     index]] as List<
