@@ -2,18 +2,23 @@ import 'package:exopek_workout_app/components/WorkoutCard.dart';
 import 'package:exopek_workout_app/components/WorkoutCardHorizontal.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/Models/Plan.dart';
 import '../../domain/Models/Workout.dart';
 
 class PlanPhasePage extends StatefulWidget {
-  const PlanPhasePage({super.key, required this.workoutPlanConfig});
+  const PlanPhasePage({super.key, required this.planPhase});
 
-  final List<WorkoutPlanConfig>? workoutPlanConfig;
+  final PlanPhase planPhase;
+  //final List<WorkoutPlanConfig>? workoutPlanConfig;
 
   @override
   State<PlanPhasePage> createState() => _PlanPhasePageState();
 }
 
 class _PlanPhasePageState extends State<PlanPhasePage> {
+  /*  WorkoutPlanConfig get currentWorkoutPlanConfig =>
+      widget.workoutPlanConfig![0]; */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,16 +56,16 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         for (var i = 0;
-                            i < widget.workoutPlanConfig!.length;
+                            i < widget.planPhase.workouts.length;
                             i++)
                           Expanded(
                             child: Container(
                               height: 7,
                               decoration: ShapeDecoration(
-                                color: /* (i == exerciseState)
-                                ? Color(0xFFCE2323)
-                                : */
-                                    Color(0xFF262424),
+                                color: (i <=
+                                        widget.planPhase.plan.workoutIds.length)
+                                    ? Color(0xFFCE2323)
+                                    : Color(0xFF262424),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -75,7 +80,7 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
                   left: 16,
                   top: 118,
                   child: Text(
-                    'Abgeschlossene Workouts: 0 von ${widget.workoutPlanConfig!.length}',
+                    'Abgeschlossene Workouts: ${widget.planPhase.plan.workoutIds.length} von ${widget.planPhase.workouts.length}',
                     style: TextStyle(
                       color: Color(0xFF838282),
                       fontSize: 10,
@@ -93,8 +98,8 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
                     height: 291,
                     decoration: ShapeDecoration(
                       image: DecorationImage(
-                        image:
-                            NetworkImage("https://via.placeholder.com/358x291"),
+                        image: NetworkImage(widget.planPhase
+                            .previewImageUrl), // "https://via.placeholder.com/358x291"
                         fit: BoxFit.fill,
                       ),
                       shape: RoundedRectangleBorder(
@@ -109,14 +114,16 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
                   child: Column(
                     children: [
                       for (var index = 0;
-                          index < widget.workoutPlanConfig!.length;
+                          index < widget.planPhase.workouts.length;
                           index++)
                         WorkoutCardHorizontal(
+                          hasTrained: widget.planPhase.plan.workoutIds
+                              .contains(widget.planPhase.workouts[index].id),
                           workout: WorkoutListItem(
-                              id: widget.workoutPlanConfig![index].id,
-                              name: widget.workoutPlanConfig![index].name,
+                              id: widget.planPhase.workouts[index].id,
+                              name: widget.planPhase.workouts[index].name,
                               previewImageUrl: widget
-                                  .workoutPlanConfig![index].previewImageUrl,
+                                  .planPhase.workouts[index].previewImageUrl,
                               hashtags: "hashtags",
                               duration: 20),
                         )

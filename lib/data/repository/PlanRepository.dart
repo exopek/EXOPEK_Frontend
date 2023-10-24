@@ -14,7 +14,9 @@ class PlanRepository implements IPlanRepository {
   Future<PlanDetails> getPlan(String id) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
-    Response res = await _dio.get("plans/byId?id=$id");
+    //var userId = ref.read(userIdProvider).state;
+    var userId = "1c974964-9c9c-4674-84f5-bb34caddaf99";
+    Response res = await _dio.get("plans/byId?id=${id}&userId=${userId}");
     print(res.data.runtimeType);
     if (res.statusCode == 200) {
       var plan = PlanDetails.fromJson(res.data as Map<String, dynamic>);

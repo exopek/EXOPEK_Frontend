@@ -4,18 +4,19 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 
+import '../domain/Models/Plan.dart';
 import '../domain/Models/Workout.dart';
 
 class PlanOverviewCard extends StatelessWidget {
   final int round;
-  final List<WorkoutPlanConfig>? workoutPlanConfig;
+  final PlanPhase? planPhase;
   final int phaseType;
   final int currentPhaseType;
 
   const PlanOverviewCard(
       {super.key,
       required this.round,
-      this.workoutPlanConfig,
+      this.planPhase,
       required this.currentPhaseType,
       required this.phaseType});
 
@@ -24,7 +25,7 @@ class PlanOverviewCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (currentPhaseType == phaseType) {
-          AppRouter.goToPlanPhase(workoutPlanConfig!);
+          AppRouter.goToPlanPhase(planPhase!);
         }
       },
       child: Container(
@@ -68,7 +69,7 @@ class PlanOverviewCard extends StatelessWidget {
               left: 7,
               top: 70,
               child: Text(
-                workoutPlanConfig!.first.phaseTypeAsString as String,
+                planPhase!.workouts.first.phaseTypeAsString as String,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -81,7 +82,7 @@ class PlanOverviewCard extends StatelessWidget {
               left: 7,
               top: 92,
               child: Text(
-                '${workoutPlanConfig!.length} Workouts',
+                '${planPhase!.workouts.length} Workouts',
                 style: TextStyle(
                   color: Color(0xFF838282),
                   fontSize: 12,
@@ -97,7 +98,7 @@ class PlanOverviewCard extends StatelessWidget {
                     // hat kein internes Padding reagiert aber wesentlich schlecht als onPressed vom Button
                     onTap: () => GenericBottomSheet.show(
                         context: context,
-                        items: workoutPlanConfig!.map((e) => e).toList()),
+                        items: planPhase!.workouts.map((e) => e).toList()),
                     child: Icon(Icons.info_outline,
                         size: 16, color: Colors.blue[700]))),
           ],

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 class WorkoutCardHorizontal extends StatelessWidget {
   final WorkoutListItem workout;
+  final bool hasTrained;
 
-  const WorkoutCardHorizontal({super.key, required this.workout});
+  const WorkoutCardHorizontal(
+      {super.key, required this.workout, this.hasTrained = false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,40 +19,38 @@ class WorkoutCardHorizontal extends StatelessWidget {
             left: 0,
             top: 0,
             child: Container(
-              width: MediaQuery.sizeOf(context).width -
-                  56, // das noch responsive machen
-              height: 105,
-              decoration: ShapeDecoration(
-                //color: Color(0xFF262424),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                      //width: 1.5,
-                      //strokeAlign: BorderSide.strokeAlignCenter,
-                      color: Color(0xFF262424)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 108.10,
-              height: 105,
-              decoration: ShapeDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(workout.previewImageUrl),
-                  fit: BoxFit.cover,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
+                width: MediaQuery.sizeOf(context).width -
+                    56, // das noch responsive machen
+                height: 105,
+                decoration: ShapeDecoration(
+                  //color: Color(0xFF262424),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        //width: 1.5,
+                        //strokeAlign: BorderSide.strokeAlignCenter,
+                        color:
+                            hasTrained ? Color(0xFFD31919) : Color(0xFF262424)),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-              ),
-            ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: 108.10,
+                    decoration: ShapeDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(workout.previewImageUrl),
+                        fit: BoxFit.cover,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                )),
           ),
           Positioned(
             left: 122,

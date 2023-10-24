@@ -69,6 +69,7 @@ class PlanDetails extends Plan {
   final Map<int, List<WorkoutPlanConfig>> workoutMap;
   final List<int> currentPhaseTypes;
   final int currentPhase;
+  final List<String> workoutIds;
 
   PlanDetails(
       {required this.id,
@@ -80,6 +81,7 @@ class PlanDetails extends Plan {
       required this.workoutMap,
       required this.currentPhaseTypes,
       required this.currentPhase,
+      required this.workoutIds,
       required this.description})
       : super(
             id: id,
@@ -99,6 +101,7 @@ class PlanDetails extends Plan {
         .map((e) => WorkoutPlanConfig.fromJson(e as Map<String, dynamic>))
         .toList();
     final planStatus = json['currentPhase'] as int;
+    final workoutIds = (json['workoutIds'] as List<dynamic>);
 
     final currentPhaseTypes =
         workouts.map((e) => e.phaseType).toSet().toList() as List<int>;
@@ -123,6 +126,7 @@ class PlanDetails extends Plan {
       workoutMap: workoutsMap,
       currentPhaseTypes: currentPhaseTypes,
       currentPhase: planStatus,
+      workoutIds: workoutIds.map((e) => e as String).toList(),
     );
   }
 
@@ -150,4 +154,16 @@ class PlanDetails extends Plan {
 
   get sortedCurrentPhaseTypes =>
       currentPhaseTypes..sort((a, b) => a.compareTo(b));
+}
+
+class PlanPhase extends Plan {
+  final PlanDetails plan;
+  final List<WorkoutPlanConfig> workouts; // sorted by phaseType
+
+  PlanPhase({required this.workouts, required this.plan})
+      : super(
+            id: plan.id,
+            name: plan.name,
+            previewImageUrl: plan.previewImageUrl,
+            hashtags: plan.hashtags);
 }

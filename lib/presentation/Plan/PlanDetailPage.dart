@@ -5,6 +5,7 @@ import 'package:exopek_workout_app/components/WorkoutOverviewCard.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
+import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -118,10 +119,12 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                           const EdgeInsets.only(right: 8.0),
                                       child: PlanOverviewCard(
                                         round: index,
-                                        workoutPlanConfig: result.workoutMap[
+                                        planPhase: new PlanPhase(
+                                            workouts: result.workoutMap[
                                                 result.sortedCurrentPhaseTypes[
-                                                    index]]
-                                            as List<WorkoutPlanConfig>,
+                                                    index]] as List<
+                                                WorkoutPlanConfig>,
+                                            plan: result),
                                         currentPhaseType: result.currentPhase,
                                         phaseType: result
                                                 .sortedCurrentPhaseTypes[index]

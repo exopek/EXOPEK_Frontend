@@ -8,6 +8,7 @@ import 'package:exopek_workout_app/presentation/Workouts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../domain/Models/Plan.dart';
 import '../presentation/Coach.dart';
 import '../presentation/Plan/PlanDetailPage.dart';
 import '../presentation/Plan_Phase/PlanPhasePage.dart';
@@ -56,8 +57,7 @@ class AppRouter {
       GoRoute(
           path: "/planPhase",
           builder: (context, state) {
-            return PlanPhasePage(
-                workoutPlanConfig: state.extra as List<WorkoutPlanConfig>);
+            return PlanPhasePage(planPhase: state.extra as PlanPhase);
           }),
       GoRoute(
           path: "/videoLoops",
@@ -92,8 +92,8 @@ class AppRouter {
     router.push("/plans");
   }
 
-  static void goToPlanPhase(List<WorkoutPlanConfig> workoutPlanConfig) {
-    router.push("/planPhase", extra: workoutPlanConfig);
+  static void goToPlanPhase(PlanPhase planPhase) {
+    router.push("/planPhase", extra: planPhase);
   }
 
   static void goToWorkoutDetail() {
