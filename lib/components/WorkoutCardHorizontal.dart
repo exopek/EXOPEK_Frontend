@@ -19,8 +19,7 @@ class WorkoutCardHorizontal extends StatelessWidget {
             left: 0,
             top: 0,
             child: Container(
-                width: MediaQuery.sizeOf(context).width -
-                    56, // das noch responsive machen
+                width: MediaQuery.sizeOf(context).width * 0.9,
                 height: 105,
                 decoration: ShapeDecoration(
                   //color: Color(0xFF262424),
@@ -230,7 +229,7 @@ class WorkoutCardHorizontal extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                      left: 189.15,
+                      right: 142.0,
                       top: 3,
                       child: Icon(
                         Icons.more_vert_rounded,

@@ -1,15 +1,25 @@
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 
 class CtaButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
+  final bool? isLoading;
+  final double? height;
+  final double? fontSizeLable;
 
-  const CtaButton({super.key, required this.label, this.onPressed});
+  const CtaButton(
+      {super.key,
+      required this.label,
+      this.onPressed,
+      this.isLoading,
+      this.height = 49,
+      this.fontSizeLable = 20});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 49,
+      height: height,
       width: MediaQuery.of(context).size.width,
       decoration: ShapeDecoration(
         //color: Color(0xFFD12626),
@@ -29,15 +39,25 @@ class CtaButton extends StatelessWidget {
           ),
         ),
         onPressed: () => onPressed!(),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        child: isLoading == null
+            ? Text(
+                label,
+                style: ThemeBase.of(context).labelMedium.copyWith(
+                      fontSize: fontSizeLable,
+                      color: Colors.white,
+                    ),
+              )
+            : isLoading! == true
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : Text(
+                    label,
+                    style: ThemeBase.of(context).labelMedium.copyWith(
+                          fontSize: fontSizeLable,
+                          color: Colors.white,
+                        ),
+                  ),
       ),
     );
   }

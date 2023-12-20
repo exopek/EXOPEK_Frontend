@@ -13,10 +13,8 @@ class PlanRepository implements IPlanRepository {
   @override
   Future<PlanDetails> getPlan(String id) async {
     Dio _dio = ref.watch(dioProvider);
-    //_dio.options.baseUrl = _baseUrl;
-    //var userId = ref.read(userIdProvider).state;
-    var userId = "1c974964-9c9c-4674-84f5-bb34caddaf99";
-    Response res = await _dio.get("plans/byId?id=${id}&userId=${userId}");
+
+    Response res = await _dio.get("plans/${id}");
     print(res.data.runtimeType);
     if (res.statusCode == 200) {
       var plan = PlanDetails.fromJson(res.data as Map<String, dynamic>);
@@ -38,7 +36,55 @@ class PlanRepository implements IPlanRepository {
       ;
       return plans; //compute(_parseWorkouts, res.data);
     } else {
-      throw Exception("Failed to load workouts");
+      throw Exception("Failed to load plans");
+    }
+  }
+
+  @override
+  Future<List<PlanStatus>> getPlanStatuses(String id) async {
+    Dio _dio = ref.watch(dioProvider);
+
+    // Need userId
+    Response res = await _dio.get(
+        "plans/status?status=1&planId=${id}&userId=1c974964-9c9c-4674-84f5-bb34caddaf99");
+    if (res.statusCode == 200) {
+      var statuses = (res.data as List<dynamic>)
+          .map((w) => PlanStatus.fromJson(w as Map<String, dynamic>))
+          .toList() as List<PlanStatus>;
+      ;
+      return statuses;
+    } else {
+      throw Exception("Failed to load plan statuses");
+    }
+  }
+
+  @override
+  Future<bool> startPlan(String planId, String userId) async {
+    Dio _dio = ref.watch(dioProvider);
+
+    Response res = await _dio.post("plans/status", data: {
+      "planId": planId,
+      "userId": "1c974964-9c9c-4674-84f5-bb34caddaf99",
+    });
+
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Failed to start plan");
+    }
+  }
+
+  @override
+  Future<bool> stopPlan(String id) async {
+    Dio _dio = ref.watch(dioProvider);
+
+    Response res = await _dio
+        .put("plans/status", data: {"id": id, "status": 0, "currentPhase": 0});
+
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Failed to start plan");
     }
   }
 }

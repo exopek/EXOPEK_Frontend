@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 
 import '../domain/Models/Plan.dart';
 import '../presentation/Coach.dart';
+import '../presentation/Plan/FadeInTransitionScreen.dart';
 import '../presentation/Plan/PlanDetailPage.dart';
 import '../presentation/Plan_Phase/PlanPhasePage.dart';
 import '../presentation/Plans/PlansPage.dart';
@@ -60,6 +61,11 @@ class AppRouter {
             return PlanPhasePage(planPhase: state.extra as PlanPhase);
           }),
       GoRoute(
+          path: "/planTransition",
+          builder: (context, state) {
+            return FadeInTransitionScreen(planPhase: state.extra as PlanPhase);
+          }),
+      GoRoute(
           path: "/videoLoops",
           builder: (context, state) {
             //final workoutConfig = state./* queryParams['workoutConfig']; */
@@ -106,5 +112,9 @@ class AppRouter {
 
   static void goToVideoLoops(WorkoutDetails workoutConfig) {
     router.push("/videoLoops", extra: workoutConfig);
+  }
+
+  static void goToPlanTransition(PlanPhase planPhase) {
+    router.push("/planTransition", extra: planPhase);
   }
 }

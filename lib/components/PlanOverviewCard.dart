@@ -12,12 +12,14 @@ class PlanOverviewCard extends StatelessWidget {
   final PlanPhase? planPhase;
   final int phaseType;
   final int currentPhaseType;
+  final StatusType statusType;
 
   const PlanOverviewCard(
       {super.key,
       required this.round,
       this.planPhase,
       required this.currentPhaseType,
+      required this.statusType,
       required this.phaseType});
 
   @override
@@ -44,7 +46,8 @@ class PlanOverviewCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                         width: 0.50,
-                        color: currentPhaseType == phaseType
+                        color: currentPhaseType == phaseType &&
+                                statusType == StatusType.ACTIVE
                             ? ThemeBase.of(context).secondary
                             : Color(0xFF262424)),
                     borderRadius: BorderRadius.circular(10),

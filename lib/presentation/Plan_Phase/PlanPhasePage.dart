@@ -1,26 +1,48 @@
 import 'package:exopek_workout_app/components/WorkoutCard.dart';
 import 'package:exopek_workout_app/components/WorkoutCardHorizontal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../components/GenericBottomSheet.dart';
+import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Plan.dart';
 import '../../domain/Models/Workout.dart';
+import '../../utils/AppRouter.dart';
 
-class PlanPhasePage extends StatefulWidget {
+class PlanPhasePage extends ConsumerStatefulWidget {
   const PlanPhasePage({super.key, required this.planPhase});
 
   final PlanPhase planPhase;
   //final List<WorkoutPlanConfig>? workoutPlanConfig;
 
   @override
-  State<PlanPhasePage> createState() => _PlanPhasePageState();
+  ConsumerState<PlanPhasePage> createState() => _PlanPhasePageState();
 }
 
-class _PlanPhasePageState extends State<PlanPhasePage> {
+class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
   /*  WorkoutPlanConfig get currentWorkoutPlanConfig =>
       widget.workoutPlanConfig![0]; */
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<void>>(
+      planPhaseStopButtonProvider,
+      (_, state) => state.whenOrNull(
+        error: (error, stack) {
+          // show snackbar if an error occurred
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error.toString())),
+          );
+        },
+        loading: () {},
+        data: (_) {
+          // rebuild the page to show the new state
+          //ref.invalidate(asyncPlanDetailPageControllerProvider);
+          AppRouter.goToPlans();
+        },
+      ),
+    );
+    final state = ref.watch(planPhaseStopButtonProvider);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF0C0C0C),
@@ -45,6 +67,26 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
                       fontWeight: FontWeight.w600,
                       height: 0,
                     ),
+                  ),
+                ),
+                Positioned(
+                  right: 16,
+                  top: 50,
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    child: IconButton(
+                        onPressed: () => GenericBottomSheet
+                                .showOptions(context: context, items: [
+                              {
+                                'icon': Icons.stop_circle_outlined,
+                                'title': 'Plan Stoppen',
+                                'onTap': () => ref
+                                    .read(planPhaseStopButtonProvider.notifier)
+                                    .stopPlan(widget.planPhase.planStatus!.id)
+                              }
+                            ]),
+                        icon: Icon(Icons.menu)),
                   ),
                 ),
                 Positioned(
@@ -119,7 +161,7 @@ class _PlanPhasePageState extends State<PlanPhasePage> {
                           index < widget.planPhase.workouts.length;
                           index++)
                         WorkoutCardHorizontal(
-                          hasTrained: widget.planPhase.plan.workoutIds
+                          hasTrained: widget.planPhase.planStatus!.workoutIds
                               .contains(widget.planPhase.workouts[index].id),
                           workout: WorkoutListItem(
                               id: widget.planPhase.workouts[index].id,

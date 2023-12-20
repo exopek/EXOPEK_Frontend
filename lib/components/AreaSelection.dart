@@ -17,49 +17,54 @@ class AreaSelection extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            left: 4,
-            top: 0,
-            child: Container(
-              width: 70,
-              height: 70,
-              decoration: ShapeDecoration(
-                color: Colors.black,
-                shape: OvalBorder(
-                  side: BorderSide(
-                      width: 0.4, color: Colors.white.withOpacity(0.8)),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
             left: 0,
-            top: 75,
-            child: SizedBox(
-              width: 79,
-              height: 31,
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: ThemeBase.of(context).labelMedium,
-              ),
+            top: 0,
+            child: Column(
+              children: [
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: ShapeDecoration(
+                    color: Colors.black,
+                    shape: OvalBorder(
+                      side: BorderSide(
+                          width: 0.5, color: Colors.white.withOpacity(0.8)),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6.0),
+                  child: Text(label,
+                      textAlign: TextAlign.center,
+                      style: ThemeBase.of(context).labelMedium.copyWith(
+                            fontSize: 10,
+                            color: Color(0xFF838282),
+                          )),
+                ),
+              ],
             ),
           ),
           Positioned(
-            left: 9,
+            left: 5,
             top: 5,
             child: Container(
-              width: 60,
-              height: 60,
-              decoration: ShapeDecoration(
-                /* image: DecorationImage(
+                width: 60,
+                height: 60,
+                decoration: ShapeDecoration(
+                  /* image: DecorationImage(
                   image: AssetImage(assetPath),
                   fit: BoxFit.cover,
                 ), */
-                shape: OvalBorder(
-                  side: BorderSide(width: 0.1, color: Colors.white),
+                  shape: OvalBorder(
+                    side: BorderSide(width: 0.5, color: Colors.white),
+                  ),
                 ),
-              ),
-              /* child: LayoutBuilder(
+                /* child: ImageIcon(
+                  AssetImage(assetPath),
+                  /* color: Colors.white, */
+                  size: 10,
+                ) */
+                child: LayoutBuilder(
                     builder: (context, BoxConstraints constraints) {
                   return ClipOval(
                     clipBehavior: Clip.hardEdge,
@@ -69,8 +74,7 @@ class AreaSelection extends StatelessWidget {
                       height: constraints.maxHeight - 30,
                     ),
                   );
-                }) */
-            ),
+                })),
           ),
         ],
       ),

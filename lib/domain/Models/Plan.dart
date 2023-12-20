@@ -1,4 +1,18 @@
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
+import 'package:flutter/material.dart';
+
+enum StatusType {
+  NONE,
+  ACTIVE,
+  INACTIVE,
+  DELETED,
+  COMPLETED,
+  PENDING,
+  REJECTED,
+  APPROVED,
+  BLOCKED,
+  VERIFIED,
+}
 
 sealed class Plan {
   final String id;
@@ -68,8 +82,6 @@ class PlanDetails extends Plan {
   final List<WorkoutPlanConfig> workouts;
   final Map<int, List<WorkoutPlanConfig>> workoutMap;
   final List<int> currentPhaseTypes;
-  final int currentPhase;
-  final List<String> workoutIds;
 
   PlanDetails(
       {required this.id,
@@ -80,8 +92,6 @@ class PlanDetails extends Plan {
       required this.workouts,
       required this.workoutMap,
       required this.currentPhaseTypes,
-      required this.currentPhase,
-      required this.workoutIds,
       required this.description})
       : super(
             id: id,
@@ -100,8 +110,6 @@ class PlanDetails extends Plan {
     final workouts = (json['workouts'] as List<dynamic>)
         .map((e) => WorkoutPlanConfig.fromJson(e as Map<String, dynamic>))
         .toList();
-    final planStatus = json['currentPhase'] as int;
-    final workoutIds = (json['workoutIds'] as List<dynamic>);
 
     final currentPhaseTypes =
         workouts.map((e) => e.phaseType).toSet().toList() as List<int>;
@@ -125,8 +133,51 @@ class PlanDetails extends Plan {
       description: description,
       workoutMap: workoutsMap,
       currentPhaseTypes: currentPhaseTypes,
-      currentPhase: planStatus,
+    );
+  }
+
+  get durationString => '$duration m';
+
+  get sortedWorkouts =>
+      workouts..sort((a, b) => a.phaseType.compareTo(b.phaseType));
+
+  get sortedCurrentPhaseTypes =>
+      currentPhaseTypes..sort((a, b) => a.compareTo(b));
+}
+
+class PlanStatus {
+  final String id;
+  final int currentPhase;
+  final int status;
+  final List<String> workoutIds;
+
+  PlanStatus(
+      {required this.id,
+      required this.currentPhase,
+      required this.status,
+      required this.workoutIds});
+
+  // FromReadDto
+  factory PlanStatus.fromJson(Map<String, dynamic> json) {
+    final id = json['id'] as String;
+    final status = json['status'] as int;
+    final currentPhase = json['currentPhase'] as int;
+    final workoutIds = (json['workoutIds'] as List<dynamic>);
+
+    return PlanStatus(
+      id: id,
+      status: status,
+      currentPhase: currentPhase,
       workoutIds: workoutIds.map((e) => e as String).toList(),
+    );
+  }
+
+  factory PlanStatus.empty() {
+    return PlanStatus(
+      id: '',
+      status: 0,
+      currentPhase: 0,
+      workoutIds: [],
     );
   }
 
@@ -147,26 +198,53 @@ class PlanDetails extends Plan {
     }
   }
 
-  get durationString => '$duration m';
+  get statusTypeAsType => StatusType.values[status];
+
+  get statusTypeAsString {
+    switch (status) {
+      case 0:
+        return 'Keinen Status';
+      case 1:
+        return 'Active';
+      case 2:
+        return 'Inactive';
+      case 3:
+        return 'Deleted';
+      case 4:
+        return 'Completed';
+      default:
+        return 'Keinen Status';
+    }
+  }
+}
+
+class PlanDetailsViewModel {
+  final PlanDetails plan;
+  final PlanStatus planStatus;
+
+  PlanDetailsViewModel({required this.plan, required this.planStatus});
 
   get sortedWorkouts =>
-      workouts..sort((a, b) => a.phaseType.compareTo(b.phaseType));
+      plan.workouts..sort((a, b) => a.phaseType.compareTo(b.phaseType));
 
   get sortedCurrentPhaseTypes =>
-      currentPhaseTypes..sort((a, b) => a.compareTo(b));
+      plan.currentPhaseTypes..sort((a, b) => a.compareTo(b));
 }
 
 class PlanPhase extends Plan {
   final PlanDetails plan;
   final List<WorkoutPlanConfig> workouts; // sorted by phaseType
+  final PlanStatus? planStatus;
 
-  PlanPhase({required this.workouts, required this.plan})
+  PlanPhase(
+      {required this.workouts, required this.plan, required this.planStatus})
       : super(
             id: plan.id,
             name: plan.name,
             previewImageUrl: plan.previewImageUrl,
             hashtags: plan.hashtags);
 
-  get completedWorkoutsCounter =>
-      workouts.where((element) => plan.workoutIds.contains(element.id)).length;
+  get completedWorkoutsCounter => workouts
+      .where((element) => planStatus!.workoutIds.contains(element.id))
+      .length;
 }

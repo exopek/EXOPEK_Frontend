@@ -27,6 +27,45 @@ class GenericBottomSheet {
     );
   }
 
+  static void showOptions({
+    required BuildContext context,
+    required List<Map<String, dynamic>> items,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF212326),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+          ),
+          child: ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Icon(items[index]['icon'] as IconData?),
+                title: Text(items[index]['title'].toString()),
+                onTap: () {
+                  (items[index]['onTap'] as void Function())();
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   static void show({
     required BuildContext context,
     required List<WorkoutPlanConfig> items,

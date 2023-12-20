@@ -185,7 +185,7 @@ class _WorkoutsState extends ConsumerState<Workouts> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 32.0),
+                            padding: const EdgeInsets.only(left: 10.0),
                             child: ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: result.length,
