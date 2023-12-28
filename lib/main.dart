@@ -5,7 +5,7 @@ import 'package:exopek_workout_app/AppConfig.dart';
 import 'package:exopek_workout_app/components/WorkoutCard.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
-import 'package:exopek_workout_app/presentation/Dicover.dart';
+import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';

@@ -25,10 +25,12 @@ class PlanRepository implements IPlanRepository {
   }
 
   @override
-  Future<List<PlanListItem>> getPlans() async {
+  Future<List<PlanListItem>> getPlans({String? query}) async {
     Dio _dio = ref.watch(dioProvider);
 
-    Response res = await _dio.get("plans");
+    String queryString = query!.isNotEmpty ? "?searchTerm=${query}" : "";
+
+    Response res = await _dio.get("plans${queryString}");
     if (res.statusCode == 200) {
       var plans = (res.data as List<dynamic>)
           .map((w) => PlanListItem.fromJson(w as Map<String, dynamic>))

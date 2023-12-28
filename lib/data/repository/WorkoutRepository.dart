@@ -15,10 +15,11 @@ class WorkoutRepository implements IWorkoutRepository {
   //final String _baseUrl = "http://exopek.azurewebsites.net/api/";
 
   @override
-  Future<List<WorkoutListItem>> getWorkouts() async {
+  Future<List<WorkoutListItem>> getWorkouts({String? query}) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
-    Response res = await _dio.get("workouts");
+    String queryString = query!.isNotEmpty ? "?searchTerm=${query}" : "";
+    Response res = await _dio.get("workouts${queryString}");
     if (res.statusCode == 200) {
       //var workouts = Workout.fromJson(res.data);
       var workouts = (res.data as List<dynamic>)

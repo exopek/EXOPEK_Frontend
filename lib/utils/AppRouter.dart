@@ -1,6 +1,7 @@
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
-import 'package:exopek_workout_app/presentation/Dicover.dart';
+import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
+import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
 import 'package:exopek_workout_app/presentation/WorkoutDetail.dart';
@@ -56,6 +57,11 @@ class AppRouter {
             return PlanDetailPage();
           }),
       GoRoute(
+          path: "/discoverFilter",
+          builder: (context, state) {
+            return DiscoverFilterPage();
+          }),
+      GoRoute(
           path: "/planPhase",
           builder: (context, state) {
             return PlanPhasePage(planPhase: state.extra as PlanPhase);
@@ -108,6 +114,10 @@ class AppRouter {
 
   static void goToPlanDetail() {
     router.push("/planDetails");
+  }
+
+  static void goToDiscoverFilter() {
+    router.push("/discoverFilter");
   }
 
   static void goToVideoLoops(WorkoutDetails workoutConfig) {

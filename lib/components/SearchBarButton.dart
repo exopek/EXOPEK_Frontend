@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
 
-class SearchBarCustom extends StatefulWidget {
-  const SearchBarCustom(
-      {required this.controller,
+class SearchBarButton extends StatefulWidget {
+  const SearchBarButton(
+      {required this.onTap,
       super.key,
       required this.xsize,
-      this.focusNode,
-      required this.hint,
-      this.onChanged,
-      this.onClear});
+      required this.hint});
 
-  final TextEditingController? controller;
+  final void Function() onTap;
   final double xsize;
   final String hint;
-  final FocusNode? focusNode;
-  final void Function(String)? onChanged;
-  final void Function()? onClear;
 
   @override
-  State<SearchBarCustom> createState() => _SearchBarCustomState();
+  State<SearchBarButton> createState() => _SearchBarButtonState();
 }
 
-class _SearchBarCustomState extends State<SearchBarCustom> {
+class _SearchBarButtonState extends State<SearchBarButton> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -35,7 +29,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
               left: 0,
               top: 0,
               child: Container(
-                width: MediaQuery.sizeOf(context).width * widget.xsize,
+                width: 311,
                 height: 32,
                 decoration: ShapeDecoration(
                   color: Color(0xFF0C0C0C),
@@ -61,14 +55,10 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
               left: 53,
               top: 15,
               child: SizedBox(
-                width: MediaQuery.sizeOf(context).width * widget.xsize,
+                width: 124,
                 height: 16,
                 child: TextFormField(
-                  controller: widget.controller,
-                  focusNode: widget.focusNode,
-                  onChanged: (value) {
-                    if (widget.onChanged != null) widget.onChanged!(value);
-                  },
+                  onTap: widget.onTap,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: widget.hint,
@@ -85,24 +75,9 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w400,
                   ),
-                  onTapOutside: (event) => widget.focusNode!.unfocus(),
                 ),
               ),
-            ),
-            if (widget.controller!.text.isNotEmpty)
-              Positioned(
-                child: IconButton(
-                  onPressed: () => widget.onClear!(),
-                  icon: Icon(
-                    Icons.clear,
-                    color: Color(0xFF838282),
-                    size: 16,
-                  ),
-                ),
-                right: 0,
-                top: 0,
-                bottom: 0,
-              )
+            )
           ],
         ),
       ),

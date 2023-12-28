@@ -5,7 +5,7 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../components/SearchBarCustom.dart';
+import '../../components/SearchBarCustom.dart';
 
 class Discover extends ConsumerStatefulWidget {
   const Discover({super.key});
