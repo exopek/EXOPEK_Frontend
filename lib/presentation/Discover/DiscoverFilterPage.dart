@@ -1,15 +1,23 @@
 import 'package:exopek_workout_app/components/HashTagPill.dart';
+import 'package:exopek_workout_app/components/PlanListCard.dart';
 import 'package:exopek_workout_app/components/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPageController.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../components/BigHashTagPill.dart';
 import '../../components/SearchBarCustom.dart';
+import '../../data/AppStateProvider.dart';
 import '../../dependencyInjection/discoveryProvider/discoveryFilterPageProvider.dart';
+import '../../dependencyInjection/plansProvider/PlansProvider.dart';
+import '../../utils/AppRouter.dart';
 
 class DiscoverFilterPage extends ConsumerStatefulWidget {
-  const DiscoverFilterPage({super.key});
+  /* final FetchType fetchType;
+  final String query; */
+  const DiscoverFilterPage(/* this.fetchType, this.query,  */ {super.key});
 
   @override
   ConsumerState<DiscoverFilterPage> createState() => _DiscoverFilterPageState();
@@ -21,6 +29,8 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
   late FocusNode _focusNode;
   late List<Map> _hashTagPillsName;
   late TextEditingController _searchController;
+  late FetchType fetchType;
+  late String query;
 
   @override
   void initState() {
@@ -28,6 +38,8 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
     _controller = AnimationController(vsync: this);
     _focusNode = FocusNode();
     _searchController = TextEditingController();
+    /* fetchType = widget.fetchType;
+    query = widget.query; */
     _hashTagPillsName = [
       {"name": "Upper Body", "active": false},
       {"name": "Lower Body", "active": false},
@@ -63,8 +75,8 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
   Widget build(BuildContext context) {
     final discoverControllerProvider =
         ref.watch(asyncDiscoverFilterPageController);
-    final query = ref.watch(queryProvider);
-    final fetchType = ref.watch(fetchStateProvider);
+    query = ref.watch(queryProvider);
+    fetchType = ref.watch(fetchStateProvider);
     return Scaffold(
         body: Container(
       width: MediaQuery.of(context).size.width,
@@ -82,17 +94,36 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                 SizedBox(
                   height: 50,
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: GestureDetector(
-                        onTap: Navigator.of(context).pop,
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Color(0xFFD9D9D9),
-                        )),
-                  ),
+                Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: GestureDetector(
+                            onTap: () {
+                              ref.read(queryProvider.notifier).state = "";
+                              ref.read(fetchStateProvider.notifier).state =
+                                  FetchType.none;
+                              Navigator.of(context).pop();
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Color(0xFFD9D9D9),
+                            )),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 52.0),
+                        child: Text(
+                          "Discover",
+                          textAlign: TextAlign.center,
+                          style: ThemeBase.of(context).titleMedium,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 6,
@@ -130,7 +161,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                           ref.read(fetchStateProvider.notifier).state =
                               FetchType.workout;
                         },
-                        child: HashTagPill(
+                        child: BigHashTagPill(
                           text: "WORKOUTS",
                           color: fetchType == FetchType.workout
                               ? Color(0xFFC91717)
@@ -146,10 +177,26 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                           ref.read(fetchStateProvider.notifier).state =
                               FetchType.plan;
                         },
-                        child: HashTagPill(
+                        child: BigHashTagPill(
                           text: "PLANS",
                           textColor: Color(0xFFD9D9D9),
                           color: fetchType == FetchType.plan
+                              ? Color(0xFFC91717)
+                              : Color(0xFF0C0C0C),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          ref.read(fetchStateProvider.notifier).state =
+                              FetchType.challenge;
+                        },
+                        child: BigHashTagPill(
+                          text: "CHALLENGES",
+                          textColor: Color(0xFFD9D9D9),
+                          color: fetchType == FetchType.challenge
                               ? Color(0xFFC91717)
                               : Color(0xFF0C0C0C),
                         ),
@@ -185,8 +232,17 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                         itemBuilder: (context, index) {
                           return Padding(
                               padding: const EdgeInsets.only(left: 16.0),
-                              child: WorkoutCardHorizontal(
-                                  workout: data.workouts[index]));
+                              child: TextButton(
+                                onPressed: () {
+                                  ref
+                                      .read(selectedWorkoutIdProvider.notifier)
+                                      .state = data.workouts[index].id;
+                                  AppRouter.goToWorkoutDetail();
+                                },
+                                child: WorkoutCardHorizontal(
+                                  workout: data.workouts[index],
+                                ),
+                              ));
                         },
                       ),
                     ),
@@ -201,10 +257,16 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(left: 16.0),
-                            child: HashTagPill(
-                              text: data.plans[index].name,
-                              color: Color(0xFF212326),
-                              textColor: Color(0xFFD9D9D9),
+                            child: TextButton(
+                              onPressed: () {
+                                ref
+                                    .read(selectedPlanIdProvider.notifier)
+                                    .state = data.plans[index].id;
+                                AppRouter.goToPlanDetail();
+                              },
+                              child: PlanListCard(
+                                planListItem: data.plans[index],
+                              ),
                             ),
                           );
                         },
@@ -222,36 +284,47 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
             ),
           if (query.isEmpty)
             Expanded(
-              child: Wrap(
-                spacing: 8.0,
-                runSpacing: 16.0,
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.start,
-                children: [
-                  for (var pill in _hashTagPillsName)
-                    IntrinsicWidth(
-                      child: HashTagPill(
-                          text: pill["name"].toString(),
-                          color: pill["active"] == true
-                              ? Color(0xFFC91717)
-                              : Color(0xFF212326),
-                          textColor: Color(0xFFD9D9D9),
-                          onTap: (p0) {
-                            if (_searchController.text.isEmpty) {
-                              _searchController.text = p0;
-                              pill["active"] = true;
-                              setState(() {});
-                            } else {
-                              if (pill["active"] == false) {
-                                _searchController.text =
-                                    _searchController.text + "," + p0;
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                child: Wrap(
+                  spacing: 8.0,
+                  runSpacing: 16.0,
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.start,
+                  children: [
+                    for (var pill in _hashTagPillsName)
+                      IntrinsicWidth(
+                        child: BigHashTagPill(
+                            text: pill["name"].toString(),
+                            color: pill["active"] == true
+                                ? Color(0xFFC91717)
+                                : Color(0xFF212326),
+                            textColor: Color(0xFFD9D9D9),
+                            onTap: (p0) {
+                              if (_searchController.text.isEmpty) {
+                                _searchController.text = p0;
                                 pill["active"] = true;
                                 setState(() {});
+                              } else {
+                                if (pill["active"] == false) {
+                                  _searchController.text =
+                                      _searchController.text + "," + p0;
+                                  pill["active"] = true;
+                                  setState(() {});
+                                } else {
+                                  _searchController.text = _searchController
+                                      .text
+                                      .replaceAll("," + p0, "");
+                                  _searchController.text =
+                                      _searchController.text.replaceAll(p0, "");
+                                  pill["active"] = false;
+                                  setState(() {});
+                                }
                               }
-                            }
-                          }),
-                    ),
-                ],
+                            }),
+                      ),
+                  ],
+                ),
               ),
             ),
           Align(

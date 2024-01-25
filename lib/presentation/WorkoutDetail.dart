@@ -4,12 +4,16 @@ import 'package:exopek_workout_app/components/WorkoutOverviewCard.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
+import 'package:exopek_workout_app/domain/Models/LoopVideosPageViewModel.dart';
+import 'package:exopek_workout_app/domain/Models/Plan.dart';
+import 'package:exopek_workout_app/domain/Models/WorkoutDetailPageViewModel.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WorkoutDetail extends ConsumerStatefulWidget {
-  WorkoutDetail({super.key}) {}
+  final WorkoutDetailPageViewModel? viewModel;
+  WorkoutDetail({super.key, this.viewModel}) {}
 
   @override
   ConsumerState<WorkoutDetail> createState() => _WorkoutDetailState();
@@ -30,26 +34,23 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                     height: 1178,
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
-                    child: Stack(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                            width: 390,
-                            height: 370,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(result
-                                    .previewImageUrl /* "https://via.placeholder.com/390x370" */),
-                                fit: BoxFit.cover,
-                              ),
+                        Container(
+                          width: 390,
+                          height: 370,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(result
+                                  .previewImageUrl /* "https://via.placeholder.com/390x370" */),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                        Positioned(
-                          left: 16,
-                          top: 385,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, bottom: 8, top: 8),
                           child: Text(
                             result.name,
                             style: TextStyle(
@@ -60,9 +61,8 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          left: 16,
-                          top: 422,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, bottom: 8),
                           child: Text(
                             'Intensity: High',
                             style: TextStyle(
@@ -73,43 +73,8 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          left: 16,
-                          top: 666,
-                          child: Text(
-                            'Workout-Ablauf',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                            left: 16,
-                            right: 16,
-                            top: 582,
-                            child: CtaButton(
-                                label: 'Starten',
-                                onPressed: () =>
-                                    AppRouter.goToVideoLoops(result))),
-                        Positioned(
-                          left: 16,
-                          top: 851,
-                          child: Text(
-                            'Focus',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 16,
-                          top: 449,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, bottom: 8),
                           child: SizedBox(
                             width: 350,
                             child: Text(
@@ -123,15 +88,9 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          left: 16.0,
-                          top: 509,
-                          right: 16.0,
-                          child: /* Container(
-                              width: MediaQuery.sizeOf(context).width,
-                              height: 70,
-                              child: */
-                              Wrap(
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, bottom: 8),
+                          child: Wrap(
                             //clipBehavior: Clip.antiAlias,
                             //direction: Axis.horizontal,
                             spacing: 8,
@@ -139,41 +98,76 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                             children: [
                               for (var hashtag
                                   in result.hashtagsList as List<String>)
-                                HashTagPill(text: hashtag)
+                                IntrinsicWidth(
+                                    child: HashTagPill(text: hashtag))
                             ],
                           ),
-                          //)
                         ),
-                        Positioned(
-                            left: 0,
-                            top: 697,
-                            child: SizedBox(
-                              width: MediaQuery.sizeOf(context).width,
-                              height: 130,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  padding: const EdgeInsets.only(left: 16),
-                                  itemCount: result.exerciseMap.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8.0),
-                                      child: WorkoutOverviewCard(
-                                        round: index,
-                                        excerciseWorkoutConfig: result
-                                                    .exerciseMap[
-                                                result.sortedCurrentStageTypes[
-                                                    index]]
-                                            as List<ExcerciseWorkoutConfig>,
-                                        stageType:
-                                            result.currentStageTypes[index],
-                                      ),
-                                    );
-                                  }),
-                            )),
-                        Positioned(
-                          left: 16,
-                          top: 882,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16, bottom: 8, top: 8),
+                          child: CtaButton(
+                              label: 'Starten',
+                              onPressed: () => AppRouter.goToVideoLoops(
+                                  LoopVideosPageViewModel(
+                                      workoutDetails: result,
+                                      planStatus: widget.viewModel?.planStatus,
+                                      planWorkoutId:
+                                          widget.viewModel?.planWorkoutId))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, top: 8, bottom: 8),
+                          child: Text(
+                            'Workout-Ablauf',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: SizedBox(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 130,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                padding: const EdgeInsets.only(left: 16),
+                                itemCount: result.exerciseMap.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: WorkoutOverviewCard(
+                                      round: index,
+                                      excerciseWorkoutConfig: result
+                                                  .exerciseMap[
+                                              result.sortedCurrentStageTypes[
+                                                  index]]
+                                          as List<ExcerciseWorkoutConfig>,
+                                      stageType:
+                                          result.currentStageTypes[index],
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, bottom: 8),
+                          child: Text(
+                            'Focus',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, right: 16),
                           child: Container(
                             width: 355,
                             height: 296,

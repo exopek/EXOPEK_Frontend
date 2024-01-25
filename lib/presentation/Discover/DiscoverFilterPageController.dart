@@ -8,7 +8,7 @@ import '../../dependencyInjection/discoveryProvider/discoveryFilterPageProvider.
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Plan.dart';
 
-enum FetchType { none, plan, workout }
+enum FetchType { none, plan, workout, challenge }
 
 class DiscoverFilterPageController
     extends AutoDisposeAsyncNotifier<DiscoverFilterPageViewModel> {

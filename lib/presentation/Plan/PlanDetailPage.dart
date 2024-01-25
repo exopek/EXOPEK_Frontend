@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../components/PlanOverviewCard.dart';
+import '../../dependencyInjection/coachProvider/coachPageControllerProvider.dart';
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Workout.dart';
 
@@ -38,7 +39,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
         data: (_) {
           // rebuild the page to show the new state
           //ref.invalidate(asyncPlanDetailPageControllerProvider);
-          AsyncValue<PlanDetailsViewModel> res =
+          /* AsyncValue<PlanDetailsViewModel> res =
               ref.read(asyncPlanDetailPageControllerProvider);
 
           res.whenOrNull(
@@ -58,7 +59,10 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
               // route to phase page
               AppRouter.goToPlanTransition(planPhase);
             },
-          );
+          ); */
+          ref.invalidate(asyncPlansPageControllerProvider);
+          ref.invalidate(asyncCoachPageController);
+          AppRouter.goToPlanTransition();
         },
       ),
     );
@@ -66,6 +70,15 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
     var result = ref.watch(asyncPlanDetailPageControllerProvider);
     return result.when(
         data: (result) {
+          /* if (result.planStatus.status == StatusType.ACTIVE.index) {
+            var planPhase = PlanPhase(
+                planStatus: result.planStatus,
+                workouts:
+                    result.plan.workoutMap[result.sortedCurrentPhaseTypes[0]]
+                        as List<WorkoutPlanConfig>,
+                plan: result.plan);
+            AppRouter.goToPlanPhase(planPhase);
+          } */
           return Scaffold(
             body: SingleChildScrollView(
               child: Column(
@@ -204,7 +217,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                         statusType: result.planStatus!
                                             .statusTypeAsType as StatusType,
                                         round: index,
-                                        planPhase: PlanPhase(
+                                        planPhase: PlanPhaseViewModel(
                                             planStatus: result.planStatus,
                                             workouts: result.plan.workoutMap[
                                                 result.sortedCurrentPhaseTypes[

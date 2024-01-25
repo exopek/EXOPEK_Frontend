@@ -7,7 +7,7 @@ class PlanProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 358,
+      width: MediaQuery.of(context).size.width,
       height: 220,
       child: Stack(
         children: [
@@ -123,7 +123,7 @@ class PlanProgressCard extends StatelessWidget {
             ),
           ),
           Positioned(
-              right: 16,
+              left: 170,
               top: 169,
               child: SizedBox(
                 width: 160,

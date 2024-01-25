@@ -9,7 +9,7 @@ import '../domain/Models/Workout.dart';
 
 class PlanOverviewCard extends StatelessWidget {
   final int round;
-  final PlanPhase? planPhase;
+  final PlanPhaseViewModel? planPhase;
   final int phaseType;
   final int currentPhaseType;
   final StatusType statusType;
@@ -27,7 +27,7 @@ class PlanOverviewCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (currentPhaseType == phaseType) {
-          AppRouter.goToPlanPhase(planPhase!);
+          /* AppRouter.goToPlanPhase(planPhase!); */
         }
       },
       child: Container(

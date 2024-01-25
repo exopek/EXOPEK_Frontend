@@ -37,7 +37,7 @@ class _NavigationBarCustomState extends ConsumerState<NavigationBarCustom> {
                       0;
                 },
                 icon: Icon(
-                  Icons.home,
+                  Icons.home_filled,
                   color: selectedNavigationBarCustomIndex == 0
                       ? Colors.red
                       : Color(0xFFD9D9D9),
@@ -75,7 +75,7 @@ class _NavigationBarCustomState extends ConsumerState<NavigationBarCustom> {
                       2;
                 },
                 icon: Icon(
-                  Icons.bookmark,
+                  Icons.person_2_rounded,
                   color: selectedNavigationBarCustomIndex == 2
                       ? Colors.red
                       : Color(0xFFD9D9D9),

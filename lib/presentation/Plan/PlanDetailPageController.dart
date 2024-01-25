@@ -17,7 +17,8 @@ class PlanDetailPageController
   Future<PlanDetailsViewModel> fetchPlanAndStatus() async {
     final id = ref.read(selectedPlanIdProvider);
     final data1 = await ref.watch(planRepositoryProvider).getPlan(id);
-    final data2 = await ref.watch(planRepositoryProvider).getPlanStatuses(id);
+    final data2 =
+        await ref.watch(planRepositoryProvider).getPlanStatuses(planId: id);
     return PlanDetailsViewModel(
         plan: data1,
         planStatus: data2.isNotEmpty ? data2.first : PlanStatus.empty());

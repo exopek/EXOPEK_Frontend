@@ -1,6 +1,9 @@
 import 'package:exopek_workout_app/components/NextExerciseCard.dart';
 import 'package:exopek_workout_app/dependencyInjection/loopVideosProvider/LoopVideosProvider.dart';
+import 'package:exopek_workout_app/domain/Models/LoopVideosPageViewModel.dart';
+import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
+import 'package:exopek_workout_app/domain/Models/WorkoutSummaryPageViewModel.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:exopek_workout_app/utils/AppVideoPlayer.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +12,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/Models/Exercise.dart';
 
 class LoopVideos extends ConsumerStatefulWidget {
-  final WorkoutDetails workoutDetails;
+  final LoopVideosPageViewModel viewModel;
 
   const LoopVideos({
     super.key,
-    required this.workoutDetails,
+    required this.viewModel,
   });
 
   @override
@@ -38,8 +41,8 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
   void initState() {
     super.initState();
 
-    sortedExerciseConfig =
-        widget.workoutDetails.sortedExercises as List<ExcerciseWorkoutConfig>;
+    sortedExerciseConfig = widget.viewModel.workoutDetails.sortedExercises
+        as List<ExcerciseWorkoutConfig>;
     _animationController = AnimationController(
         vsync: this,
         duration: Duration(seconds: sortedExerciseConfig[0].duration));
@@ -114,7 +117,11 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                         _animationController.forward(from: 0.0);
                       });
                     } else {
-                      AppRouter.goToMainPage();
+                      /* AppRouter.goToMainPage(); */
+                      AppRouter.goToWorkoutSummary(WorkoutSummaryPageViewModel(
+                          workoutDetails: widget.viewModel.workoutDetails,
+                          planStatus: widget.viewModel.planStatus,
+                          planWorkoutId: widget.viewModel.planWorkoutId));
                     }
                   },
                   child: AppVideoPlayer(

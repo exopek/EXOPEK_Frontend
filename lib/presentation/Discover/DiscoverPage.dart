@@ -1,16 +1,21 @@
 import 'package:exopek_workout_app/components/DiscoverCard.dart';
+import 'package:exopek_workout_app/components/PreFilterSelection.dart';
 import 'package:exopek_workout_app/components/SearchbarButton.dart';
+import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPageController.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DiscoverPage extends StatefulWidget {
+import '../../dependencyInjection/discoveryProvider/discoveryFilterPageProvider.dart';
+
+class DiscoverPage extends ConsumerStatefulWidget {
   const DiscoverPage({super.key});
 
   @override
-  State<DiscoverPage> createState() => _DiscoverPageState();
+  ConsumerState<DiscoverPage> createState() => _DiscoverPageState();
 }
 
-class _DiscoverPageState extends State<DiscoverPage> {
+class _DiscoverPageState extends ConsumerState<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +47,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       left: 0,
                       top: 0,
                       child: SearchBarButton(
+                        enabled: false,
                         onTap: AppRouter.goToDiscoverFilter,
                         xsize: 355,
                         hint: "Search for workouts, plans, and more",
@@ -112,15 +118,108 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     children: [
                       DiscoverCard(
                           path: 'assets/images/pexels-li-sun-2294361.jpg',
-                          name: "Workouts"),
+                          name: "Workouts",
+                          preFilterSelections: [
+                            PreFilterSelection(
+                                name: "All",
+                                onTap: () {
+                                  ref.read(fetchStateProvider.notifier).state =
+                                      FetchType.workout;
+                                  ref.read(queryProvider.notifier).state =
+                                      "All";
+                                  AppRouter.goToDiscoverFilter();
+                                }),
+                            PreFilterSelection(
+                              name: "Popular",
+                              onTap: () {
+                                ref.read(fetchStateProvider.notifier).state =
+                                    FetchType.workout;
+                                ref.read(queryProvider.notifier).state = "All";
+                                AppRouter.goToDiscoverFilter();
+                              },
+                            ),
+                            PreFilterSelection(
+                              name: "Newest",
+                              onTap: () {
+                                ref.read(fetchStateProvider.notifier).state =
+                                    FetchType.workout;
+                                ref.read(queryProvider.notifier).state = "All";
+                                AppRouter.goToDiscoverFilter();
+                              },
+                            ),
+                            PreFilterSelection(
+                              name: "Trending",
+                              onTap: () {
+                                ref.read(fetchStateProvider.notifier).state =
+                                    FetchType.workout;
+                                ref.read(queryProvider.notifier).state = "All";
+                                AppRouter.goToDiscoverFilter();
+                              },
+                            ),
+                          ]),
                       SizedBox(height: 12),
                       DiscoverCard(
                           path: 'assets/images/pexels-li-sun-2294361.jpg',
-                          name: "Plans"),
+                          name: "Plans",
+                          preFilterSelections: [
+                            PreFilterSelection(
+                                name: "All",
+                                onTap: () {
+                                  ref.read(fetchStateProvider.notifier).state =
+                                      FetchType.plan;
+                                  ref.read(queryProvider.notifier).state =
+                                      "All";
+                                  AppRouter.goToDiscoverFilter();
+                                }),
+                            PreFilterSelection(
+                              name: "Popular",
+                              onTap: () {
+                                ref.read(fetchStateProvider.notifier).state =
+                                    FetchType.plan;
+                                ref.read(queryProvider.notifier).state = "All";
+                                AppRouter.goToDiscoverFilter();
+                              },
+                            ),
+                            PreFilterSelection(
+                              name: "Newest",
+                              onTap: () {
+                                ref.read(fetchStateProvider.notifier).state =
+                                    FetchType.plan;
+                                ref.read(queryProvider.notifier).state = "All";
+                                AppRouter.goToDiscoverFilter();
+                              },
+                            ),
+                            PreFilterSelection(
+                              name: "Trending",
+                              onTap: () {
+                                ref.read(fetchStateProvider.notifier).state =
+                                    FetchType.plan;
+                                ref.read(queryProvider.notifier).state = "All";
+                                AppRouter.goToDiscoverFilter();
+                              },
+                            ),
+                          ]),
                       SizedBox(height: 12),
                       DiscoverCard(
                           path: 'assets/images/pexels-li-sun-2294361.jpg',
-                          name: "Plans"),
+                          name: "Challanges",
+                          preFilterSelections: [
+                            PreFilterSelection(
+                                name: "All",
+                                onTap: AppRouter.goToDiscoverFilter),
+                            PreFilterSelection(
+                              name: "Popular",
+                              onTap: AppRouter.goToDiscoverFilter,
+                            ),
+                            PreFilterSelection(
+                              name: "Newest",
+                              onTap: AppRouter.goToDiscoverFilter,
+                            ),
+                            PreFilterSelection(
+                              name: "Most Intense",
+                              onTap: AppRouter.goToDiscoverFilter,
+                            ),
+                          ]),
                     ]),
               ),
             ),

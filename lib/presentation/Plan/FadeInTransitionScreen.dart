@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import '../../utils/AppRouter.dart';
 
 class FadeInTransitionScreen extends StatefulWidget {
-  final PlanPhase planPhase;
-
   FadeInTransitionScreen({
     Key? key,
-    required this.planPhase,
   }) : super(key: key);
 
   @override
@@ -35,7 +32,7 @@ class _FadeInTransitionScreenState extends State<FadeInTransitionScreen>
     _controller.forward();
     _animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        AppRouter.goToPlanPhase(widget.planPhase);
+        AppRouter.goToPlanPhase();
       }
     });
     super.initState();

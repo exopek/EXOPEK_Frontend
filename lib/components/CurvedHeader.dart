@@ -13,8 +13,18 @@ class CurveHeader extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    final Shader sweepShader = const SweepGradient(
+            startAngle: 0.0,
+            endAngle: 2 * 3.14,
+            tileMode: TileMode.repeated,
+            colors: [Color(0x00251717), Color(0xFF991212), Color(0x00251717)])
+        .createShader(Rect.fromCircle(
+      center: Offset(size.width / 2, size.height / 2),
+      radius: size.width / 2,
+    ));
     final paint = Paint()
-      ..color = color
+      /* ..color = color */
+      ..shader = sweepShader
       ..style = PaintingStyle.fill
       ..strokeWidth = 1.0;
     final path = Path()

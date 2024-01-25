@@ -41,6 +41,7 @@ class GenericBottomSheet {
       ),
       builder: (BuildContext context) {
         return Container(
+          height: 150,
           decoration: BoxDecoration(
             color: Color(0xFF212326),
             borderRadius: BorderRadius.only(
@@ -48,7 +49,11 @@ class GenericBottomSheet {
               topRight: Radius.circular(15),
             ),
           ),
-          child: ListView.builder(
+          child: ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.white,
+              height: 1,
+            ),
             itemCount: items.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(

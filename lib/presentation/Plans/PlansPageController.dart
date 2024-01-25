@@ -2,35 +2,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Plan.dart';
+import '../../domain/Models/PlansPageViewModel.dart';
 
-class PlansPageController
-    extends AutoDisposeAsyncNotifier<PlanDetailsViewModel> {
+class PlansPageController extends AutoDisposeAsyncNotifier<PlansPageViewModel> {
   PlansPageController();
 
   @override
-  Future<PlanDetailsViewModel> build() async {
-    return await fetchPlanAndStatus();
+  Future<PlansPageViewModel> build() async {
+    return await fetchPlansAndStatus();
   }
 
   // fetch
 
-  Future<PlanDetailsViewModel> fetchPlanAndStatus() async {
-    final id = ref.read(selectedPlanIdProvider);
-    final data1 = await ref.watch(planRepositoryProvider).getPlan(id);
-    final data2 = await ref.watch(planRepositoryProvider).getPlanStatuses(id);
-    return PlanDetailsViewModel(
-        plan: data1,
-        planStatus: data2.isNotEmpty ? data2.first : PlanStatus.empty());
-  }
-
-  void startPlan() async {
-    final id = ref.read(selectedPlanIdProvider);
+  Future<PlansPageViewModel> fetchPlansAndStatus() async {
     final planRepository = ref.read(planRepositoryProvider);
     state = const AsyncLoading();
-    var res = await AsyncValue.guard(() => planRepository.startPlan(id, ""));
-    if (res is AsyncError) {
-      state = AsyncError("Plan could not be started", StackTrace.current);
+    final planResult = await AsyncValue.guard(() => planRepository.getPlans());
+    if (planResult is AsyncError) {
+      state = AsyncError("Plans could not be fetched", StackTrace.current);
     }
-    state = await AsyncValue.guard(() => fetchPlanAndStatus());
+    final activePlanStatuses = await AsyncValue.guard(
+        () => planRepository.getPlanStatuses(status: StatusType.ACTIVE));
+    if (activePlanStatuses is AsyncError) {
+      state =
+          AsyncError("PlanStatuses could not be fetched", StackTrace.current);
+    }
+    return PlansPageViewModel(
+        plans: planResult.asData!.value,
+        planStatuses: activePlanStatuses.asData!.value);
   }
 }

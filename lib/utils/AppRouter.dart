@@ -1,5 +1,7 @@
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
+import 'package:exopek_workout_app/domain/Models/LoopVideosPageViewModel.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
+import 'package:exopek_workout_app/domain/Models/WorkoutSummaryPageViewModel.dart';
 import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
@@ -10,16 +12,26 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../domain/Models/Plan.dart';
-import '../presentation/Coach.dart';
+import '../domain/Models/WorkoutDetailPageViewModel.dart';
+import '../presentation/Coach/Coach.dart';
+import '../presentation/Login.dart';
+import '../presentation/OnBoarding/OnBoarding_1.dart';
+import '../presentation/OnBoarding/OnBoarding_2.dart';
+import '../presentation/OnBoarding/OnBoarding_3.dart';
+import '../presentation/OnBoarding/OnBoarding_4.dart';
+import '../presentation/OnBoarding/OnBoarding_5.dart';
+import '../presentation/OnBoarding/OnBoarding_6.dart';
+import '../presentation/OnBoarding/Onboarding_0.dart';
 import '../presentation/Plan/FadeInTransitionScreen.dart';
 import '../presentation/Plan/PlanDetailPage.dart';
 import '../presentation/Plan_Phase/PlanPhasePage.dart';
 import '../presentation/Plans/PlansPage.dart';
 import '../presentation/Profile.dart';
+import '../presentation/WorkoutSummary/WorkoutSummaryPage.dart';
 
 class AppRouter {
   static final router = GoRouter(
-    initialLocation: "/",
+    initialLocation: "/onBoarding0",
     navigatorKey: GlobalKey<NavigatorState>(),
     routes: [
       GoRoute(
@@ -49,7 +61,8 @@ class AppRouter {
       GoRoute(
           path: "/workoutDetails",
           builder: (context, state) {
-            return WorkoutDetail();
+            return WorkoutDetail(
+                viewModel: state.extra as WorkoutDetailPageViewModel?);
           }),
       GoRoute(
           path: "/planDetails",
@@ -64,18 +77,76 @@ class AppRouter {
       GoRoute(
           path: "/planPhase",
           builder: (context, state) {
-            return PlanPhasePage(planPhase: state.extra as PlanPhase);
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return PlanPhasePage();
           }),
       GoRoute(
           path: "/planTransition",
           builder: (context, state) {
-            return FadeInTransitionScreen(planPhase: state.extra as PlanPhase);
+            return FadeInTransitionScreen();
           }),
       GoRoute(
           path: "/videoLoops",
           builder: (context, state) {
             //final workoutConfig = state./* queryParams['workoutConfig']; */
-            return LoopVideos(workoutDetails: state.extra as WorkoutDetails);
+            return LoopVideos(
+                viewModel: state.extra as LoopVideosPageViewModel);
+          }),
+      GoRoute(
+          path: "/workoutSummary",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return WorkoutSummaryPage(
+              viewModel: state.extra as WorkoutSummaryPageViewModel,
+            );
+          }),
+      GoRoute(
+          path: "/onBoarding0",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return OnBoarding0();
+          }),
+      GoRoute(
+          path: "/onBoarding1",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return OnBoarding1();
+          }),
+      GoRoute(
+          path: "/onBoarding2",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return OnBoarding2();
+          }),
+      GoRoute(
+          path: "/onBoarding3",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return OnBoarding3();
+          }),
+      GoRoute(
+          path: "/onBoarding4",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return OnBoarding4();
+          }),
+      GoRoute(
+          path: "/onBoarding5",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return OnBoarding5();
+          }),
+      GoRoute(
+          path: "/onBoarding6",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return OnBoarding6();
+          }),
+      GoRoute(
+          path: "/login",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return LoginPage();
           }),
     ],
   );
@@ -104,12 +175,20 @@ class AppRouter {
     router.push("/plans");
   }
 
-  static void goToPlanPhase(PlanPhase planPhase) {
-    router.push("/planPhase", extra: planPhase);
+  static void goToPlansAndRemoveLastRoute() {
+    router.pushReplacement("/plans");
   }
 
-  static void goToWorkoutDetail() {
-    router.push("/workoutDetails");
+  static void goToPlanPhase() {
+    router.pushReplacement("/planPhase");
+  }
+
+  static void goToPlanPhaseWithLastRoute() {
+    router.push("/planPhase");
+  }
+
+  static void goToWorkoutDetail({WorkoutDetailPageViewModel? viewModel}) {
+    router.push("/workoutDetails", extra: viewModel);
   }
 
   static void goToPlanDetail() {
@@ -120,11 +199,43 @@ class AppRouter {
     router.push("/discoverFilter");
   }
 
-  static void goToVideoLoops(WorkoutDetails workoutConfig) {
-    router.push("/videoLoops", extra: workoutConfig);
+  static void goToRegister() {
+    router.push("/onBoarding1");
   }
 
-  static void goToPlanTransition(PlanPhase planPhase) {
-    router.push("/planTransition", extra: planPhase);
+  static void goToRegisterSucceed() {
+    router.push("/onBoarding2");
+  }
+
+  static void goToOnBoarding3() {
+    router.push("/onBoarding3");
+  }
+
+  static void goToOnBoarding4() {
+    router.push("/onBoarding4");
+  }
+
+  static void goToOnBoarding5() {
+    router.push("/onBoarding5");
+  }
+
+  static void goToOnBoarding6() {
+    router.push("/onBoarding6");
+  }
+
+  static void goToLogin() {
+    router.push("/login");
+  }
+
+  static void goToVideoLoops(LoopVideosPageViewModel viewModel) {
+    router.push("/videoLoops", extra: viewModel);
+  }
+
+  static void goToPlanTransition() {
+    router.pushReplacement("/planTransition");
+  }
+
+  static void goToWorkoutSummary(WorkoutSummaryPageViewModel viewModel) {
+    router.push("/workoutSummary", extra: viewModel);
   }
 }

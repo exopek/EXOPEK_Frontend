@@ -18,7 +18,11 @@ class WorkoutRepository implements IWorkoutRepository {
   Future<List<WorkoutListItem>> getWorkouts({String? query}) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
-    String queryString = query!.isNotEmpty ? "?searchTerm=${query}" : "";
+    String queryString = "";
+    if (query == "All" || query == null) {
+      query = "";
+    }
+    queryString = query!.isNotEmpty ? "?searchTerm=${query}" : "";
     Response res = await _dio.get("workouts${queryString}");
     if (res.statusCode == 200) {
       //var workouts = Workout.fromJson(res.data);
@@ -43,6 +47,21 @@ class WorkoutRepository implements IWorkoutRepository {
       return workout;
     } else {
       throw Exception("Failed to load workout");
+    }
+  }
+
+  @override
+  Future<bool> completeWorkout({required String workoutId}) async {
+    Dio _dio = ref.watch(dioProvider);
+
+    Response res = await _dio.post("workouts/completes", data: {
+      "workoutId": workoutId,
+      "userId": "1c974964-9c9c-4674-84f5-bb34caddaf99"
+    });
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Failed to complete workout");
     }
   }
 }

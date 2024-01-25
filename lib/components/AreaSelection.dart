@@ -59,22 +59,38 @@ class AreaSelection extends StatelessWidget {
                     side: BorderSide(width: 0.5, color: Colors.white),
                   ),
                 ),
-                /* child: ImageIcon(
-                  AssetImage(assetPath),
-                  /* color: Colors.white, */
-                  size: 10,
-                ) */
-                child: LayoutBuilder(
+                child: Container(
+                    decoration: BoxDecoration(
+                  image: DecorationImage(
+                    scale: 2.0,
+                    image: AssetImage(assetPath),
+                    fit: BoxFit.cover,
+                  ),
+                  shape: BoxShape.circle,
+                ))
+                /* child: LayoutBuilder(
                     builder: (context, BoxConstraints constraints) {
-                  return ClipOval(
+                  return Container(
+                      width: 100, //constraints.maxWidth,
+                      height: 100, //constraints.maxHeight,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(assetPath),
+                          fit: BoxFit.cover,
+                        ),
+                        shape: BoxShape.circle,
+                      ));
+                  /* ClipOval(
                     clipBehavior: Clip.hardEdge,
                     child: Image.asset(
                       assetPath,
-                      width: constraints.maxWidth - 30,
-                      height: constraints.maxHeight - 30,
+                      width: 200,
+                      height: 200,
                     ),
-                  );
-                })),
+                  ) */
+                  ;
+                }) */
+                ),
           ),
         ],
       ),

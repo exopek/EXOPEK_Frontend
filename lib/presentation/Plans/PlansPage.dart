@@ -26,7 +26,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
 
   @override
   Widget build(BuildContext context) {
-    final result = ref.watch(plansProvider);
+    final result = ref.watch(asyncPlansPageControllerProvider);
     return result.when(
       data: (result) {
         return Scaffold(
@@ -90,9 +90,10 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                 ),
                 preferredSize: Size.fromHeight(128.0)),
             body: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
               child: Container(
                 width: 390,
-                height: 1044,
+                height: MediaQuery.sizeOf(context).height - 158,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
                 child: Column(
@@ -103,7 +104,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          '${result.length} Pläne',
+                          '${result.plans.length} Pläne',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: Color(0xFF838282),
@@ -118,20 +119,29 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 0.0),
                         child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: result.length,
+                            itemCount: result.plans.length,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: TextButton(
                                   onPressed: () {
-                                    ref
-                                        .read(selectedPlanIdProvider.notifier)
-                                        .state = result[index].id;
-                                    AppRouter.goToPlanDetail();
+                                    if (result.planStatuses.any((element) =>
+                                        element.planId ==
+                                        result.plans[index].id)) {
+                                      print("active plan");
+                                      ref
+                                          .read(selectedPlanIdProvider.notifier)
+                                          .state = result.plans[index].id;
+                                      AppRouter.goToPlanPhaseWithLastRoute();
+                                    } else {
+                                      ref
+                                          .read(selectedPlanIdProvider.notifier)
+                                          .state = result.plans[index].id;
+                                      AppRouter.goToPlanDetail();
+                                    }
                                   },
                                   child: PlanListCard(
-                                    planListItem: result[index],
+                                    planListItem: result.plans[index],
                                   ),
                                 ),
                               );

@@ -141,8 +141,31 @@ class PlanDetails extends Plan {
   get sortedWorkouts =>
       workouts..sort((a, b) => a.phaseType.compareTo(b.phaseType));
 
-  get sortedCurrentPhaseTypes =>
+  List<int> get sortedCurrentPhaseTypes =>
       currentPhaseTypes..sort((a, b) => a.compareTo(b));
+
+  List<PhaseType> get sortedCurrentPhaseTypesAsType {
+    final phaseTypes = <PhaseType>[];
+    for (final phaseType in sortedCurrentPhaseTypes) {
+      switch (phaseType) {
+        case 0:
+          phaseTypes.add(PhaseType.phase1);
+          break;
+        case 1:
+          phaseTypes.add(PhaseType.phase2);
+          break;
+        case 2:
+          phaseTypes.add(PhaseType.phase3);
+          break;
+        case 3:
+          phaseTypes.add(PhaseType.phase4);
+          break;
+        default:
+          break;
+      }
+    }
+    return phaseTypes;
+  }
 }
 
 class PlanStatus {
@@ -150,12 +173,16 @@ class PlanStatus {
   final int currentPhase;
   final int status;
   final List<String> workoutIds;
+  final int progressPercentage;
+  final String planId;
 
   PlanStatus(
       {required this.id,
       required this.currentPhase,
       required this.status,
-      required this.workoutIds});
+      required this.workoutIds,
+      required this.progressPercentage,
+      required this.planId});
 
   // FromReadDto
   factory PlanStatus.fromJson(Map<String, dynamic> json) {
@@ -163,12 +190,16 @@ class PlanStatus {
     final status = json['status'] as int;
     final currentPhase = json['currentPhase'] as int;
     final workoutIds = (json['workoutIds'] as List<dynamic>);
+    final progressPercentage = json['progressPercentage'] as int;
+    final planId = json['planId'] as String;
 
     return PlanStatus(
       id: id,
       status: status,
       currentPhase: currentPhase,
       workoutIds: workoutIds.map((e) => e as String).toList(),
+      progressPercentage: progressPercentage,
+      planId: planId,
     );
   }
 
@@ -178,12 +209,27 @@ class PlanStatus {
       status: 0,
       currentPhase: 0,
       workoutIds: [],
+      progressPercentage: 0,
+      planId: '',
     );
   }
 
-  get phaseTypeAsType => PhaseType.values[currentPhase];
+  PhaseType get phaseTypeAsType {
+    switch (currentPhase) {
+      case 0:
+        return PhaseType.phase1;
+      case 1:
+        return PhaseType.phase2;
+      case 2:
+        return PhaseType.phase3;
+      case 3:
+        return PhaseType.phase4;
+      default:
+        return PhaseType.phase1;
+    }
+  }
 
-  get phaseTypeAsString {
+  String get phaseTypeAsString {
     switch (currentPhase) {
       case 0:
         return 'Phase 1';
@@ -198,9 +244,17 @@ class PlanStatus {
     }
   }
 
-  get statusTypeAsType => StatusType.values[status];
+  StatusType get statusTypeAsType {
+    if (status == 0) {
+      return StatusType.INACTIVE;
+    }
+    if (status == 1) {
+      return StatusType.ACTIVE;
+    }
+    return StatusType.INACTIVE;
+  }
 
-  get statusTypeAsString {
+  String get statusTypeAsString {
     switch (status) {
       case 0:
         return 'Keinen Status';
@@ -231,12 +285,12 @@ class PlanDetailsViewModel {
       plan.currentPhaseTypes..sort((a, b) => a.compareTo(b));
 }
 
-class PlanPhase extends Plan {
+class PlanPhaseViewModel extends Plan {
   final PlanDetails plan;
   final List<WorkoutPlanConfig> workouts; // sorted by phaseType
   final PlanStatus? planStatus;
 
-  PlanPhase(
+  PlanPhaseViewModel(
       {required this.workouts, required this.plan, required this.planStatus})
       : super(
             id: plan.id,
@@ -245,6 +299,7 @@ class PlanPhase extends Plan {
             hashtags: plan.hashtags);
 
   get completedWorkoutsCounter => workouts
-      .where((element) => planStatus!.workoutIds.contains(element.id))
+      .where(
+          (element) => planStatus!.workoutIds.contains(element.planWorkoutId))
       .length;
 }

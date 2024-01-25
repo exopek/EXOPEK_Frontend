@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/data/contracts/IPlanRepository.dart';
+import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/Models/Plan.dart';
@@ -25,12 +26,19 @@ class PlanRepository implements IPlanRepository {
   }
 
   @override
-  Future<List<PlanListItem>> getPlans({String? query}) async {
+  Future<List<PlanListItem>> getPlans({String? query, String? planIds}) async {
     Dio _dio = ref.watch(dioProvider);
+    String queryString = "";
+    List<String> queryList = [];
+    if (query != null && query != "All") {
+      queryList.add("searchTerm=${query}");
+    }
+    if (planIds != null) {
+      queryList.add("planIds=${planIds}");
+    }
+    queryString = queryList.join("&");
 
-    String queryString = query!.isNotEmpty ? "?searchTerm=${query}" : "";
-
-    Response res = await _dio.get("plans${queryString}");
+    Response res = await _dio.get("plans?${queryString}");
     if (res.statusCode == 200) {
       var plans = (res.data as List<dynamic>)
           .map((w) => PlanListItem.fromJson(w as Map<String, dynamic>))
@@ -43,12 +51,20 @@ class PlanRepository implements IPlanRepository {
   }
 
   @override
-  Future<List<PlanStatus>> getPlanStatuses(String id) async {
+  Future<List<PlanStatus>> getPlanStatuses(
+      {String? planId, StatusType? status = StatusType.ACTIVE}) async {
     Dio _dio = ref.watch(dioProvider);
 
+    String queryString = "?userId=1c974964-9c9c-4674-84f5-bb34caddaf99";
+
+    if (planId != null) {
+      queryString += "&planId=${planId}";
+    }
+    if (status != null) {
+      queryString += "&status=${status.index}";
+    }
     // Need userId
-    Response res = await _dio.get(
-        "plans/status?status=1&planId=${id}&userId=1c974964-9c9c-4674-84f5-bb34caddaf99");
+    Response res = await _dio.get("plans/status${queryString}");
     if (res.statusCode == 200) {
       var statuses = (res.data as List<dynamic>)
           .map((w) => PlanStatus.fromJson(w as Map<String, dynamic>))
@@ -87,6 +103,28 @@ class PlanRepository implements IPlanRepository {
       return true;
     } else {
       throw Exception("Failed to start plan");
+    }
+  }
+
+  @override
+  Future<bool> updatePlanStatus(
+      {required String id,
+      required StatusType status,
+      required PhaseType phase,
+      required List<String> workoutIds}) async {
+    Dio _dio = ref.watch(dioProvider);
+
+    Response res = await _dio.put("plans/status", data: {
+      "id": id,
+      "status": status.index,
+      "currentPhase": phase.index,
+      "planWorkoutIds": workoutIds
+    });
+
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Failed to update plan");
     }
   }
 }

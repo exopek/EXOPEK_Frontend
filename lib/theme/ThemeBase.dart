@@ -237,7 +237,7 @@ class ThemeTypography extends Typography {
         'Roboto',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
-        fontSize: 22.0,
+        fontSize: 18.0,
       );
   String get titleSmallFamily => 'Roboto';
   TextStyle get titleSmall => GoogleFonts.getFont(

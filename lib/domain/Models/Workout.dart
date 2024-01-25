@@ -150,6 +150,7 @@ class WorkoutPlanConfig extends Workout {
   final String previewImageUrl;
   final int phaseType;
   final int order;
+  final String planWorkoutId;
 
   WorkoutPlanConfig({
     required this.id,
@@ -157,6 +158,7 @@ class WorkoutPlanConfig extends Workout {
     required this.previewImageUrl,
     required this.phaseType,
     required this.order,
+    required this.planWorkoutId,
   }) : super(
             id: id, name: name, previewImageUrl: previewImageUrl, hashtags: '');
 
@@ -167,6 +169,7 @@ class WorkoutPlanConfig extends Workout {
     final previewImageUrl = json['previewImageUrl'] as String;
     final phaseType = json['phaseType'] as int;
     final order = json['order'] as int;
+    final planWorkoutId = json['planWorkoutId'] as String;
 
     return WorkoutPlanConfig(
       id: id,
@@ -174,6 +177,7 @@ class WorkoutPlanConfig extends Workout {
       previewImageUrl: previewImageUrl,
       phaseType: phaseType,
       order: order,
+      planWorkoutId: planWorkoutId,
     );
   }
   get phaseTypeAsType => StageType.values[phaseType];

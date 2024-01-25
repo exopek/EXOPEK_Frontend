@@ -8,10 +8,10 @@ final asyncDiscoverFilterPageController = AsyncNotifierProvider.autoDispose<
   return DiscoverFilterPageController();
 });
 
-final fetchStateProvider = StateProvider.autoDispose<FetchType>((ref) {
+final fetchStateProvider = StateProvider<FetchType>((ref) {
   return FetchType.none;
 });
 
-final queryProvider = StateProvider.autoDispose<String>((ref) {
+final queryProvider = StateProvider<String>((ref) {
   return "";
 });
