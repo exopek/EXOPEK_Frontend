@@ -27,6 +27,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
         data: (result) {
           return Scaffold(
             body: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
               child: Column(
                 children: [
                   Container(
@@ -129,7 +130,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
+                          padding: const EdgeInsets.only(left: 0.0),
                           child: SizedBox(
                             width: MediaQuery.sizeOf(context).width,
                             height: 130,

@@ -21,15 +21,12 @@ class _MainPageState extends ConsumerState<MainPage> {
     final currentRouteIndex = ref.watch(selectedNavigationBarIndexProvider);
     return Scaffold(
       backgroundColor: Color(0xFF0C0C0C),
-      body: SafeArea(
-          child: SizedBox(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             if (currentRouteIndex == 0)
-              SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - 100,
+              Expanded(
                   child: Coach())
             /* Container(
                 height: 100,
@@ -37,17 +34,15 @@ class _MainPageState extends ConsumerState<MainPage> {
                 color: Colors.red,
               ) */
             else if (currentRouteIndex == 1)
-              SizedBox(
-                  height: MediaQuery.of(context).size.height - 100,
+              Expanded(
                   child: DiscoverPage())
             else if (currentRouteIndex == 2)
-              SizedBox(
-                  height: MediaQuery.of(context).size.height - 100,
+              Expanded(
                   child: Profile()),
             NavigationBarCustom(),
           ],
         ),
-      )),
+      ),
     );
   }
 }

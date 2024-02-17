@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/components/CardInformationBlock.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/Models/Plan.dart';
@@ -11,10 +12,19 @@ class PlanProgressWithImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width * 0.8,
       height: 156,
+      decoration: ShapeDecoration(
+                color: Color(0x00262424),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(width: 1, color: Color(0xFF262424)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                
+              ),
       child: Stack(
         children: [
+          // Image
           Positioned(
             left: 0,
             top: 0,
@@ -35,6 +45,7 @@ class PlanProgressWithImageCard extends StatelessWidget {
               ),
             ),
           ),
+          // Trennstrich
           Positioned(
             left: 111.56,
             top: 1,
@@ -56,24 +67,25 @@ class PlanProgressWithImageCard extends StatelessWidget {
               ),
             ),
           ),
+          // Progress bar
           Positioned(
             left: 125.90,
             top: 128,
             child: Container(
-              width: 216.72,
               height: 10,
+              width: 172,
               child: Stack(
                 children: [
                   Positioned(
                     left: 0,
                     top: 0,
                     child: Container(
-                      width: 216.72,
+                      width: 172,
                       height: 10,
                       decoration: ShapeDecoration(
                         color: Color(0xFFD9D9D9),
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFF262424)),
+                          side: BorderSide(width: 1, color: Color.fromARGB(255, 181, 156, 156)),
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
@@ -83,7 +95,7 @@ class PlanProgressWithImageCard extends StatelessWidget {
                     left: 0,
                     top: 0,
                     child: Container(
-                      width: 216.72 * planStatus.progressPercentage / 100,
+                      width: 172 * planStatus.progressPercentage / 100,
                       height: 10,
                       decoration: ShapeDecoration(
                         color: Color(0xFFCE2323),
@@ -97,11 +109,11 @@ class PlanProgressWithImageCard extends StatelessWidget {
               ),
             ),
           ),
+          // Progress text
           Positioned(
             left: 125.90,
             top: 108,
             child: SizedBox(
-              width: 71.21,
               child: Text(
                 '${planStatus.progressPercentage}% Completed',
                 style: TextStyle(
@@ -114,6 +126,7 @@ class PlanProgressWithImageCard extends StatelessWidget {
               ),
             ),
           ),
+          // Information Block
           Positioned(
             left: 122.81,
             top: 55,
@@ -122,95 +135,24 @@ class PlanProgressWithImageCard extends StatelessWidget {
               height: 46.80,
               child: Stack(
                 children: [
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      width: 150.26,
-                      height: 46.80,
-                      decoration: BoxDecoration(color: Color(0x00D9D9D9)),
-                    ),
-                  ),
+                  
                   Positioned(
                     left: 3.52,
                     top: 4.68,
-                    child: Container(
-                      width: 41.03,
-                      height: 35.10,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Icon(
-                                Icons.access_time,
-                                color: Color(0xFF838282),
-                                size: 14,
-                              )),
-                          Positioned(
-                            left: 16.70,
-                            top: 2.34,
-                            child: SizedBox(
-                              width: 24.34,
-                              height: 28.08,
-                              child: Text(
-                                '20 m',
-                                style: TextStyle(
-                                  color: Color(0xFF838282),
-                                  fontSize: 10,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: CardInformationBlock(
+                      value: plan.duration.toString(),
+                    )
                   ),
-                  Positioned(
+                  /* Positioned(
                     left: 65.61,
                     top: 4.68,
-                    child: Container(
-                      width: 41.04,
-                      height: 35.10,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: Icon(
-                              Icons.access_time,
-                              color: Color(0xFF838282),
-                              size: 14,
-                            ),
-                          ),
-                          Positioned(
-                            left: 16.70,
-                            top: 2.34,
-                            child: SizedBox(
-                              width: 24.34,
-                              height: 28.08,
-                              child: Text(
-                                '20 m',
-                                style: TextStyle(
-                                  color: Color(0xFF838282),
-                                  fontSize: 10,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
+                    child: CardInformationBlock(
+                      value: plan.duration.toString(),
+                    )
+                  ), */
+                  /* Positioned(
                     left: 52.91,
-                    top: 7.02,
+                    top: 6.02,
                     child: Transform(
                       transform: Matrix4.identity()
                         ..translate(0.0, 0.0)
@@ -228,16 +170,16 @@ class PlanProgressWithImageCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
+                  ), */
                 ],
               ),
             ),
           ),
+          // Name
           Positioned(
             left: 125.90,
             top: 33,
             child: SizedBox(
-              width: 125.90,
               height: 28.23,
               child: Text(
                 plan.name,
@@ -251,11 +193,11 @@ class PlanProgressWithImageCard extends StatelessWidget {
               ),
             ),
           ),
+          // Hashtags
           Positioned(
             left: 125.90,
             top: 15,
             child: SizedBox(
-              width: 189.88,
               height: 17.83,
               child: Text(
                 plan.hashtagsStringWithHash.toString(),
@@ -265,21 +207,6 @@ class PlanProgressWithImageCard extends StatelessWidget {
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w300,
                   height: 0,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 355,
-              height: 156,
-              decoration: ShapeDecoration(
-                color: Color(0x00262424),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFF262424)),
-                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),

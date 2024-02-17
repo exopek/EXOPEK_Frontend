@@ -63,6 +63,7 @@ class _CoachState extends ConsumerState<Coach> {
       body: coachControllerProvider.when(
         data: (data) {
           return SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
               child: Column(
             children: [
               Container(
@@ -74,33 +75,23 @@ class _CoachState extends ConsumerState<Coach> {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 138,
+                      height: 168,
                       child: Stack(
                         children: [
                           Positioned(
                               top: 0,
                               left: 0,
                               child: SizedBox(
-                                height: 200,
+                                height: 300,
                                 width: MediaQuery.of(context).size.width,
                                 child: CustomPaint(
                                   painter: CurveHeader(
                                       color: Colors.blueGrey, image: null),
-                                  /* child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/images/testImage.jpeg'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ), */
                                 ),
                               )),
                           Positioned(
-                            left: 321,
-                            top: 17,
+                            right: 16,
+                            top: 57,
                             child: Container(
                               width: 60,
                               height: 33.68,
@@ -116,7 +107,7 @@ class _CoachState extends ConsumerState<Coach> {
                           ),
                           Positioned(
                             left: 16,
-                            top: 71,
+                            top: 100,
                             child: Container(
                               width: 65,
                               height: 65,
@@ -135,7 +126,7 @@ class _CoachState extends ConsumerState<Coach> {
                           ),
                           Positioned(
                             left: 86,
-                            top: 88,
+                            top: 117,
                             child: SizedBox(
                               width: 100,
                               child: Text(
@@ -152,7 +143,7 @@ class _CoachState extends ConsumerState<Coach> {
                           ),
                           Positioned(
                             left: 86,
-                            top: 108,
+                            top: 137,
                             child: Text(
                               'EXOPEK Athlet Stufe 1',
                               style: TextStyle(
@@ -167,22 +158,6 @@ class _CoachState extends ConsumerState<Coach> {
                         ],
                       ),
                     ),
-
-                    /* Positioned(
-                      left: 16,
-                      top: 606,
-                      child: Text(
-                        'Build your Training Habits',
-                        style: TextStyle(
-                          color: Color(0xFF838282),
-                          fontSize: 16,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
-                        ),
-                      ),
-                    ), */
-
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -203,7 +178,7 @@ class _CoachState extends ConsumerState<Coach> {
                       ),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 16, top: 12),
+                        padding: EdgeInsets.only(left: 0, top: 12),
                         child: Container(
                           height: 120,
                           width: MediaQuery.of(context).size.width,
@@ -246,11 +221,12 @@ class _CoachState extends ConsumerState<Coach> {
                       ),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 16, top: 12),
+                        padding: EdgeInsets.only(left: 0, top: 12),
                         child: Container(
-                          height: 190,
+                          height: 176,
                           width: MediaQuery.of(context).size.width,
                           child: ListView.builder(
+                            
                               controller: _scrollController,
                               scrollDirection: Axis.horizontal,
                               itemCount: data.startedPlans.isEmpty
@@ -297,15 +273,15 @@ class _CoachState extends ConsumerState<Coach> {
                                     },
                                     style: ButtonStyle(
                                       overlayColor: MaterialStateProperty.all(
-                                          Colors.transparent),
+                                          Colors.white),
                                     ),
                                     child: PlanProgressWithImageCard(
                                         planStatus: data.planStatuses
                                             .firstWhere((element) =>
                                                 element.planId ==
                                                 data.startedPlans[index].id),
-                                        plan: data.startedPlans[index]),
-                                  );
+                                        plan: data.startedPlans[index])
+                                 );
                                 }
                               }),
                         )),
@@ -329,7 +305,7 @@ class _CoachState extends ConsumerState<Coach> {
                       ),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 16, top: 12),
+                        padding: EdgeInsets.only(left: 0, top: 12),
                         child: Container(
                           height: 130,
                           width: MediaQuery.of(context).size.width,
@@ -375,7 +351,7 @@ class _CoachState extends ConsumerState<Coach> {
                       ),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 16, top: 12),
+                        padding: EdgeInsets.only(left: 0, top: 12),
                         child: Container(
                           height: 220,
                           width: MediaQuery.of(context).size.width,
@@ -407,7 +383,7 @@ class _CoachState extends ConsumerState<Coach> {
                                   child: PlanCardHorizontal(
                                       planListItem: data.plans[index],
                                       width: MediaQuery.of(context).size.width *
-                                          0.85),
+                                          0.8),
                                 );
                               }),
                         )),

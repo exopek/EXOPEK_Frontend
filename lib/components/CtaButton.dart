@@ -7,6 +7,7 @@ class CtaButton extends StatelessWidget {
   final bool? isLoading;
   final double? height;
   final double? fontSizeLable;
+  final double? width;
 
   const CtaButton(
       {super.key,
@@ -14,6 +15,7 @@ class CtaButton extends StatelessWidget {
       this.onPressed,
       this.isLoading,
       this.height = 49,
+      this.width,
       this.fontSizeLable = 20});
 
   @override
@@ -22,7 +24,6 @@ class CtaButton extends StatelessWidget {
       height: height,
       width: MediaQuery.of(context).size.width,
       decoration: ShapeDecoration(
-        //color: Color(0xFFD12626),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),

@@ -58,15 +58,6 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage> {
               ),
             ),
             Positioned(
-              left: 0,
-              top: 764,
-              child: Container(
-                width: 390,
-                height: 80,
-                decoration: BoxDecoration(color: Color(0xFF262323)),
-              ),
-            ),
-            Positioned(
               left: 16,
               top: 43,
               child: Container(
@@ -110,7 +101,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage> {
               top: 162,
               left: 0,
               child: Container(
-                height: MediaQuery.of(context).size.height - 280,
+                height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: ListView(
                     padding: EdgeInsets.zero,

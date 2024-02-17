@@ -19,18 +19,19 @@ class _NavigationBarCustomState extends ConsumerState<NavigationBarCustom> {
         ref.watch(selectedNavigationBarIndexProvider);
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 50,
+      height: MediaQuery.of(context).size.height *  0.07,
       decoration: BoxDecoration(color: Color(0xFF262323)),
       child: Align(
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: 16,
-            ),
             Container(
-              height: 50,
+              height: 300,
+              width: MediaQuery.of(context).size.width * 0.333,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle
+              ),
               child: IconButton(
                 onPressed: () {
                   ref.read(selectedNavigationBarIndexProvider.notifier).state =
@@ -45,11 +46,13 @@ class _NavigationBarCustomState extends ConsumerState<NavigationBarCustom> {
                 ),
               ),
             ),
-            SizedBox(
-              width: 24,
-            ),
-            SizedBox(
-              height: 50,
+            
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle
+              ),
+              height: 300,
+              width: MediaQuery.of(context).size.width * 0.333,
               child: IconButton(
                 onPressed: () {
                   ref.read(selectedNavigationBarIndexProvider.notifier).state =
@@ -64,11 +67,13 @@ class _NavigationBarCustomState extends ConsumerState<NavigationBarCustom> {
                 ),
               ),
             ),
-            SizedBox(
-              width: 24,
-            ),
-            SizedBox(
-              height: 50,
+            
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle
+              ),
+              height: 300,
+              width: MediaQuery.of(context).size.width * 0.333,
               child: IconButton(
                 onPressed: () {
                   ref.read(selectedNavigationBarIndexProvider.notifier).state =
@@ -82,9 +87,6 @@ class _NavigationBarCustomState extends ConsumerState<NavigationBarCustom> {
                   size: 24,
                 ),
               ),
-            ),
-            SizedBox(
-              width: 16,
             ),
           ],
         ),

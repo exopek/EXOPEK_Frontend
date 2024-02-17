@@ -207,9 +207,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
               ],
             ),
           ),
-          SizedBox(
-            height: 16,
-          ),
+          
           if (query.isNotEmpty)
             discoverControllerProvider.when(
               data: (data) {
@@ -221,17 +219,12 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                   return Expanded(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      child: ListView.separated(
+                      child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         itemCount: data.workouts.length,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 16,
-                          );
-                        },
                         itemBuilder: (context, index) {
                           return Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
+                              padding: const EdgeInsets.only(left: 0.0),
                               child: TextButton(
                                 onPressed: () {
                                   ref
@@ -256,7 +249,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                         itemCount: data.plans.length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
+                            padding: const EdgeInsets.only(left: 0.0),
                             child: TextButton(
                               onPressed: () {
                                 ref

@@ -33,8 +33,8 @@ class _DiscoverState extends ConsumerState<Discover> {
         data: (result) {
           return Scaffold(
             body: Container(
-              width: 390,
-              height: 844,
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
               child: Stack(
@@ -43,7 +43,7 @@ class _DiscoverState extends ConsumerState<Discover> {
                     left: 0,
                     top: 0,
                     child: Container(
-                      width: 390,
+                      width: MediaQuery.sizeOf(context).width,
                       height: 128,
                       decoration: BoxDecoration(color: Color(0xFF262424)),
                     ),
