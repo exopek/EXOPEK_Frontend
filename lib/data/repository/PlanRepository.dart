@@ -55,10 +55,10 @@ class PlanRepository implements IPlanRepository {
       {String? planId, StatusType? status = StatusType.ACTIVE}) async {
     Dio _dio = ref.watch(dioProvider);
 
-    String queryString = "?userId=1c974964-9c9c-4674-84f5-bb34caddaf99";
+    String queryString = "?";
 
     if (planId != null) {
-      queryString += "&planId=${planId}";
+      queryString += "planId=${planId}";
     }
     if (status != null) {
       queryString += "&status=${status.index}";

@@ -10,14 +10,14 @@ class PromoHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 329,
+      height: MediaQuery.of(context).size.height,
       child: Stack(
         children: [
           Positioned(
             left: 0,
             top: 0,
             child: Container(
-              width: 390,
+              width: MediaQuery.of(context).size.width,
               height: 329,
               decoration: BoxDecoration(
                 image: DecorationImage(

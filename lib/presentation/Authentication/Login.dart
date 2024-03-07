@@ -1,34 +1,43 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/data/DioProvider.dart';
+import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utils/AppRouter.dart';
+import '../../utils/AppRouter.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    ref.listen(asyncLoginButtonControllerProvider, (previous, next) { 
+      if (next is AsyncData) {
+        AppRouter.goToMainPage();
+      }
+    });
+    final loginButtonState = ref.watch(asyncLoginButtonControllerProvider);
     return Scaffold(
         body: Container(
-      width: 390,
+      width: MediaQuery.of(context).size.width,
       height: 844,
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(color: Color(0xFF161616)),
+      decoration: const BoxDecoration(color: Color(0xFF161616)),
       child: Stack(
         children: [
           Positioned(
             left: 0,
             top: 0,
             child: Container(
-              width: 390,
+              width: MediaQuery.of(context).size.width,
               height: 844,
               decoration: ShapeDecoration(
-                image: DecorationImage(
+                image: const DecorationImage(
                   image: AssetImage("assets/images/loginImage.jpg"),
                   fit: BoxFit.cover,
                 ),
@@ -86,8 +95,9 @@ class _LoginPageState extends State<LoginPage> {
               right: 50,
               child: CtaButton(
                 label: 'Anmelden',
+                isLoading: loginButtonState.isLoading,
                 onPressed: () {
-                  AppRouter.goToMainPage();
+                  ref.read(asyncLoginButtonControllerProvider.notifier).login("jansugint", "Rafael0602!");
                 },
               )),
           Positioned(

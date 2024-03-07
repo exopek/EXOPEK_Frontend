@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
+import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/data/repository/WorkoutRepository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,10 +13,10 @@ import '../domain/Models/Workout.dart';
 final dioProvider = Provider((ref) {
   Dio dio = Dio();
   dio.options.baseUrl = AppConfig.apiBaseUrl;
-  (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
+  /* (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
       HttpClient()
         ..badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
+            (X509Certificate cert, String host, int port) => true; */
   // Set default configs
   return dio;
 });
@@ -28,6 +29,10 @@ final workoutProvider =
     FutureProvider.autoDispose<List<WorkoutListItem>>((ref) async {
   final data = await ref.watch(dioWorkoutProvider).getWorkouts();
   return data;
+});
+
+final userRepositoryProvider = Provider((ref) {
+  return UserRepository(ref);
 });
 
 final workoutSingleProvider =

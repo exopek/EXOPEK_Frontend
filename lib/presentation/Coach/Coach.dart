@@ -326,8 +326,11 @@ class _CoachState extends ConsumerState<Coach> {
                                     overlayColor: MaterialStateProperty.all(
                                         Colors.transparent),
                                   ),
-                                  child: WorkoutCardHorizontal(
-                                      workout: data.workouts[index]),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.8,
+                                    child: WorkoutCardHorizontal(
+                                        workout: data.workouts[index]),
+                                  ),
                                 );
                               }),
                         )),

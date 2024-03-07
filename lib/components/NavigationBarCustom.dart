@@ -20,7 +20,7 @@ class _NavigationBarCustomState extends ConsumerState<NavigationBarCustom> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height *  0.07,
-      decoration: BoxDecoration(color: Color(0xFF262323)),
+      decoration: BoxDecoration(color: Color(0xFF212326)),
       child: Align(
         alignment: Alignment.center,
         child: Row(

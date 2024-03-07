@@ -14,7 +14,7 @@ import 'package:go_router/go_router.dart';
 import '../domain/Models/Plan.dart';
 import '../domain/Models/WorkoutDetailPageViewModel.dart';
 import '../presentation/Coach/Coach.dart';
-import '../presentation/Login.dart';
+import '../presentation/Authentication/Login.dart';
 import '../presentation/OnBoarding/OnBoarding_1.dart';
 import '../presentation/OnBoarding/OnBoarding_2.dart';
 import '../presentation/OnBoarding/OnBoarding_3.dart';
