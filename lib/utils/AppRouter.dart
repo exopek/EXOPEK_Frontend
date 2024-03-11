@@ -1,7 +1,7 @@
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
-import 'package:exopek_workout_app/domain/Models/LoopVideosPageViewModel.dart';
+import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
-import 'package:exopek_workout_app/domain/Models/WorkoutSummaryPageViewModel.dart';
+import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageViewModel.dart';
 import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../domain/Models/Plan.dart';
-import '../domain/Models/WorkoutDetailPageViewModel.dart';
+import '../domain/Models/ViewModels/WorkoutDetailPageViewModel.dart';
 import '../presentation/Coach/Coach.dart';
 import '../presentation/Authentication/Login.dart';
 import '../presentation/OnBoarding/OnBoarding_1.dart';

@@ -1,9 +1,9 @@
 import 'package:exopek_workout_app/components/NextExerciseCard.dart';
 import 'package:exopek_workout_app/dependencyInjection/loopVideosProvider/LoopVideosProvider.dart';
-import 'package:exopek_workout_app/domain/Models/LoopVideosPageViewModel.dart';
+import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
-import 'package:exopek_workout_app/domain/Models/WorkoutSummaryPageViewModel.dart';
+import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageViewModel.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:exopek_workout_app/utils/AppVideoPlayer.dart';
 import 'package:flutter/material.dart';

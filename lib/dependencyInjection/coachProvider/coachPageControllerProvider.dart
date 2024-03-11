@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/Models/CoachPageViewModel.dart';
+import '../../domain/Models/ViewModels/CoachPageViewModel.dart';
 import '../../presentation/Coach/CoachPageController.dart';
 
 final asyncCoachPageController =

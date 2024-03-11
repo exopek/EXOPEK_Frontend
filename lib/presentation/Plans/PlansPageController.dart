@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Plan.dart';
-import '../../domain/Models/PlansPageViewModel.dart';
+import '../../domain/Models/ViewModels/PlansPageViewModel.dart';
 
 class PlansPageController extends AutoDisposeAsyncNotifier<PlansPageViewModel> {
   PlansPageController();

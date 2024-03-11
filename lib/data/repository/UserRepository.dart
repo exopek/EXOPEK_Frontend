@@ -14,12 +14,12 @@ class UserRepository implements IUserRepository {
   //final String _baseUrl = "http://exopek.azurewebsites.net/api/";
 
   @override
-  Future<User> getUser(String id) async {
+  Future<ReadUserDto> getUser() async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
-    Response res = await _dio.get("users/byId?id=$id");
+    Response res = await _dio.get("users");
     if (res.statusCode == 200) {
-      var user = User.fromJson(res.data as Map<String, dynamic>);
+      var user = ReadUserDto.fromJson(res.data as Map<String, dynamic>);
       return user;
     } else {
       throw Exception("Failed to load user");
@@ -27,33 +27,31 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<User> updateUser(User user) async {
+  Future<bool> updateUser(CreateUserDto user) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
-    Response res = await _dio.put("users", data: user.toJson());
+    Response res = await _dio.put("users/update", data: user.toJson());
     if (res.statusCode == 200) {
-      var user = User.fromJson(res.data as Map<String, dynamic>);
-      return user;
+      return true;
     } else {
-      throw Exception("Failed to update user");
+      return false;
     }
   }
 
   @override
-  Future<User> createUser(User user) async {
+  Future<bool> createUser(CreateUserDto user) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
-    Response res = await _dio.post("users", data: user.toJson());
+    Response res = await _dio.post("users/register", data: user.toJson());
     if (res.statusCode == 200) {
-      var user = User.fromJson(res.data as Map<String, dynamic>);
-      return user;
+      return true;
     } else {
-      throw Exception("Failed to create user");
+      return false;
     }
   }
 
   @override
-  Future<User> deleteUser(String id) {
+  Future<bool> deleteUser(String id) {
     // TODO: implement deleteUser
     throw UnimplementedError();
   }

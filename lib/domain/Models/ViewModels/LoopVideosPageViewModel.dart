@@ -1,6 +1,6 @@
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 
-import 'Workout.dart';
+import '../Workout.dart';
 
 class LoopVideosPageViewModel {
   final PlanStatus? planStatus;

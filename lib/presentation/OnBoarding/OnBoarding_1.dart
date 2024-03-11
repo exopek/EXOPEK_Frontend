@@ -1,27 +1,54 @@
+import 'package:exopek_workout_app/components/CustomTextField.dart';
+import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
 
-class OnBoarding1 extends StatefulWidget {
+class OnBoarding1 extends ConsumerStatefulWidget {
   const OnBoarding1({super.key});
 
   @override
-  State<OnBoarding1> createState() => _OnBoarding1State();
+  ConsumerState<OnBoarding1> createState() => _OnBoarding1State();
 }
 
-class _OnBoarding1State extends State<OnBoarding1> {
+class _OnBoarding1State extends ConsumerState<OnBoarding1> {
+
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerFirstname = TextEditingController();
+  final TextEditingController controllerLastname = TextEditingController();
+  final TextEditingController controllerUsername = TextEditingController();
+  final TextEditingController controllerPassword = TextEditingController();
+  final FocusNode focusNodeEmail = FocusNode();
+  final FocusNode focusNodeFirstname = FocusNode();
+  final FocusNode focusNodeLastname = FocusNode();
+  final FocusNode focusNodeUsername = FocusNode();
+  final FocusNode focusNodePassword = FocusNode();
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(registerButtonControllerProvider, (previous, next) {
+      if (next is AsyncData) {
+        AppRouter.goToRegisterSucceed();
+      } else if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Registrierung fehlgeschlagen."),
+          ),
+        );
+      }
+    });
+    final registerState = ref.watch(registerButtonControllerProvider);
     return Scaffold(
       body: Container(
-        width: 390,
+        width: MediaQuery.of(context).size.width,
         height: 844,
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
+        decoration: const BoxDecoration(color: Color(0xFF0C0C0C)),
         child: Stack(
           children: [
-            Positioned(
+            const Positioned(
               left: 32,
               top: 44,
               child: Text(
@@ -36,7 +63,7 @@ class _OnBoarding1State extends State<OnBoarding1> {
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
               left: 32,
               top: 84,
               child: Text(
@@ -58,7 +85,7 @@ class _OnBoarding1State extends State<OnBoarding1> {
                 width: 26,
                 height: 26,
                 decoration: ShapeDecoration(
-                  color: Color(0xFFD9D9D9),
+                  color: const Color(0xFFD9D9D9),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                 ),
@@ -71,13 +98,13 @@ class _OnBoarding1State extends State<OnBoarding1> {
                 width: 26,
                 height: 26,
                 decoration: ShapeDecoration(
-                  color: Color(0xFFD9D9D9),
+                  color: const Color(0xFFD9D9D9),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
               left: 81,
               top: 494,
               child: SizedBox(
@@ -94,7 +121,7 @@ class _OnBoarding1State extends State<OnBoarding1> {
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
               left: 77,
               top: 591,
               child: SizedBox(
@@ -114,86 +141,45 @@ class _OnBoarding1State extends State<OnBoarding1> {
             Positioned(
               left: 32,
               top: 155,
-              child: Container(
-                width: 314,
-                height: 67,
-                decoration: ShapeDecoration(
-                  color: Color(0x00262323),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFF262424)),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
+              child: CustomTextField(controller: controllerUsername, hint: "Username", focusNode: focusNodeUsername, xsize: 0.8,),
+              
             ),
             Positioned(
               left: 32,
               top: 404,
-              child: Container(
-                width: 314,
-                height: 67,
-                decoration: ShapeDecoration(
-                  color: Color(0x00262323),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFF262424)),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
+              child: CustomTextField(controller: controllerPassword, hint: "Password", focusNode: focusNodePassword, xsize: 0.8,),
             ),
             Positioned(
               left: 32,
               top: 321,
-              child: Container(
-                width: 314,
-                height: 67,
-                decoration: ShapeDecoration(
-                  color: Color(0x00262323),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFF262424)),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
+              child: CustomTextField(controller: controllerEmail, hint: "Email", focusNode: focusNodeEmail, xsize: 0.8,),
             ),
             Positioned(
               left: 32,
               top: 238,
-              child: Container(
-                width: 151,
-                height: 67,
-                decoration: ShapeDecoration(
-                  color: Color(0x00262323),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFF262424)),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
+              child: CustomTextField(controller: controllerFirstname, hint: "Firstname", focusNode: focusNodeFirstname, xsize: 0.38,),
             ),
             Positioned(
               left: 195,
               top: 238,
-              child: Container(
-                width: 151,
-                height: 67,
-                decoration: ShapeDecoration(
-                  color: Color(0x00262323),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFF262424)),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
+              child: CustomTextField(controller: controllerLastname, hint: "Lastname", focusNode: focusNodeLastname, xsize: 0.38,),
             ),
             Positioned(
               left: 32,
               right: 32,
               top: 706,
               child: CtaButton(
-                label: 'Weiter',
+                isLoading: registerState.isLoading,
+                label: 'Registrieren',
                 onPressed: () {
-                  AppRouter.goToRegisterSucceed();
+                  //AppRouter.goToRegisterSucceed();
+                  ref.read(registerButtonControllerProvider.notifier).register(
+                    email: controllerEmail.text,
+                    firstname: controllerFirstname.text,
+                    lastname: controllerLastname.text,
+                    username: controllerUsername.text,
+                    password: controllerPassword.text,
+                  );
                 },
               ),
             ),

@@ -56,7 +56,6 @@ class WorkoutRepository implements IWorkoutRepository {
 
     Response res = await _dio.post("workouts/completes", data: {
       "workoutId": workoutId,
-      "userId": "1c974964-9c9c-4674-84f5-bb34caddaf99"
     });
     if (res.statusCode == 200) {
       return true;

@@ -1,4 +1,4 @@
-import 'Plan.dart';
+import '../Plan.dart';
 
 class WorkoutDetailPageViewModel {
   final PlanStatus? planStatus;

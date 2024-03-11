@@ -31,10 +31,6 @@ final workoutProvider =
   return data;
 });
 
-final userRepositoryProvider = Provider((ref) {
-  return UserRepository(ref);
-});
-
 final workoutSingleProvider =
     FutureProvider.autoDispose<WorkoutDetails>((ref) async {
   final id = ref.read(selectedWorkoutIdProvider);

@@ -1,5 +1,5 @@
-import 'Plan.dart';
-import 'Workout.dart';
+import '../Plan.dart';
+import '../Workout.dart';
 
 class CoachPageViewModel {
   List<PlanListItem> plans = [];

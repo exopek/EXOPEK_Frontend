@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:exopek_workout_app/domain/Models/DiscoverFilterPageViewModel.dart';
+import 'package:exopek_workout_app/domain/Models/ViewModels/DiscoverFilterPageViewModel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/DioProvider.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/repository/PlanRepository.dart';
 import '../../domain/Models/Plan.dart';
-import '../../domain/Models/PlansPageViewModel.dart';
+import '../../domain/Models/ViewModels/PlansPageViewModel.dart';
 import '../../presentation/Plan/PlanDetailPageController.dart';
 import '../../presentation/Plan/StartPlanButtonStateController.dart';
 import '../../presentation/Plan_Phase/ChangePlanPhaseButtonController.dart';

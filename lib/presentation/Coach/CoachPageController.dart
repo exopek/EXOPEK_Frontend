@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:exopek_workout_app/domain/Models/DiscoverFilterPageViewModel.dart';
+import 'package:exopek_workout_app/domain/Models/ViewModels/DiscoverFilterPageViewModel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/DioProvider.dart';
 import '../../dependencyInjection/discoveryProvider/discoveryFilterPageProvider.dart';
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
-import '../../domain/Models/CoachPageViewModel.dart';
+import '../../domain/Models/ViewModels/CoachPageViewModel.dart';
 import '../../domain/Models/Plan.dart';
 
 class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
@@ -40,7 +40,7 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
           plans: planResult.asData!.value,
           workouts: workoutResult.asData!.value,
           startedPlans: [],
-          planStatuses: planStatusResult.asData!.value);
+          planStatuses: []);
     }
     final startedPlans = await AsyncValue.guard(
         () => planRepository.getPlans(planIds: planIds.join(",")));
