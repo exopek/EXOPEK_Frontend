@@ -29,10 +29,10 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
             body: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
                     width: MediaQuery.sizeOf(context).width,
-                    height: 1178,
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
                     child: Column(

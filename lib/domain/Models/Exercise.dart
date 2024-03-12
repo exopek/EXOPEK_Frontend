@@ -70,7 +70,7 @@ class ExcerciseWorkoutConfig extends Excercise {
     switch (stageType) {
       case 0:
         return 'Warmup';
-      case 1:
+      case 1:                             
         return 'Workout';
       case 2:
         return 'Cooldown';

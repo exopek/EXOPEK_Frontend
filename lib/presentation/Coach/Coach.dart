@@ -29,6 +29,7 @@ class Coach extends ConsumerStatefulWidget {
 
 class _CoachState extends ConsumerState<Coach> {
   late ScrollController _scrollController;
+  late List<String> _selectedAreas;
   /* late ui.Image image; */
 
   Future<ui.Image> loadImage(String imagePath) async {
@@ -47,6 +48,7 @@ class _CoachState extends ConsumerState<Coach> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    _selectedAreas = ["Workouts", "Plans", "Coming Soon", "Coming Soon", "Coming Soon"];
     /* loadImage('assets/images/testImage.jpeg').then((value) => image = value); */
   }
 
@@ -113,8 +115,8 @@ class _CoachState extends ConsumerState<Coach> {
                                   height: 65,
                                   decoration: ShapeDecoration(
                                     image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/testImage.jpeg') /* NetworkImage("https://via.placeholder.com/65x65") */,
+                                      image: /* AssetImage(
+                                          'assets/images/testImage.jpeg') */ NetworkImage("https://via.placeholder.com/65x65"),
                                       fit: BoxFit.cover,
                                     ),
                                     shape: OvalBorder(
@@ -130,7 +132,7 @@ class _CoachState extends ConsumerState<Coach> {
                                 child: SizedBox(
                                   width: 100,
                                   child: Text(
-                                    'Jan Sugint',
+                                    '${data.user.firstname} ${data.user.lastname}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -194,9 +196,9 @@ class _CoachState extends ConsumerState<Coach> {
                                         if (index == 1) AppRouter.goToPlans();
                                       },
                                       child: AreaSelection(
-                                          label: "Workouts",
+                                          label: _selectedAreas[index],
                                           assetPath:
-                                              "assets/images/pair_noremgb.png"),
+                                              "assets/images/testImage.jpeg"),
                                     );
                                   }),
                             )),
@@ -440,7 +442,7 @@ class _CoachState extends ConsumerState<Coach> {
               ));
         },
         loading: () => Align(
-            alignment: Alignment.topCenter, child: CircularProgressIndicator()),
+            alignment: Alignment.topCenter, child: CircularProgressIndicator(strokeWidth: 1.0,)),
         error: (error, stackTrace) => Text(error.toString()),
       ),
     );

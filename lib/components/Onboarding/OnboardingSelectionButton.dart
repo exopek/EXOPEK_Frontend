@@ -19,15 +19,17 @@ class OnboardingSelectionButton extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: isSelected ? Colors.black : Colors.white,
+            color: isSelected ? Colors.red : Colors.white,
             width: 1,
           ),
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isSelected ? Colors.black : Colors.white,
-            fontSize: 16,
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: isSelected ? Colors.red : Colors.white,
+              fontSize: 16,
+            ),
           ),
         ),
       ),

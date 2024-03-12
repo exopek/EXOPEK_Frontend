@@ -1,16 +1,21 @@
+import 'package:exopek_workout_app/components/CustomTextField.dart';
+import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
 
 class OnBoarding5 extends StatefulWidget {
-  const OnBoarding5({super.key});
+  final UpdateUserDto userDto;
+  const OnBoarding5({super.key, required this.userDto});
 
   @override
   State<OnBoarding5> createState() => _OnBoarding5State();
 }
 
 class _OnBoarding5State extends State<OnBoarding5> {
+  TextEditingController ageController = TextEditingController();
+  FocusNode ageFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +42,7 @@ class _OnBoarding5State extends State<OnBoarding5> {
               child: SizedBox(
                 width: 327,
                 child: Text(
-                  'Welche Sportarten magst Du?',
+                  'Wie alt bist Du?',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 28,
@@ -49,173 +54,30 @@ class _OnBoarding5State extends State<OnBoarding5> {
               ),
             ),
             Positioned(
+              left: 38,
+              top: 204,
+              child: Text(
+                'Alter',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                  height: 0,
+                ),
+              ),
+            ),
+            Positioned(
               left: 36,
               top: 228,
-              child: Container(
-                width: 314,
-                height: 67,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 314,
-                        height: 67,
-                        decoration: ShapeDecoration(
-                          color: Color(0x00262323),
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xFF262424)),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 57,
-                      top: 22,
-                      child: Text(
-                        'Training zu Hause',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              child: CustomTextField(
+                xsize: 0.8,
+                controller: ageController,
+                hint: 'Alter',
+                focusNode: ageFocusNode,
               ),
             ),
-            Positioned(
-              left: 36,
-              top: 307,
-              child: Container(
-                width: 314,
-                height: 67,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 314,
-                        height: 67,
-                        decoration: ShapeDecoration(
-                          color: Color(0x00262323),
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xFF262424)),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 57,
-                      top: 22,
-                      child: Text(
-                        'Boxen',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 36,
-              top: 386,
-              child: Container(
-                width: 314,
-                height: 67,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 314,
-                        height: 67,
-                        decoration: ShapeDecoration(
-                          color: Color(0x00262323),
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xFF262424)),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 57,
-                      top: 22,
-                      child: Text(
-                        'Crossfit',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 36,
-              top: 465,
-              child: Container(
-                width: 314,
-                height: 67,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 314,
-                        height: 67,
-                        decoration: ShapeDecoration(
-                          color: Color(0x00262323),
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xFF262424)),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 57,
-                      top: 22,
-                      child: Text(
-                        'Gesundheitssport',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            
             Positioned(
               left: 32,
               right: 32,
@@ -223,7 +85,10 @@ class _OnBoarding5State extends State<OnBoarding5> {
               child: CtaButton(
                 label: 'Weiter',
                 onPressed: () {
-                  AppRouter.goToOnBoarding6();
+                  var userDto = widget.userDto.copyWith(
+                    age: int.parse(ageController.text),
+                  );
+                  AppRouter.goToOnBoarding6(userDto);
                 },
               ),
             ),

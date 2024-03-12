@@ -36,7 +36,7 @@ class _OnBoarding_0State extends State<OnBoarding0> {
                 ),
               ),
             ),
-            Positioned(
+            /* Positioned(
               left: 32,
               top: 589,
               child: SizedBox(
@@ -53,10 +53,10 @@ class _OnBoarding_0State extends State<OnBoarding0> {
               ),
             ),
             Positioned(
-              left: 32,
+              left: 0,
               top: 623,
               child: SizedBox(
-                width: 337,
+                width: 400,
                 height: 30,
                 child: Text('Open Up A New Dimension',
                     textAlign: TextAlign.center,
@@ -72,7 +72,7 @@ class _OnBoarding_0State extends State<OnBoarding0> {
               left: 32,
               top: 658,
               child: SizedBox(
-                width: 139,
+                width: 239,
                 height: 30,
                 child: Text('Of Training',
                     textAlign: TextAlign.center,
@@ -83,12 +83,12 @@ class _OnBoarding_0State extends State<OnBoarding0> {
                           height: 0,
                         )),
               ),
-            ),
-            Positioned(
-              left: 32,
+            ), */
+            /* Positioned(
+              left: 0,
               top: 537,
               child: SizedBox(
-                width: 218,
+                width: 318,
                 height: 61,
                 child: Text(
                   'EXOPEK Training',
@@ -102,9 +102,9 @@ class _OnBoarding_0State extends State<OnBoarding0> {
                   ),
                 ),
               ),
-            ),
+            ), */
             Positioned(
-              left: 32,
+              left: 0,
               top: 65,
               child: Container(
                 width: 160,
@@ -125,7 +125,7 @@ class _OnBoarding_0State extends State<OnBoarding0> {
                   child: Row(
                     children: [
                       Container(
-                        width: 100,
+                        width: 120,
                         child: CtaButton(
                           label: 'Login',
                           onPressed: () {

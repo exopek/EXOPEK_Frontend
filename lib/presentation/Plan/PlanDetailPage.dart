@@ -81,6 +81,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
           } */
           return Scaffold(
             body: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
               child: Column(
                 children: [
                   Container(

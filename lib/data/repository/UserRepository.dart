@@ -27,10 +27,12 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<bool> updateUser(CreateUserDto user) async {
+  Future<bool> updateUser(UpdateUserDto user) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
-    Response res = await _dio.put("users/update", data: user.toJson());
+    var userJson = user.toJson();
+    Response res = await _dio.put("users", data: user.toJson());
+    print(res.statusCode);
     if (res.statusCode == 200) {
       return true;
     } else {

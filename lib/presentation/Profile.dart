@@ -11,9 +11,13 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Center(child: Text('Under Construction...', style: TextStyle(fontSize: 30, color: Colors.white), textAlign: TextAlign.center,)),
+        )/* SingleChildScrollView(
       child: Container(
-        width: 390,
+        width: MediaQuery.of(context).size.width,
         height: 1310,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
@@ -603,6 +607,6 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-    ));
+    ) */);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,10 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+  TextEditingController usernameController = TextEditingController();
+  FocusNode usernameFocusNode = FocusNode();
+  TextEditingController passwordController = TextEditingController();
+  FocusNode passwordFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     ref.listen(asyncLoginButtonControllerProvider, (previous, next) { 
@@ -97,38 +102,28 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 label: 'Anmelden',
                 isLoading: loginButtonState.isLoading,
                 onPressed: () {
-                  ref.read(asyncLoginButtonControllerProvider.notifier).login("jansugint", "Rafael0602!");
+                  ref.read(asyncLoginButtonControllerProvider.notifier).login(usernameController.text, passwordController.text);
                 },
               )),
           Positioned(
             left: 40,
             top: 260,
-            child: Container(
-              width: 314,
-              height: 67,
-              decoration: ShapeDecoration(
-                color: Color(0x00262323),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFF262424)),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
+            child: CustomTextField(
+              xsize: 0.8,
+              controller: usernameController,
+              hint: 'Benutzername',
+              focusNode: usernameFocusNode,
             ),
           ),
           Positioned(
             left: 40,
             top: 343,
-            child: Container(
-              width: 314,
-              height: 67,
-              decoration: ShapeDecoration(
-                color: Color(0x00262323),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFF262424)),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-            ),
+            child: CustomTextField(
+              xsize: 0.8,
+              controller: passwordController,
+              hint: 'Passwort',
+              focusNode: passwordFocusNode,
+              )
           ),
         ],
       ),

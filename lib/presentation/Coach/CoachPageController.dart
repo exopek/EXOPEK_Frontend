@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:exopek_workout_app/data/repository/UserRepository.dart';
+import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/DiscoverFilterPageViewModel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,6 +17,7 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
   Future<CoachPageViewModel> fetch() async {
     final planRepository = ref.read(planRepositoryProvider);
     final workoutRepository = ref.read(dioWorkoutProvider);
+    final userRepository = ref.read(userRepositoryProvider);
     state = const AsyncLoading();
     final planResult =
         await AsyncValue.guard(() => planRepository.getPlans(query: "All"));
@@ -25,6 +28,10 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
         () => workoutRepository.getWorkouts(query: "All"));
     if (workoutResult is AsyncError) {
       state = AsyncError("Workouts could not be fetched", StackTrace.current);
+    }
+    final user = await AsyncValue.guard(() => userRepository.getUser());
+    if (user is AsyncError) {
+      state = AsyncError("User could not be fetched", StackTrace.current);
     }
     final planStatusResult = await AsyncValue.guard(
         () => planRepository.getPlanStatuses(status: StatusType.ACTIVE));
@@ -40,7 +47,8 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
           plans: planResult.asData!.value,
           workouts: workoutResult.asData!.value,
           startedPlans: [],
-          planStatuses: []);
+          planStatuses: [],
+          user: user.asData!.value);
     }
     final startedPlans = await AsyncValue.guard(
         () => planRepository.getPlans(planIds: planIds.join(",")));
@@ -48,12 +56,14 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
       state =
           AsyncError("StartedPlans could not be fetched", StackTrace.current);
     }
+    
 
     return CoachPageViewModel(
         plans: planResult.asData!.value,
         workouts: workoutResult.asData!.value,
         startedPlans: startedPlans.asData!.value,
-        planStatuses: planStatusResult.asData!.value);
+        planStatuses: planStatusResult.asData!.value,
+        user: user.asData!.value);
   }
 
   @override

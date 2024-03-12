@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
+import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageViewModel.dart';
@@ -128,19 +129,25 @@ class AppRouter {
           path: "/onBoarding4",
           builder: (context, state) {
             /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
-            return OnBoarding4();
+            return OnBoarding4(
+              userDto: state.extra as UpdateUserDto,
+            );
           }),
       GoRoute(
           path: "/onBoarding5",
           builder: (context, state) {
             /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
-            return OnBoarding5();
+            return OnBoarding5(
+              userDto: state.extra as UpdateUserDto,
+            );
           }),
       GoRoute(
           path: "/onBoarding6",
           builder: (context, state) {
             /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
-            return OnBoarding6();
+            return OnBoarding6(
+              userDto: state.extra as UpdateUserDto,
+            );
           }),
       GoRoute(
           path: "/login",
@@ -211,16 +218,16 @@ class AppRouter {
     router.push("/onBoarding3");
   }
 
-  static void goToOnBoarding4() {
-    router.push("/onBoarding4");
+  static void goToOnBoarding4(UpdateUserDto updateUserDto) {
+    router.push("/onBoarding4", extra: updateUserDto);
   }
 
-  static void goToOnBoarding5() {
-    router.push("/onBoarding5");
+  static void goToOnBoarding5(UpdateUserDto updateUserDto) {
+    router.push("/onBoarding5", extra: updateUserDto);
   }
 
-  static void goToOnBoarding6() {
-    router.push("/onBoarding6");
+  static void goToOnBoarding6(UpdateUserDto updateUserDto) {
+    router.push("/onBoarding6", extra: updateUserDto);
   }
 
   static void goToLogin() {

@@ -19,11 +19,13 @@ class OnBoarding3 extends ConsumerStatefulWidget {
 class _OnBoarding3State extends ConsumerState<OnBoarding3> {
   late UpdateUserDto updateUserDto;
   late Map selection;
+  late TrainingFrequencyType previousTrainingFrequency;
 
   @override
   void initState() {
     super.initState();
     updateUserDto = UpdateUserDto(
+      id: '',
       username: '',
       password: '',
       email: '',
@@ -32,11 +34,12 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
       roles: [],
     );
     selection = {
-      'Unregelmäßig 0 - 1': false,
-      'Regelmäßig 2 - 3': false,
-      'Athlet 4 - 5': false,
-      'Profi Athlet 6 - 7': false
+      '0 - 1 Unregelmäßig': false,
+      '2 - 3 Regelmäßig': false,
+      '4 - 5 Athlet': false,
+      '6 - 7 Profi Athlet': false
     };
+    previousTrainingFrequency = TrainingFrequencyType.None;
   }
 
   @override
@@ -45,6 +48,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
     return user.when(
       data: (user) {
         updateUserDto = UpdateUserDto(
+          id: user.id,
           username: user.username,
           password: user.password,
           email: user.email,
@@ -114,6 +118,8 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
                                             if (key ==
                                                 selection.keys.toList()[index]) {
                                               selection[key] = true;
+                                              previousTrainingFrequency = TrainingFrequencyType.values[index+1];
+
                                             } else {
                                               selection[key] = false;
                                             }
@@ -132,7 +138,9 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
                   child: CtaButton(
                     label: 'Weiter',
                     onPressed: () {
-                      AppRouter.goToOnBoarding4();
+                      updateUserDto = updateUserDto.copyWith(
+                          previousTrainingFrequency: previousTrainingFrequency.index);
+                      AppRouter.goToOnBoarding4(updateUserDto);
                     },
                   ),
                 ),
@@ -142,11 +150,8 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
         );
       },
       loading: () {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: CircularProgressIndicator(),
-        );
+        return Align(
+            alignment: Alignment.topCenter, child: CircularProgressIndicator(strokeWidth: 1.0, color: Colors.white,));
       },
       error: (error, stack) {
         throw Exception(error);
