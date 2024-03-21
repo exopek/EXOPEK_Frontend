@@ -16,6 +16,9 @@ class WorkoutSummaryPage extends ConsumerStatefulWidget {
 }
 
 class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
+
+  TextEditingController _notesController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     ref.listen(asyncWorkoutSummarySaveButtonControllerProvider,
@@ -127,7 +130,7 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'How did you feel?',
+                  'How do you rate this workout?',
                   style: TextStyle(
                     color: Color(0xFF838282),
                     fontSize: 16,
@@ -185,7 +188,7 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Notes',
+                  'Comments',
                   style: TextStyle(
                     color: Color(0xFF838282),
                     fontSize: 16,
@@ -197,10 +200,36 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
               ),
             ),
             Container(
-              width: 390,
+              width: MediaQuery.of(context).size.width,
               height: 94,
               decoration: BoxDecoration(color: Color(0x23D9D9D9)),
-            ),
+              child: TextField(
+                controller: _notesController,
+                maxLength: 40,
+                maxLines: 3,
+                
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w400,
+                  height: 0,
+                ),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(left: 16),
+                  border: InputBorder.none,
+                  hintText: 'Write your comment here',
+                  hintStyle: TextStyle(
+                    color: Color(0xFF838282),
+                    fontSize: 16,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w400,
+                    height: 0,
+                  ),
+                ),
+              ),
+              ),
+            
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -231,7 +260,7 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                             .read(
                                 asyncWorkoutSummarySaveButtonControllerProvider
                                     .notifier)
-                            .saveWorkout(widget.viewModel.workoutDetails.id);
+                            .saveWorkout(widget.viewModel.workoutDetails.id, comment: _notesController.text);
                       }
                     }),
               ),

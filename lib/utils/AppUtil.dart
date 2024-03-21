@@ -283,3 +283,4 @@ extension ListDivideExt<T extends Widget> on Iterable<T> {
   List<Widget> addToEnd(Widget t) =>
       enumerate.map((e) => e.value).toList()..add(t);
 }
+

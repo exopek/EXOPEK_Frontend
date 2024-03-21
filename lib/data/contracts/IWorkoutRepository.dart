@@ -5,6 +5,8 @@ abstract class IWorkoutRepository {
 
   Future<dynamic> getWorkout(String id);
   Future<bool> completeWorkout({required String workoutId});
+  Future<List<dynamic>> getWorkoutComments(String id);
+  Future<dynamic> addWorkoutComment({required String workoutId, required String comment});
   /* Future<Workout> getWorkout(String id);
   Future<Workout> addWorkout(Workout workout);
   Future<Workout> updateWorkout(Workout workout);

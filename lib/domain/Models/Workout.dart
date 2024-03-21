@@ -35,13 +35,17 @@ class WorkoutListItem extends Workout {
   final String previewImageUrl;
   final String hashtags;
   final int duration;
+  final int? comments;
+  final int? likes;
 
   WorkoutListItem(
       {required this.id,
       required this.name,
       required this.previewImageUrl,
       required this.hashtags,
-      required this.duration})
+      required this.duration,
+      this.comments,
+      this.likes})
       : super(
             id: id,
             name: name,
@@ -55,6 +59,8 @@ class WorkoutListItem extends Workout {
     final previewImageUrl = json['previewImageUrl'] as String;
     final hashtags = json['hashtags'] as String;
     final duration = json['duration'] as int;
+    final comments = json['comments'] as int;
+    final likes = json['likes'] as int;
 
     return WorkoutListItem(
       id: id,
@@ -62,6 +68,8 @@ class WorkoutListItem extends Workout {
       previewImageUrl: previewImageUrl,
       hashtags: hashtags,
       duration: duration,
+      comments: comments,
+      likes: likes,
     );
   }
 

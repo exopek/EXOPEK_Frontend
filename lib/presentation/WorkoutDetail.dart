@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/components/GenericBottomSheet.dart';
 import 'package:exopek_workout_app/components/HashTagPill.dart';
 import 'package:exopek_workout_app/components/WorkoutOverviewCard.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
@@ -139,17 +140,22 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                                 padding: const EdgeInsets.only(left: 16),
                                 itemCount: result.exerciseMap.length,
                                 itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: WorkoutOverviewCard(
-                                      round: index,
-                                      excerciseWorkoutConfig: result
-                                                  .exerciseMap[
-                                              result.sortedCurrentStageTypes[
-                                                  index]]
-                                          as List<ExcerciseWorkoutConfig>,
-                                      stageType:
-                                          result.currentStageTypes[index],
+                                  return GestureDetector(
+                                    onTap: () {
+                                      GenericBottomSheet.showRoundInfo(context: context, title: "Runde ${index+1}", excerciseWorkoutConfig: result.exerciseMap[result.sortedCurrentStageTypes[index]] as List<ExcerciseWorkoutConfig>);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: WorkoutOverviewCard(
+                                        round: index,
+                                        excerciseWorkoutConfig: result
+                                                    .exerciseMap[
+                                                result.sortedCurrentStageTypes[
+                                                    index]]
+                                            as List<ExcerciseWorkoutConfig>,
+                                        stageType:
+                                            result.currentStageTypes[index],
+                                      ),
                                     ),
                                   );
                                 }),

@@ -3,6 +3,7 @@ import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageViewModel.dart';
+import 'package:exopek_workout_app/presentation/Comments/CommentsPage.dart';
 import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
@@ -155,6 +156,12 @@ class AppRouter {
             /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return LoginPage();
           }),
+      GoRoute(
+          path: "/comments",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return CommentsPage();
+          }),
     ],
   );
 
@@ -244,5 +251,9 @@ class AppRouter {
 
   static void goToWorkoutSummary(WorkoutSummaryPageViewModel viewModel) {
     router.push("/workoutSummary", extra: viewModel);
+  }
+
+  static void goToComments() {
+    router.push("/comments");
   }
 }
