@@ -16,7 +16,7 @@ class CommentCard extends StatelessWidget {
 
   String get timeAgo {
     final now = DateTime.now();
-    DateFormat format = DateFormat('MM.dd.yyyy HH:mm:ss'); // MM/dd/yy HH:mm:ss
+    DateFormat format = DateFormat('MM/dd/yy HH:mm:ss'); // MM.dd.yyyy HH:mm:ss
     final createdAtDate = format.parseUTC(createdAt);
     final difference = now.difference(createdAtDate);
     if (difference.inDays > 0) {

@@ -71,7 +71,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
     final timerAnimationValue = ref.watch(timerAnimationControllerProvider);
     return Scaffold(
       body: Container(
-        width: 390,
+        width: MediaQuery.sizeOf(context).width,
         height: MediaQuery.sizeOf(context).height,
         clipBehavior: Clip.antiAlias,
         decoration: const BoxDecoration(color: Color(0xFF0C0C0C)),
