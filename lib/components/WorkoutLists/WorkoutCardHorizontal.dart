@@ -1,10 +1,13 @@
 import 'package:exopek_workout_app/components/CardInformationBlock.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
+import 'package:exopek_workout_app/data/DioProvider.dart';
+import 'package:exopek_workout_app/domain/Models/Like.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/presentation/Comments/CommentsPage.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 class WorkoutCardHorizontal extends ConsumerStatefulWidget {
   final WorkoutListItem workout;
@@ -115,7 +118,9 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CardInformationBlock(value: widget.workout.duration.toString(), icon: Icons.watch),
+                CardInformationBlock(
+                    value: widget.workout.duration.toString(),
+                    icon: Icons.watch),
                 const SizedBox(width: 10),
                 Container(
                   height: 12.05,
@@ -130,22 +135,78 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                CardInformationBlock(value: widget.workout.likes.toString(), icon: Icons.favorite_border_rounded),
+                CardInformationBlock(
+                    value: widget.workout.likes.toString(),
+                    icon: Icons.favorite_border_rounded),
                 const SizedBox(width: 10),
-                if (widget.workout.comments != null && widget.workout.comments! > 0)
+                if (widget.workout.comments != null &&
+                    widget.workout.comments! > 0)
                   GestureDetector(
                     onTap: () {
                       ref.read(selectedWorkoutIdProvider.notifier).state =
                           widget.workout.id;
                       AppRouter.goToComments();
                     },
-                    child: CardInformationBlock(value: widget.workout.comments.toString(), icon: Icons.chat_outlined),
+                    child: CardInformationBlock(
+                        value: widget.workout.comments.toString(),
+                        icon: Icons.chat_outlined),
                   )
               ],
             ),
           ),
+          Positioned(
+              top: 0,
+              right: 15,
+              child: _svgBt('Save', () {
+                if (ref
+                    .watch(likedWorkoutIdsProvider)
+                    .any((element) => element.workoutId == widget.workout.id)) {
+                  final workoutLikeId = ref
+                      .watch(likedWorkoutIdsProvider)
+                      .firstWhere(
+                          (element) => element.workoutId == widget.workout.id)
+                      .id;
+                  if (workoutLikeId != null) {
+                    ref
+                        .read(asyncWorkoutLikeButtonControllerProvider.notifier)
+                        .deleteWorkoutLike(workoutLikeId: workoutLikeId);
+                  }
+                  ref.read(likedWorkoutIdsProvider.notifier).state.removeWhere(
+                      (element) => element.workoutId == widget.workout.id);
+                  setState(() {});
+                } else {
+                  ref
+                      .read(asyncWorkoutLikeButtonControllerProvider.notifier)
+                      .likeWorkout(workoutId: widget.workout.id)
+                      .then((value) {
+                    ref.read(likedWorkoutIdsProvider.notifier).state.add(value);
+                    setState(() {});
+                  });
+                }
+              },
+                  color: ref.watch(likedWorkoutIdsProvider).any(
+                          (element) => element.workoutId == widget.workout.id)
+                      ? Colors.white
+                      : const Color(0xFF838282))),
         ],
       ),
     );
   }
+
+  static Widget _svgBt(String assetBasename, VoidCallback onTap,
+          {Color color = const Color(0xFF838282),
+          double width = 20,
+          double height = 20}) =>
+      GestureDetector(
+        //padding: EdgeInsets.zero,
+        onTap: onTap,
+        //iconSize: width > height ? width : height,
+        //constraints: BoxConstraints.tightFor(width: width, height: height),
+        child: SvgPicture.asset(
+          'assets/svg/$assetBasename.svg',
+          color: color,
+          width: width,
+          height: height,
+        ),
+      );
 }

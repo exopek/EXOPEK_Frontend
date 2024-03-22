@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/data/contracts/IWorkoutRepository.dart';
 import 'package:exopek_workout_app/domain/Models/Comment.dart';
+import 'package:exopek_workout_app/domain/Models/Like.dart';
 import 'package:exopek_workout_app/presentation/Workouts.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
@@ -92,4 +93,43 @@ class WorkoutRepository implements IWorkoutRepository {
       throw Exception("Failed to add comment");
     }
   }
-}
+  
+  @override
+  Future<LikeReadDto> likeWorkout({required String workoutId}) async {
+    Dio _dio = ref.watch(dioProvider);
+    Response res = await _dio.post("workouts/likes", data: {
+      "workoutId": workoutId,
+    });
+    if (res.statusCode == 200) {
+      var like = LikeReadDto.fromJson(res.data as Map<String, dynamic>);
+      return like as LikeReadDto;
+    } else {
+      throw Exception("Failed to add comment");
+    }
+  }
+  
+  @override
+  Future<List<LikeReadDto>> getWorkoutLikes() async {
+    Dio _dio = ref.watch(dioProvider);
+    Response res = await _dio.get("workouts/likes");
+    if (res.statusCode == 200) {
+      var likes = (res.data as List<dynamic>)
+          .map((l) => LikeReadDto.fromJson(l as Map<String, dynamic>))
+          .toList();
+      return likes;
+    } else {
+      throw Exception("Failed to load likes");
+    }
+    }
+    
+      @override
+      Future<bool> deleteWorkoutLike({required String workoutLikeId}) async {
+        Dio _dio = ref.watch(dioProvider);
+        Response res = await _dio.delete("workouts/likes/$workoutLikeId");
+        if (res.statusCode == 200) {
+          return true;
+        } else {
+          throw Exception("Failed to delete like");
+        }
+      }
+} 

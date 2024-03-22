@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/domain/Models/Like.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final selectedNavigationBarIndexProvider = StateProvider<int>((ref) => 0);
@@ -17,3 +18,5 @@ final currentRouteProvider = Provider<String>((ref) {
       return "/home";
   }
 });
+
+final likedWorkoutIdsProvider = StateProvider<List<LikeReadDto>>((ref) => []);

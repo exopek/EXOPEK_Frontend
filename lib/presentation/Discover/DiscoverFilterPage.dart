@@ -1,6 +1,6 @@
 import 'package:exopek_workout_app/components/HashTagPill.dart';
 import 'package:exopek_workout_app/components/PlanListCard.dart';
-import 'package:exopek_workout_app/components/WorkoutCardHorizontal.dart';
+import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPageController.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';

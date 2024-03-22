@@ -1,5 +1,5 @@
 import 'package:exopek_workout_app/components/WorkoutCard.dart';
-import 'package:exopek_workout_app/components/WorkoutCardHorizontal.dart';
+import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutDetailPageViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

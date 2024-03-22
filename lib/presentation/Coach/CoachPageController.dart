@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/DiscoverFilterPageViewModel.dart';
@@ -56,6 +57,12 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
       state =
           AsyncError("StartedPlans could not be fetched", StackTrace.current);
     }
+    final likedWorkoutsResult = await AsyncValue.guard(
+        () => workoutRepository.getWorkoutLikes());
+    if (likedWorkoutsResult is AsyncError) {
+      state = AsyncError("LikedWorkoutId could not be fetched", StackTrace.current);
+    }
+    ref.read(likedWorkoutIdsProvider.notifier).state = likedWorkoutsResult.asData!.value.map((e) => e).toList();
     
 
     return CoachPageViewModel(

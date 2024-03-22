@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:exopek_workout_app/components/WorkoutLists/WorkoutLikeButtonController.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/data/repository/WorkoutRepository.dart';
@@ -36,6 +37,12 @@ final workoutSingleProvider =
   final id = ref.read(selectedWorkoutIdProvider);
   final data = await ref.watch(dioWorkoutProvider).getWorkout(id);
   return data;
+});
+
+final asyncWorkoutLikeButtonControllerProvider =
+    AsyncNotifierProvider.autoDispose<WorkoutLikeButtonController, void>(
+        () {
+  return WorkoutLikeButtonController();
 });
 
 final combinedWorkoutProvider =

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 595.28 841.89" style="enable-background:new 0 0 595.28 841.89;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#585857;stroke:#585857;stroke-miterlimit:10;}
+	.st1{fill:#585857;stroke:#585857;stroke-width:30;stroke-miterlimit:10;}
+	.st2{fill:#010202;stroke:#010202;stroke-width:8;stroke-miterlimit:10;}
+</style>
+<circle class="st0" cx="144" cy="353.65" r="100"/>
+<circle class="st0" cx="461.66" cy="530.4" r="75"/>
+<circle class="st0" cx="461.65" cy="175.59" r="75"/>
+<line class="st1" x1="367.11" y1="229.91" x2="268.89" y2="283.81"/>
+<line class="st1" x1="273.93" y1="425.96" x2="366.48" y2="478.29"/>
+<g>
+	<ellipse class="st2" cx="142.07" cy="326.03" rx="20.8" ry="20.78"/>
+	<path class="st2" d="M99.99,358.02h86.35c11.27,0,20.41,9.14,20.41,20.41v6.99H79.58v-6.99C79.58,367.15,88.72,358.02,99.99,358.02
+		z"/>
+</g>
+<g>
+	<ellipse class="st2" cx="462.86" cy="510.26" rx="14.04" ry="14.51"/>
+	<path class="st2" d="M439.81,534.59h47.57c10.56,0,19.13,8.56,19.13,19.13l0,0h-85.83l0,0
+		C420.68,543.16,429.25,534.59,439.81,534.59z"/>
+</g>
+<g>
+	<ellipse class="st2" cx="460.46" cy="154.22" rx="14.04" ry="14.51"/>
+	<path class="st2" d="M437.41,178.56h47.57c10.56,0,19.13,8.56,19.13,19.13v0h-85.83v0C418.29,187.12,426.85,178.56,437.41,178.56z"
+		/>
+</g>
+</svg>

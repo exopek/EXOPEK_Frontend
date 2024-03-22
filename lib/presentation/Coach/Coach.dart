@@ -6,7 +6,7 @@ import 'package:exopek_workout_app/components/CurvedHeader.dart';
 import 'package:exopek_workout_app/components/NavigationBarCustom.dart';
 import 'package:exopek_workout_app/components/PlanCardHorizontal.dart';
 import 'package:exopek_workout_app/components/PlanProgressCard.dart';
-import 'package:exopek_workout_app/components/WorkoutCardHorizontal.dart';
+import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/dependencyInjection/plansProvider/PlansProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
