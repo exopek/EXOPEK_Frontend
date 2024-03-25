@@ -7,6 +7,7 @@ import 'package:exopek_workout_app/presentation/Comments/CommentsPage.dart';
 import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
+import 'package:exopek_workout_app/presentation/LoopVideos/PreTimerPage.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
 import 'package:exopek_workout_app/presentation/WorkoutDetail.dart';
 import 'package:exopek_workout_app/presentation/Workouts.dart';
@@ -92,6 +93,13 @@ class AppRouter {
           builder: (context, state) {
             //final workoutConfig = state./* queryParams['workoutConfig']; */
             return LoopVideos(
+                viewModel: state.extra as LoopVideosPageViewModel);
+          }),
+      GoRoute(
+          path: "/preTimer",
+          builder: (context, state) {
+            //final workoutConfig = state./* queryParams['workoutConfig']; */
+            return PreTimerPage(
                 viewModel: state.extra as LoopVideosPageViewModel);
           }),
       GoRoute(
@@ -243,6 +251,10 @@ class AppRouter {
 
   static void goToVideoLoops(LoopVideosPageViewModel viewModel) {
     router.push("/videoLoops", extra: viewModel);
+  }
+
+  static void goToPreTimer(LoopVideosPageViewModel viewModel) {
+    router.push("/preTimer", extra: viewModel);
   }
 
   static void goToPlanTransition() {

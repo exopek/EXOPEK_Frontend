@@ -1,11 +1,20 @@
+import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
+import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PromoHeader extends StatelessWidget {
+class PromoHeader extends ConsumerStatefulWidget {
   final Workout workout;
 
   const PromoHeader({super.key, required this.workout});
 
+  @override
+  ConsumerState<PromoHeader> createState() => _PromoHeaderState();
+}
+
+class _PromoHeaderState extends ConsumerState<PromoHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,37 +30,24 @@ class PromoHeader extends StatelessWidget {
               height: 329,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(workout.previewImageUrl),
+                  image: NetworkImage(widget.workout.previewImageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
           Positioned(
-            left: 93,
-            top: 229,
-            child: Container(
-              width: 210,
-              height: 50,
-              decoration: ShapeDecoration(
-                color: Color(0xFFD12626),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  'Workout Starten',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ),
+              left: 83,
+              top: 229,
+              right: 83,
+              child: CtaButton(
+                label: "Workout starten",
+                onPressed: () {
+                  ref.read(selectedWorkoutIdProvider.notifier).state =
+                      widget.workout.id;
+                  AppRouter.goToWorkoutDetail();
+                },
+              )),
           Positioned(
             left: 32,
             top: 31,
@@ -72,7 +68,7 @@ class PromoHeader extends StatelessWidget {
               width: 332,
               height: 92,
               child: Text(
-                'Wie jede Woche haben wir auch deises Mal ein Workout was dich an deine Grenzen treibt. starte jetzt und nimm die Herausforderung an.',
+                'Wie jede Woche haben wir auch deises Mal ein Workout was dich an deine Grenzen treibt. Starte jetzt und nimm die Herausforderung an.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,

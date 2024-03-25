@@ -81,7 +81,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
               left: 0,
               top: 0,
               child: Container(
-                width: 390,
+                width: MediaQuery.sizeOf(context).width,
                 height: 533,
                 decoration: const ShapeDecoration(
                   shape: RoundedRectangleBorder(
@@ -239,7 +239,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
               top: 40,
               child: Container(
                 child: IconButton(
-                    onPressed: () => AppRouter.goToCoach(),
+                    onPressed: () => AppRouter.goToMainPage(),
                     icon: Icon(Icons.cancel)),
               ),
             ),

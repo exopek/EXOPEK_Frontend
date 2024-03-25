@@ -157,7 +157,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
           Positioned(
               top: 0,
               right: 15,
-              child: _svgBt('Save', () {
+              child: _svgBt('SaveNew', () {
                 if (ref
                     .watch(likedWorkoutIdsProvider)
                     .any((element) => element.workoutId == widget.workout.id)) {

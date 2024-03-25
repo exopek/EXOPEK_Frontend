@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/components/HashTagPill.dart';
 import 'package:exopek_workout_app/components/VideoPlayers/VisibleListVideoPlayer.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ class PlanListCard extends StatelessWidget {
         width: 290,
         height: 516,
         decoration: ShapeDecoration(
-          color: Colors.red,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -59,14 +59,14 @@ class PlanListCard extends StatelessWidget {
             ),
             Positioned(
                 left: 0,
-                top: 345,
+                top: 375,
                 child: Container(
-                  width: 330,
-                  height: 111,
+                  width: 290,
+                  height: 140,
                   decoration: ShapeDecoration(
                     color: Color(0xFF262424).withOpacity(0.6),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   child: Column(
@@ -87,21 +87,41 @@ class PlanListCard extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                             height: 0,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
                         child: Text(
-                          planListItem.hashtagsStringWithHash.toString(),
+                          "Mit diesem Plan baust du Kraft und Ausdauer auf. Meistere jeden Wiederstand.",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: Color(
-                                0xFF838282), // Muss nachher eine AppColor werden
-                            fontSize: 10,
+                            color: Colors.white,
+                            fontSize: 12,
                             fontFamily: 'Inter',
-                            fontWeight: FontWeight.w300,
+                            fontWeight: FontWeight.w600,
                             height: 0,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8.0, top: 12.0, bottom: 8.0, right: 8.0),
+                        child: Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            for (var hashtag
+                                in (planListItem.hashtagsList as List<String>).take(3))
+                              IntrinsicWidth(
+                                  child: HashTagPill(
+                                text: hashtag,
+                                color: Color(0xFF262424),
+                              ))
+                          ],
                         ),
                       ),
                     ],

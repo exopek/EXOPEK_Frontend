@@ -110,7 +110,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                               left: 16.0, right: 16, bottom: 8, top: 8),
                           child: CtaButton(
                               label: 'Starten',
-                              onPressed: () => AppRouter.goToVideoLoops(
+                              onPressed: () => AppRouter.goToPreTimer(
                                   LoopVideosPageViewModel(
                                       workoutDetails: result,
                                       planStatus: widget.viewModel?.planStatus,
