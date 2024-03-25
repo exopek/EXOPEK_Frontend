@@ -265,7 +265,8 @@ class _CoachState extends ConsumerState<Coach> {
                                                     "Full Body,Strenght,Hypertrophy,Upper Body",
                                                 previewImageUrl:
                                                     "https://exopekblob.blob.core.windows.net/images/Combat Force_0025_IMG_2630.jpg.jpg",
-                                                duration: 4)),
+                                                duration: 4,
+                                                videoUrl: "",)),
                                       );
                                     } else {
                                       return TextButton(

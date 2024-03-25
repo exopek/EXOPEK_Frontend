@@ -216,7 +216,8 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                                     previewImageUrl:
                                         data.workouts[index].previewImageUrl,
                                     hashtags: "hashtags",
-                                    duration: 20),
+                                    duration: 20,
+                                    isWorkoutOfTheWeek: false),
                               ),
                             )
                         ],

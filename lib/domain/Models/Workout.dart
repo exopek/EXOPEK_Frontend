@@ -37,6 +37,7 @@ class WorkoutListItem extends Workout {
   final int duration;
   final int? comments;
   final int? likes;
+  final bool isWorkoutOfTheWeek;
 
   WorkoutListItem(
       {required this.id,
@@ -44,6 +45,7 @@ class WorkoutListItem extends Workout {
       required this.previewImageUrl,
       required this.hashtags,
       required this.duration,
+      required this.isWorkoutOfTheWeek,
       this.comments,
       this.likes})
       : super(
@@ -61,6 +63,7 @@ class WorkoutListItem extends Workout {
     final duration = json['duration'] as int;
     final comments = json['comments'] as int;
     final likes = json['likes'] as int;
+    final isWorkoutOfTheWeek = json['isWorkoutOfTheWeek'] as bool;
 
     return WorkoutListItem(
       id: id,
@@ -70,6 +73,7 @@ class WorkoutListItem extends Workout {
       duration: duration,
       comments: comments,
       likes: likes,
+      isWorkoutOfTheWeek: isWorkoutOfTheWeek,
     );
   }
 

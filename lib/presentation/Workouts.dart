@@ -128,7 +128,7 @@ class _WorkoutsState extends ConsumerState<Workouts> {
                         expandedHeight: 329,
                         floating: true,
                          flexibleSpace: PromoHeader(
-                            workout: result[0],
+                            workout: result.firstWhere((element) => element.isWorkoutOfTheWeek == true),
                           ),
                        ),
                       

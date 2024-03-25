@@ -38,13 +38,15 @@ class PlanListItem extends Plan {
   final String previewImageUrl;
   final String hashtags;
   final int duration;
+  final String videoUrl;
 
   PlanListItem(
       {required this.id,
       required this.name,
       required this.previewImageUrl,
       required this.hashtags,
-      required this.duration})
+      required this.duration,
+      required this.videoUrl})
       : super(
             id: id,
             name: name,
@@ -58,6 +60,7 @@ class PlanListItem extends Plan {
     final previewImageUrl = json['previewImageUrl'] as String;
     final hashtags = json['hashtags'] as String;
     final duration = json['duration'] as int;
+    final videoUrl = json['videoUrl'] as String;
 
     return PlanListItem(
       id: id,
@@ -65,6 +68,7 @@ class PlanListItem extends Plan {
       previewImageUrl: previewImageUrl,
       hashtags: hashtags,
       duration: duration,
+      videoUrl: videoUrl,
     );
   }
 

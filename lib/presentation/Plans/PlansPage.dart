@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/components/PlanListCard.dart';
+import 'package:exopek_workout_app/components/VideoPlayers/VisibleListVideoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,7 +33,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
         return Scaffold(
             appBar: PreferredSize(
                 child: Container(
-                  width: 390,
+                  width: MediaQuery.of(context).size.width,
                   height: 168,
                   decoration: BoxDecoration(color: Color(0xFF262424)),
                   child: Stack(
@@ -92,7 +93,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
             body: SingleChildScrollView(
               physics: NeverScrollableScrollPhysics(),
               child: Container(
-                width: 390,
+                width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height - 158,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
@@ -122,29 +123,42 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                             itemCount: result.plans.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: TextButton(
-                                  onPressed: () {
-                                    if (result.planStatuses.any((element) =>
-                                        element.planId ==
-                                        result.plans[index].id)) {
-                                      print("active plan");
-                                      ref
-                                          .read(selectedPlanIdProvider.notifier)
-                                          .state = result.plans[index].id;
-                                      AppRouter.goToPlanPhaseWithLastRoute();
-                                    } else {
-                                      ref
-                                          .read(selectedPlanIdProvider.notifier)
-                                          .state = result.plans[index].id;
-                                      AppRouter.goToPlanDetail();
-                                    }
-                                  },
-                                  child: PlanListCard(
-                                    planListItem: result.plans[index],
+                                  padding: const EdgeInsets.only(
+                                    bottom: 8.0,
                                   ),
-                                ),
-                              );
+                                  child: TextButton(
+                                      onPressed: () {
+                                        if (result.planStatuses.any((element) =>
+                                            element.planId ==
+                                            result.plans[index].id)) {
+                                          print("active plan");
+                                          ref
+                                              .read(selectedPlanIdProvider
+                                                  .notifier)
+                                              .state = result.plans[index].id;
+                                          AppRouter
+                                              .goToPlanPhaseWithLastRoute();
+                                        } else {
+                                          ref
+                                              .read(selectedPlanIdProvider
+                                                  .notifier)
+                                              .state = result.plans[index].id;
+                                          AppRouter.goToPlanDetail();
+                                        }
+                                      },
+                                      child: PlanListCard(
+                                        planListItem: result.plans[index],
+                                      ),
+                                    ), /* AspectRatio(
+                                        aspectRatio: 16 / 9,
+                                        child: VisibleListVideoPlayer(
+                                          path: result.plans[index].videoUrl,
+                                          videoKey: result.plans[index].id,
+                                          lazyLoad: false,
+                                          
+                                        ),
+                                      ), */
+                                  );
                             }),
                       ),
                     ),
