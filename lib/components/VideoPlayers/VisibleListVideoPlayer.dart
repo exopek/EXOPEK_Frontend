@@ -20,25 +20,24 @@ Set<VideoPlayerController> _videoPlayers =
 Map<String, VideoPlayerController> _videoPlayersMap = Map();
 
 class VisibleListVideoPlayer extends StatefulWidget {
-  const VisibleListVideoPlayer({
-    required this.path,
-    required this.videoKey,
-    this.videoType = VideoType.network,
-    this.width,
-    this.height,
-    this.aspectRatio,
-    this.autoPlay = false,
-    this.looping = false,
-    this.showControls = true,
-    this.allowFullScreen = true,
-    this.allowPlaybackSpeedMenu = false,
-    this.lazyLoad = false,
-    this.pauseOnNavigate = true,
-    this.mute = true,
-    this.onPauseVideo,
-    this.isPageView = false,
-    this.isVisibile
-  });
+  const VisibleListVideoPlayer(
+      {required this.path,
+      required this.videoKey,
+      this.videoType = VideoType.network,
+      this.width,
+      this.height,
+      this.aspectRatio,
+      this.autoPlay = false,
+      this.looping = false,
+      this.showControls = true,
+      this.allowFullScreen = true,
+      this.allowPlaybackSpeedMenu = false,
+      this.lazyLoad = false,
+      this.pauseOnNavigate = true,
+      this.mute = true,
+      this.onPauseVideo,
+      this.isPageView = false,
+      this.isVisibile});
 
   final String path;
   final VideoType videoType;
@@ -180,7 +179,7 @@ class _VisibleListVideoPlayerState extends State<VisibleListVideoPlayer>
             'Error playing video: ${_videoPlayerController!.value.errorDescription}');
         _loggedError = true;
       }
-      
+
       if (_videoPlayerController!.value.isPlaying) {
         _videoPlayers.forEach((otherPlayer) {
           if (otherPlayer != _videoPlayerController &&
@@ -210,36 +209,29 @@ class _VisibleListVideoPlayerState extends State<VisibleListVideoPlayer>
 
   @override
   Widget build(BuildContext context) => _chewieController != null &&
-                      _chewieController!
-                          .videoPlayerController.value.isInitialized
-                  ? VisibilityDetector(
-                      key: Key(widget.videoKey),
-                      onVisibilityChanged: (info) {
-                        if (info.visibleFraction >= 0.4) {
-                          _chewieController?.play();
-                          //widget.isVisibile!(true);
-                        } else {
-                          //widget.isVisibile!(false);
-                          if (_chewieController != null &&
-                              widget.isPageView == true) {
-                                _chewieController?.play();
-                              }
-                          if (_chewieController != null &&
-                              widget.isPageView == false) {
-                            _chewieController?.pause();
-                              }
-                        }
-                      },
-                      child: Chewie(
-                        controller: _chewieController!,
-                      ),
-                    )
-                  : (_chewieController != null &&
-                          !_chewieController!
-                              .videoPlayerController.value.isInitialized)
-                      ? Container()
-                      : Container();
-            
-          
-       
+          _chewieController!.videoPlayerController.value.isInitialized
+      ? VisibilityDetector(
+          key: Key(widget.videoKey),
+          onVisibilityChanged: (info) {
+            if (info.visibleFraction >= 0.4) {
+              _chewieController?.play();
+              //widget.isVisibile!(true);
+            } else {
+              //widget.isVisibile!(false);
+              if (_chewieController != null && widget.isPageView == true) {
+                _chewieController?.play();
+              }
+              if (_chewieController != null && widget.isPageView == false) {
+                _chewieController?.pause();
+              }
+            }
+          },
+          child: Chewie(
+            controller: _chewieController!,
+          ),
+        )
+      : (_chewieController != null &&
+              !_chewieController!.videoPlayerController.value.isInitialized)
+          ? Container()
+          : Container();
 }

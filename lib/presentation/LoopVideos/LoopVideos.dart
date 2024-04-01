@@ -7,6 +7,7 @@ import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageVi
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:exopek_workout_app/utils/AppVideoPlayer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/Models/Exercise.dart';
@@ -24,10 +25,12 @@ class LoopVideos extends ConsumerStatefulWidget {
 }
 
 class _LoopVideosState extends ConsumerState<LoopVideos>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late List<ExcerciseWorkoutConfig> sortedExerciseConfig;
   late AnimationController _animationController;
   late Animation<double> sizeAnimation;
+  Duration _elapsed = Duration.zero;
+  late final Ticker _ticker;
 
   String formatSeconds(int seconds) {
     final minutes = (seconds / 60).floor();
@@ -40,6 +43,12 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
   @override
   void initState() {
     super.initState();
+    _ticker = this.createTicker((elapsed) {
+      setState(() {
+        _elapsed = elapsed;
+      });
+    });
+    _ticker.start();
 
     sortedExerciseConfig = widget.viewModel.workoutDetails.sortedExercises
         as List<ExcerciseWorkoutConfig>;
@@ -61,8 +70,9 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
   @override
   void dispose() {
     _animationController.stop();
-    super.dispose();
     _animationController.dispose();
+    _ticker.dispose();
+    super.dispose();
   }
 
   @override
@@ -135,78 +145,94 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
               ),
             ),
             Positioned(
-                left: 20,
-                top: 550,
-                child: Text(
-                  formatSeconds(timerAnimationValue),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 48,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w700,
-                  ),
-                )),
-            Positioned(
               left: 303,
               top: 50,
               child: Text(
-                '00:24',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+                    formatSeconds(_elapsed.inSeconds),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )
+               
             ),
-            Positioned(
-              left: 20,
-              right: 20,
-              top: 617,
-              child: Container(
-                width: MediaQuery.sizeOf(context).width,
-                height: 10,
-                decoration: ShapeDecoration(
-                  color: const Color(0xFFD9D9D9),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+            if (sortedExerciseConfig[exerciseState].duration != 0)
+              Positioned(
+                  left: 20,
+                  top: 550,
+                  child: Text(
+                    formatSeconds(timerAnimationValue),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 48,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
+            if (sortedExerciseConfig[exerciseState].duration != 0)
+              Positioned(
+                left: 20,
+                right: 20,
+                top: 617,
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: 10,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFD9D9D9),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                        left: 0,
-                        top: 0,
-                        child: AnimatedBuilder(
-                            animation: sizeAnimation,
-                            child: Container(
-                              height: 10,
-                              width: MediaQuery.sizeOf(context).width,
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFD9D9D9),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                            ),
-                            builder: (BuildContext context, Widget? child) {
-                              return Container(
+                  child: Stack(
+                    children: [
+                      Positioned(
+                          left: 0,
+                          top: 0,
+                          child: AnimatedBuilder(
+                              animation: sizeAnimation,
+                              child: Container(
                                 height: 10,
-                                width: sizeAnimation.value *
-                                    MediaQuery.sizeOf(context).width *
-                                    0.891,
+                                width: MediaQuery.sizeOf(context).width,
                                 decoration: ShapeDecoration(
-                                  color: const Color(0xFFCE2323),
+                                  color: const Color(0xFFD9D9D9),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                 ),
-                              );
-                            }))
-                  ],
+                              ),
+                              builder: (BuildContext context, Widget? child) {
+                                return Container(
+                                  height: 10,
+                                  width: sizeAnimation.value *
+                                      MediaQuery.sizeOf(context).width *
+                                      0.899,
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0xFFCE2323),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                );
+                              }))
+                    ],
+                  ),
                 ),
               ),
-            ),
+            if (sortedExerciseConfig[exerciseState].reps != 0)
+              Positioned(
+                    left: 20,
+                    top: 550,
+                    child: Text(
+                      "x${sortedExerciseConfig[exerciseState].reps} (Reps)",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 48,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )),
             Positioned(
               left: 20,
               top: 679,

@@ -24,13 +24,7 @@ class PlanOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (currentPhaseType == phaseType) {
-          /* AppRouter.goToPlanPhase(planPhase!); */
-        }
-      },
-      child: Container(
+    return Container(
         width: 113,
         height: 119,
         child: Stack(
@@ -97,16 +91,11 @@ class PlanOverviewCard extends StatelessWidget {
             Positioned(
                 left: 89,
                 top: 15,
-                child: GestureDetector(
-                    // hat kein internes Padding reagiert aber wesentlich schlecht als onPressed vom Button
-                    onTap: () => GenericBottomSheet.show(
-                        context: context,
-                        items: planPhase!.workouts.map((e) => e).toList()),
-                    child: Icon(Icons.info_outline,
-                        size: 16, color: Colors.blue[700]))),
-          ],
+                child: Icon(Icons.info_outline,
+                        size: 16, color: Colors.blue[700]),
+        )],
         ),
-      ),
-    );
+      );
+    
   }
 }

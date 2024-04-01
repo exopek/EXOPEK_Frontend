@@ -1,4 +1,6 @@
+import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
+import 'package:flutter/foundation.dart';
 
 enum PhaseType {
   phase1,
@@ -90,6 +92,7 @@ class WorkoutDetails extends Workout {
   final Map<int, List<ExcerciseWorkoutConfig>> exerciseMap;
   final List<int> currentStageTypes;
   final String description;
+  final DifficultyType difficultyType;
 
   WorkoutDetails({
     required this.id,
@@ -101,6 +104,7 @@ class WorkoutDetails extends Workout {
     required this.exerciseMap,
     required this.currentStageTypes,
     required this.description,
+    required this.difficultyType,
   }) : super(
             id: id,
             name: name,
@@ -116,6 +120,7 @@ class WorkoutDetails extends Workout {
     final hashtags = json['hashtags'] as String;
     final exercises = json['exercises'] as List<dynamic>?;
     final description = json['description'] as String;
+    final difficultyType = json['difficulty'] as int;
 
     final exercisesList = exercises != null
         ? exercises
@@ -145,7 +150,8 @@ class WorkoutDetails extends Workout {
         exercises: exercisesList,
         exerciseMap: exerciseMap,
         currentStageTypes: currentStageTypes,
-        description: description);
+        description: description,
+        difficultyType: DifficultyType.values[difficultyType]);
   }
 
   get sortedExercises => exercises
@@ -163,6 +169,9 @@ class WorkoutPlanConfig extends Workout {
   final int phaseType;
   final int order;
   final String planWorkoutId;
+  final String hashtags;
+  final int comments;
+  final int likes;
 
   WorkoutPlanConfig({
     required this.id,
@@ -171,8 +180,11 @@ class WorkoutPlanConfig extends Workout {
     required this.phaseType,
     required this.order,
     required this.planWorkoutId,
+    required this.comments,
+    required this.likes,
+    required this.hashtags,
   }) : super(
-            id: id, name: name, previewImageUrl: previewImageUrl, hashtags: '');
+            id: id, name: name, previewImageUrl: previewImageUrl, hashtags: hashtags);
 
   // FromReadDto
   factory WorkoutPlanConfig.fromJson(Map<String, dynamic> json) {
@@ -182,6 +194,9 @@ class WorkoutPlanConfig extends Workout {
     final phaseType = json['phaseType'] as int;
     final order = json['order'] as int;
     final planWorkoutId = json['planWorkoutId'] as String;
+    final comments = json['comments'] as int;
+    final likes = json['likes'] as int;
+    final hashtags = json['hashtags'] as String;
 
     return WorkoutPlanConfig(
       id: id,
@@ -190,6 +205,9 @@ class WorkoutPlanConfig extends Workout {
       phaseType: phaseType,
       order: order,
       planWorkoutId: planWorkoutId,
+      comments: comments,
+      likes: likes,
+      hashtags: hashtags,
     );
   }
   get phaseTypeAsType => StageType.values[phaseType];

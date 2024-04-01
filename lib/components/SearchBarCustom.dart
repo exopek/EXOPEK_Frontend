@@ -34,6 +34,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
             Positioned(
               left: 0,
               top: 0,
+              right: 0,
               child: Container(
                 width: MediaQuery.sizeOf(context).width * widget.xsize,
                 height: 32,

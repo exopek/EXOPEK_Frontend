@@ -140,7 +140,8 @@ class PlanProgressWithImageCard extends StatelessWidget {
                     left: 3.52,
                     top: 4.68,
                     child: CardInformationBlock(
-                      value: plan.duration.toString(),
+                      value: plan.duration.toString() + " weeks",
+                      icon: Icons.watch,
                     )
                   ),
                   /* Positioned(

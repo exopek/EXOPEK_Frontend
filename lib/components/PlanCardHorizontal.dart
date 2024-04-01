@@ -17,7 +17,7 @@ class PlanCardHorizontal extends StatelessWidget {
       decoration: ShapeDecoration(
         image: DecorationImage( 
                     image: NetworkImage(planListItem.previewImageUrl),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
                 color: Color(0x00262424),
                 shape: RoundedRectangleBorder(
@@ -66,22 +66,7 @@ class PlanCardHorizontal extends StatelessWidget {
             top: 62,
             child: Row(
                 children: [
-                  CardInformationBlock(value: "20"),
-                  const SizedBox(width: 10),
-                  Container(
-                        height: 12.05,
-                        decoration: const ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 0.50,
-                              strokeAlign: BorderSide.strokeAlignCenter,
-                              color: Color(0xFF838282),
-                            ),
-                          ),
-                        ),
-                      ),
-                  const SizedBox(width: 10),
-                  CardInformationBlock(value: "20"),
+                  CardInformationBlock(value: planListItem.duration.toString() + " weeks", icon: Icons.watch,),
                 ],
               ),
           ),
@@ -98,6 +83,14 @@ class PlanCardHorizontal extends StatelessWidget {
               ),
             ),
           ),
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Container(
+              width: width ?? MediaQuery.of(context).size.width * 0.8,
+              height: 200,
+              color: Colors.black.withOpacity(0.3),
+            ))
         ],
       ),
     );

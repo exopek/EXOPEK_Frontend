@@ -19,90 +19,93 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 844,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height - 59,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
+          child: Column(
+            children: [
+              Container(
                 width: MediaQuery.of(context).size.width,
-                height: 128,
+                height: 150,
                 decoration: BoxDecoration(color: Color(0xFF212326)),
-              ),
-            ),
-            Positioned(
-              left: 16,
-              top: 77,
-              child: Container(
-                width: 355,
-                height: 32,
-                child: Stack(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: SearchBarButton(
-                        enabled: false,
-                        onTap: AppRouter.goToDiscoverFilter,
-                        xsize: 355,
-                        hint: "Search for workouts, plans, and more",
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 16,
-              top: 43,
-              child: Container(
-                width: 105,
-                height: 21,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 105,
-                        height: 21,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFD9D9D9),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                    SizedBox(height: 70),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          width: 105,
+                          height: 21,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 105,
+                                  height: 21,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFD9D9D9),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 27,
+                                top: 3,
+                                child: Text(
+                                  'Discover',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w600,
+                                    height: 0,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                    Positioned(
-                      left: 27,
-                      top: 3,
-                      child: Text(
-                        'Discover',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
+                    SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 32,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: SearchBarButton(
+                                  enabled: false,
+                                  onTap: AppRouter.goToDiscoverFilter,
+                                  xsize: MediaQuery.of(context).size.width - 32,
+                                  hint: "Search for workouts, plans, and more",
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Positioned(
-              top: 162,
-              left: 0,
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+              Expanded(
                 child: ListView(
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.vertical,
@@ -213,8 +216,8 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage> {
                           ]),
                     ]),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

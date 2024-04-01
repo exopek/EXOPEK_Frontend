@@ -110,20 +110,49 @@ class _CoachState extends ConsumerState<Coach> {
                               Positioned(
                                 left: 16,
                                 top: 100,
-                                child: Container(
-                                  width: 65,
-                                  height: 65,
-                                  decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: /* AssetImage(
-                                          'assets/images/testImage.jpeg') */ NetworkImage("https://via.placeholder.com/65x65"),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    shape: OvalBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Color(0xFF262424)),
-                                    ),
-                                  ),
+                                child: Builder(
+                                  builder: (context) {
+                                    if (data.user.imageUrl != null) {
+                                      return Container(
+                                        width: 65,
+                                        height: 65,
+                                        decoration: ShapeDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(data.user.imageUrl!), // "https://via.placeholder.com/65x65"
+                                            fit: BoxFit.cover,
+                                          ),
+                                          shape: OvalBorder(
+                                            side: BorderSide(
+                                                width: 1, color: Color(0xFF262424)),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Container(
+                                        width: 65,
+                                        height: 65,
+                                        decoration: ShapeDecoration(
+                                          
+                                          shape: OvalBorder(
+                                            side: BorderSide(
+                                                width: 1, color: Color(0xFF262424)),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '${data.user.firstname[0]}${data.user.lastname[0]}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              height: 0,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  }
                                 ),
                               ),
                               Positioned(
@@ -147,7 +176,7 @@ class _CoachState extends ConsumerState<Coach> {
                                 left: 86,
                                 top: 137,
                                 child: Text(
-                                  'EXOPEK Athlet Stufe 1',
+                                  'EXOPEK Athlet',
                                   style: TextStyle(
                                     color: Color(0xFF838282),
                                     fontSize: 10,
@@ -443,7 +472,7 @@ class _CoachState extends ConsumerState<Coach> {
               ));
         },
         loading: () => Align(
-            alignment: Alignment.topCenter, child: CircularProgressIndicator(strokeWidth: 1.0,)),
+            alignment: Alignment.center, child: CircularProgressIndicator(strokeWidth: 1.0, color: Colors.black,)),
         error: (error, stackTrace) => Text(error.toString()),
       ),
     );

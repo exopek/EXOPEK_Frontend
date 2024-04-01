@@ -65,6 +65,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
     return planPhase.when(
       data: (data) {
         return Scaffold(
+            backgroundColor: Color(0xFF0C0C0C),
             appBar: AppBar(
               backgroundColor: Color(0xFF0C0C0C),
               title: Text(data.plan.name),
@@ -104,126 +105,142 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
               ],
             ),
             body: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
               child: Container(
                 width: MediaQuery.sizeOf(context).width,
-                height: 844,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 16,
-                      top: 44,
-                      child: Text(
-                        data.planStatus!.phaseTypeAsString,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            data.planStatus!.phaseTypeAsString,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: 16,
-                      top: 103,
-                      child: SizedBox(
-                        width: MediaQuery.sizeOf(context).width - 40,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            for (var i = 0; i < data.workouts.length; i++)
-                              Expanded(
-                                child: Container(
-                                  height: 7,
-                                  decoration: ShapeDecoration(
-                                    color: (i <
-                                            int.parse(data
-                                                .completedWorkoutsCounter
-                                                .toString()))
-                                        ? Color(0xFFCE2323)
-                                        : Color(0xFF262424),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        child: SizedBox(
+                          width: MediaQuery.sizeOf(context).width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              for (var i = 0; i < data.workouts.length; i++)
+                                Expanded(
+                                  child: Container(
+                                    height: 7,
+                                    decoration: ShapeDecoration(
+                                      color: (i <
+                                              int.parse(data
+                                                  .completedWorkoutsCounter
+                                                  .toString()))
+                                          ? Color(0xFFCE2323)
+                                          : Color(0xFF262424),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Abgeschlossene Workouts: ${data.completedWorkoutsCounter} von ${data.workouts.length}',
+                            style: TextStyle(
+                              color: Color(0xFF838282),
+                              fontSize: 10,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w300,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16.0, right: 16.0, top: 16.0),
+                        child: Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 291,
+                          decoration: ShapeDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(data
+                                  .previewImageUrl), // "https://via.placeholder.com/358x291"
+                              fit: BoxFit.cover,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
+                        child: Column(
+                          children: [
+                            for (var index = 0;
+                                index < data.workouts.length;
+                                index++)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(
+                                            selectedWorkoutIdProvider.notifier)
+                                        .state = data.workouts[index].id;
+                                    AppRouter.goToWorkoutDetail(
+                                        viewModel: WorkoutDetailPageViewModel(
+                                            planStatus: data.planStatus,
+                                            planWorkoutId: data.workouts[index]
+                                                .planWorkoutId));
+                                  },
+                                  child: WorkoutCardHorizontal(
+                                    hasTrained: data.planStatus!.workoutIds
+                                        .contains(
+                                            data.workouts[index].planWorkoutId),
+                                    workout: WorkoutListItem(
+                                        id: data.workouts[index].id,
+                                        name: data.workouts[index].name,
+                                        previewImageUrl: data
+                                            .workouts[index].previewImageUrl,
+                                        hashtags: data.workouts[index].hashtags,
+                                        likes: data.workouts[index].likes,
+                                        comments: data.workouts[index].comments,
+                                        duration: 20,
+                                        isWorkoutOfTheWeek: false),
+                                  ),
+                                ),
+                              )
                           ],
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: 16,
-                      top: 118,
-                      child: Text(
-                        'Abgeschlossene Workouts: ${data.completedWorkoutsCounter} von ${data.workouts.length}',
-                        style: TextStyle(
-                          color: Color(0xFF838282),
-                          fontSize: 10,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w300,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 16,
-                      top: 165,
-                      child: Container(
-                        width: 358,
-                        height: 291,
-                        decoration: ShapeDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(data
-                                .previewImageUrl), // "https://via.placeholder.com/358x291"
-                            fit: BoxFit.fill,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 476,
-                      left: 16,
-                      child: Column(
-                        children: [
-                          for (var index = 0;
-                              index < data.workouts.length;
-                              index++)
-                            TextButton(
-                              onPressed: () {
-                                ref
-                                    .read(selectedWorkoutIdProvider.notifier)
-                                    .state = data.workouts[index].id;
-                                AppRouter.goToWorkoutDetail(
-                                  viewModel: WorkoutDetailPageViewModel(
-                                      planStatus: data.planStatus,
-                                      planWorkoutId:
-                                          data.workouts[index].planWorkoutId)
-                                );
-                              },
-                              child: WorkoutCardHorizontal(
-                                hasTrained: data.planStatus!.workoutIds
-                                    .contains(
-                                        data.workouts[index].planWorkoutId),
-                                workout: WorkoutListItem(
-                                    id: data.workouts[index].id,
-                                    name: data.workouts[index].name,
-                                    previewImageUrl:
-                                        data.workouts[index].previewImageUrl,
-                                    hashtags: "hashtags",
-                                    duration: 20,
-                                    isWorkoutOfTheWeek: false),
-                              ),
-                            )
-                        ],
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ));

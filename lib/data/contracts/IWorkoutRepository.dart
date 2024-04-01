@@ -10,6 +10,7 @@ abstract class IWorkoutRepository {
   Future<dynamic> likeWorkout({required String workoutId}); 
   Future<List<dynamic>> getWorkoutLikes();
   Future<dynamic> deleteWorkoutLike({required String workoutLikeId});
+  Future<List<dynamic>> getWorkoutCompletes();
   /* Future<Workout> getWorkout(String id);
   Future<Workout> addWorkout(Workout workout);
   Future<Workout> updateWorkout(Workout workout);

@@ -2,7 +2,7 @@ import 'package:exopek_workout_app/components/NavigationBarCustom.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/presentation/Coach/Coach.dart';
 import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
-import 'package:exopek_workout_app/presentation/Profile.dart';
+import 'package:exopek_workout_app/presentation/Profil/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -83,30 +83,28 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
             body: SingleChildScrollView(
               physics: ClampingScrollPhysics(),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
                     width: MediaQuery.sizeOf(context).width,
-                    height: 1178,
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
-                    child: Stack(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                            width: 390,
-                            height: 370,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(result.plan
-                                    .previewImageUrl /* "https://via.placeholder.com/390x370" */),
-                                fit: BoxFit.cover,
-                              ),
+                        Container(
+                          width: 390,
+                          height: 370,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(result.plan
+                                  .previewImageUrl /* "https://via.placeholder.com/390x370" */),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                        Positioned(
+
+                        /* Positioned(
                           right: 16,
                           top: 50,
                           child: Container(
@@ -124,10 +122,10 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                         ]),
                                 icon: Icon(Icons.menu)),
                           ),
-                        ),
-                        Positioned(
-                          left: 16,
-                          top: 385,
+                        ), */
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, top: 8.0, bottom: 8.0),
                           child: Text(
                             result.plan.name,
                             style: TextStyle(
@@ -138,19 +136,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          left: 16,
-                          top: 837,
-                          child: Text(
-                            'Phasen des Programms',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
+
                         /* Positioned(
                           left: 16,
                           top: 862,
@@ -164,31 +150,11 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                             ),
                           ),
                         ), */
-                        if (result.planStatus.statusTypeAsType !=
-                            StatusType.ACTIVE)
-                          Positioned(
-                              left: 16,
-                              right: 16,
-                              top: 582,
-                              child: CtaButton(
-                                  isLoading: state.isLoading,
-                                  label: result.planStatus.statusTypeAsType !=
-                                          StatusType.ACTIVE
-                                      ? 'Starten'
-                                      : 'Active Plan',
-                                  onPressed: () {
-                                    if (result.planStatus.statusTypeAsType ==
-                                        StatusType.ACTIVE) return;
-                                    if (state.isLoading) return;
-                                    ref
-                                        .read(planStartProvider.notifier)
-                                        .startPlan();
-                                  })),
-                        Positioned(
-                          left: 16,
-                          top: 429,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
                           child: SizedBox(
-                            width: 350,
+                            width: MediaQuery.sizeOf(context).width,
                             child: Text(
                               result.plan.description,
                               style: TextStyle(
@@ -200,18 +166,68 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                            left: 0,
-                            top: 867,
-                            child: SizedBox(
-                              width: MediaQuery.sizeOf(context).width,
-                              height: 130,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  padding: const EdgeInsets.only(left: 16),
-                                  itemCount: result.plan.workoutMap.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
+                        if (result.planStatus.statusTypeAsType !=
+                            StatusType.ACTIVE)
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
+                            child: CtaButton(
+                                isLoading: state.isLoading,
+                                label: result.planStatus.statusTypeAsType !=
+                                        StatusType.ACTIVE
+                                    ? 'Starten'
+                                    : 'Active Plan',
+                                onPressed: () {
+                                  if (result.planStatus.statusTypeAsType ==
+                                      StatusType.ACTIVE) return;
+                                  if (state.isLoading) return;
+                                  ref
+                                      .read(planStartProvider.notifier)
+                                      .startPlan();
+                                }),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
+                          child: PlanBenefits(
+                            benefits: result.plan.uiPlanPromises,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
+                          child: Text(
+                            'Phasen des Programms',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                          child: SizedBox(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 130,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                padding: const EdgeInsets.only(left: 16),
+                                itemCount: result.plan.workoutMap.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      GenericBottomSheet.showPhaseInfo(
+                                          context: context,
+                                          title: "Phase ${index + 1}",
+                                          workoutPlanConfig: result
+                                                  .plan.workoutMap[result
+                                                      .sortedCurrentPhaseTypes[
+                                                  index]]
+                                              as List<WorkoutPlanConfig>);
+                                    },
+                                    child: Padding(
                                       padding:
                                           const EdgeInsets.only(right: 8.0),
                                       child: PlanOverviewCard(
@@ -231,10 +247,11 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                                 .sortedCurrentPhaseTypes[index]
                                             as int,
                                       ),
-                                    );
-                                  }),
-                            )),
-                        Positioned(left: 16, top: 666, child: PlanBenefits()),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ),
                       ],
                     ),
                   ),

@@ -86,6 +86,7 @@ class PlanDetails extends Plan {
   final List<WorkoutPlanConfig> workouts;
   final Map<int, List<WorkoutPlanConfig>> workoutMap;
   final List<int> currentPhaseTypes;
+  final List<String> uiPlanPromises;
 
   PlanDetails(
       {required this.id,
@@ -96,6 +97,7 @@ class PlanDetails extends Plan {
       required this.workouts,
       required this.workoutMap,
       required this.currentPhaseTypes,
+      required this.uiPlanPromises,
       required this.description})
       : super(
             id: id,
@@ -111,6 +113,7 @@ class PlanDetails extends Plan {
     final hashtags = json['hashtags'] as String;
     final duration = json['duration'] as int;
     final description = json['description'] as String;
+    final uiPlanPromises = json['uiPlanPromises'] as List<dynamic>;
     final workouts = (json['workouts'] as List<dynamic>)
         .map((e) => WorkoutPlanConfig.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -137,6 +140,7 @@ class PlanDetails extends Plan {
       description: description,
       workoutMap: workoutsMap,
       currentPhaseTypes: currentPhaseTypes,
+      uiPlanPromises: uiPlanPromises.map((e) => e as String).toList(),
     );
   }
 

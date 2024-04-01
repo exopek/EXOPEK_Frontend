@@ -220,6 +220,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
+                        padding: EdgeInsets.zero,
                         scrollDirection: Axis.vertical,
                         itemCount: data.workouts.length,
                         itemBuilder: (context, index) {
@@ -245,6 +246,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
+                        padding: EdgeInsets.zero,
                         scrollDirection: Axis.vertical,
                         itemCount: data.plans.length,
                         itemBuilder: (context, index) {
@@ -278,7 +280,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
           if (query.isEmpty)
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 12.0),
                 child: Wrap(
                   spacing: 8.0,
                   runSpacing: 16.0,
@@ -325,6 +327,13 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: FloatingActionButton(
+                shape: ShapeBorder.lerp(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    0.5),
+                  backgroundColor: Colors.black.withOpacity(0.5),
                   onPressed: () => ref.read(queryProvider.notifier).state =
                       _searchController.text,
                   child: Icon(Icons.search)),

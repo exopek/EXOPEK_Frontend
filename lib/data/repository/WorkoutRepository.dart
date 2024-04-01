@@ -4,6 +4,7 @@ import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/data/contracts/IWorkoutRepository.dart';
 import 'package:exopek_workout_app/domain/Models/Comment.dart';
 import 'package:exopek_workout_app/domain/Models/Like.dart';
+import 'package:exopek_workout_app/domain/Models/WorkoutComplete.dart';
 import 'package:exopek_workout_app/presentation/Workouts.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
@@ -130,6 +131,21 @@ class WorkoutRepository implements IWorkoutRepository {
           return true;
         } else {
           throw Exception("Failed to delete like");
+        }
+      }
+
+      @override
+      Future<List<WorkoutCompleteReadDto>> getWorkoutCompletes() async {
+        Dio _dio = ref.watch(dioProvider);
+        Response res = await _dio.get("workouts/completes/me");
+        if (res.statusCode == 200) {
+          var workouts = (res.data as List<dynamic>)
+              .map((w) => WorkoutCompleteReadDto.fromJson(w as Map<String, dynamic>))
+              .toList() as List<WorkoutCompleteReadDto>;
+          ;
+          return workouts; //compute(_parseWorkouts, res.data);
+        } else {
+          throw Exception("Failed to load workouts");
         }
       }
 } 

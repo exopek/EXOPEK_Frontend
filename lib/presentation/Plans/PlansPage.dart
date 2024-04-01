@@ -32,64 +32,56 @@ class _PlansPageState extends ConsumerState<PlansPage> {
       data: (result) {
         return Scaffold(
             appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(150.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 168,
-                  decoration: BoxDecoration(color: Color(0xFF262424)),
-                  child: Stack(
+                  height: 150,
+                  decoration: const BoxDecoration(color: Color(0xFF212326)),
+                  child: Column(
                     children: [
-                      Positioned(
-                        left: 16,
-                        top: 117,
+                      SizedBox(height: 70),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            width: 105,
+                            height: 21,
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFFD9D9D9),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Plans',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                         child: SearchBarCustom(
                           controller: _searchController,
-                          xsize: 0.8,
+                          xsize: 1.0,
                           hint: 'Search',
                           focusNode: _searchFocusNode,
                         ),
                       ),
-                      Positioned(
-                        left: 16,
-                        top: 83,
-                        child: Container(
-                          width: 105,
-                          height: 21,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 105,
-                                  height: 21,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFFD9D9D9),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Plans',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                     ],
                   ),
-                ),
-                preferredSize: Size.fromHeight(128.0)),
+                )),
             body: SingleChildScrollView(
               physics: NeverScrollableScrollPhysics(),
               child: Container(
@@ -123,33 +115,30 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                             itemCount: result.plans.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                  padding: const EdgeInsets.only(
-                                    bottom: 8.0,
+                                padding: const EdgeInsets.only(
+                                  bottom: 8.0,
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    if (result.planStatuses.any((element) =>
+                                        element.planId ==
+                                        result.plans[index].id)) {
+                                      print("active plan");
+                                      ref
+                                          .read(selectedPlanIdProvider.notifier)
+                                          .state = result.plans[index].id;
+                                      AppRouter.goToPlanPhaseWithLastRoute();
+                                    } else {
+                                      ref
+                                          .read(selectedPlanIdProvider.notifier)
+                                          .state = result.plans[index].id;
+                                      AppRouter.goToPlanDetail();
+                                    }
+                                  },
+                                  child: PlanListCard(
+                                    planListItem: result.plans[index],
                                   ),
-                                  child: TextButton(
-                                      onPressed: () {
-                                        if (result.planStatuses.any((element) =>
-                                            element.planId ==
-                                            result.plans[index].id)) {
-                                          print("active plan");
-                                          ref
-                                              .read(selectedPlanIdProvider
-                                                  .notifier)
-                                              .state = result.plans[index].id;
-                                          AppRouter
-                                              .goToPlanPhaseWithLastRoute();
-                                        } else {
-                                          ref
-                                              .read(selectedPlanIdProvider
-                                                  .notifier)
-                                              .state = result.plans[index].id;
-                                          AppRouter.goToPlanDetail();
-                                        }
-                                      },
-                                      child: PlanListCard(
-                                        planListItem: result.plans[index],
-                                      ),
-                                    ), /* AspectRatio(
+                                ), /* AspectRatio(
                                         aspectRatio: 16 / 9,
                                         child: VisibleListVideoPlayer(
                                           path: result.plans[index].videoUrl,
@@ -158,7 +147,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                                           
                                         ),
                                       ), */
-                                  );
+                              );
                             }),
                       ),
                     ),

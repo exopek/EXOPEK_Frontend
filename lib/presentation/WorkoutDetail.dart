@@ -40,7 +40,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 390,
+                          width: MediaQuery.sizeOf(context).width,
                           height: 370,
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -66,7 +66,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0, bottom: 8),
                           child: Text(
-                            'Intensity: High',
+                            'Level: ${result.difficultyType.name.toUpperCase()}',
                             style: TextStyle(
                               color: Color(0xFFD31919),
                               fontSize: 16,

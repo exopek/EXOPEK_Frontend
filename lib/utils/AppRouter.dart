@@ -29,7 +29,7 @@ import '../presentation/Plan/FadeInTransitionScreen.dart';
 import '../presentation/Plan/PlanDetailPage.dart';
 import '../presentation/Plan_Phase/PlanPhasePage.dart';
 import '../presentation/Plans/PlansPage.dart';
-import '../presentation/Profile.dart';
+import '../presentation/Profil/Profile.dart';
 import '../presentation/WorkoutSummary/WorkoutSummaryPage.dart';
 
 class AppRouter {

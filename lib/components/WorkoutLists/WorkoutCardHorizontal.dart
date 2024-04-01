@@ -30,7 +30,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           side: BorderSide(
-              color: widget.hasTrained ? Color(0xFFD31919) : Color(0xFF262424)),
+              color: Color(0xFF262424)),
           borderRadius: BorderRadius.circular(10),
         ),
       ),
@@ -56,6 +56,9 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                     ),
                   ),
                 ),
+                child: widget.hasTrained
+                    ? Icon(Icons.check, color: Colors.white, size: 30)
+                    : null,
               ),
             ),
           ),

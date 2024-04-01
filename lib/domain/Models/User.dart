@@ -26,6 +26,7 @@ sealed class User {
     this.roles,
     required this.email,
     required this.password,
+    this.imageUrl,
   });
 
   final String? id;
@@ -35,6 +36,7 @@ sealed class User {
   final String email;
   final String password;
   final List<String>? roles;
+  final String? imageUrl;
 }
 
 class CreateUserDto extends User {
@@ -83,6 +85,7 @@ class ReadUserDto extends User {
     required String lastname,
     required String email,
     final String? username,
+    final String? imageUrl,
     List<String>? roles,})
       : super(
           id: id,
@@ -100,6 +103,7 @@ class ReadUserDto extends User {
         lastname: json["lastName"] as String,
         email: json["email"] as String,
         username: json["userName"] as String,
+        imageUrl: json["imageUrl"] as String,
       );   
 }
 

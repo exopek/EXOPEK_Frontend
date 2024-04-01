@@ -10,10 +10,14 @@
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
-            "args": [
+            /* "args": [
                 "--dart-define=API_BASE_URL=http://localhost:5000/api/",
                 
-              ]
+              ] */
+              "toolArgs": [
+                "--dart-define-from-file",
+                "configDev.json", // for json files
+            ],
         },
         {
             "name": "exopek_workout_app (profile mode)",
@@ -26,10 +30,10 @@
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
-            "args": [
-                "--dart-define=API_BASE_URL=http://exopek.azurewebsites.net/api/",
-                
-              ]
+            "toolArgs": [
+                "--dart-define-from-file",
+                "configProd.json", // for json files
+            ],
         }
     ]
 }

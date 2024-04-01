@@ -57,82 +57,73 @@ class _WorkoutsState extends ConsumerState<Workouts> {
     return result.when(
         data: (result) {
           return Scaffold(
-              appBar: PreferredSize(
-                  preferredSize: const Size.fromHeight(128.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 128,
-                    decoration: const BoxDecoration(color: Color(0xFF262424)),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 16,
-                          top: 77,
-                          child: SearchBarCustom(
-                            controller: _searchController,
-                            xsize: 0.8,
-                            hint: 'Search',
-                            focusNode: _searchFocusNode,
-                          ),
-                        ),
-                        Positioned(
-                          left: 16,
-                          top: 43,
-                          child: SizedBox(
+            appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(150.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 150,
+                  decoration: const BoxDecoration(color: Color(0xFF212326)),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 70),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
                             width: 105,
                             height: 21,
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  left: 0,
-                                  top: 0,
-                                  child: Container(
-                                    width: 105,
-                                    height: 21,
-                                    decoration: ShapeDecoration(
-                                      color: const Color(0xFFD9D9D9),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                    ),
-                                  ),
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFFD9D9D9),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Workouts',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                const Positioned(
-                                  left: 25,
-                                  top: 3,
-                                  child: Text(
-                                    'Workouts',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  )),
-              body: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - 128,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(color: Color(0xFF0C0C0C)),
-                  child: CustomScrollView(
-                    slivers: [
-                       SliverAppBar(
-                        expandedHeight: 329,
-                        floating: true,
-                         flexibleSpace: PromoHeader(
-                            workout: result.firstWhere((element) => element.isWorkoutOfTheWeek == true),
-                          ),
-                       ),
-                      
-                      /* SliverPadding(
+                      ),
+                      SizedBox(
+                        height: 12.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        child: SearchBarCustom(
+                          controller: _searchController,
+                          xsize: 1.0,
+                          hint: 'Search',
+                          focusNode: _searchFocusNode,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+            body: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 128,
+              clipBehavior: Clip.antiAlias,
+              decoration: const BoxDecoration(color: Color(0xFF0C0C0C)),
+              child: CustomScrollView(slivers: [
+                SliverAppBar(
+                  expandedHeight: 329,
+                  floating: true,
+                  flexibleSpace: PromoHeader(
+                    workout: result.firstWhere(
+                        (element) => element.isWorkoutOfTheWeek == true),
+                  ),
+                ),
+
+                /* SliverPadding(
                         padding: const EdgeInsets.only(
                             left: 16.0, top: 24.0, bottom: 8.0),
                         sliver: Text(
@@ -146,32 +137,30 @@ class _WorkoutsState extends ConsumerState<Workouts> {
                           ),
                         ),
                         ), */
-                      
-                      SliverList(
-                              delegate: SliverChildBuilderDelegate((context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      ref
-                                          .read(selectedWorkoutIdProvider
-                                              .notifier)
-                                          .state = result[index].id;
-                                      AppRouter.goToWorkoutDetail();
-                                    },
-                                    child: WorkoutCardHorizontal(
-                                      workout: result[index],
-                                    ),
-                                  ),
-                                );
-                              },
-                              childCount: result.length, ),
+
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            ref.read(selectedWorkoutIdProvider.notifier).state =
+                                result[index].id;
+                            AppRouter.goToWorkoutDetail();
+                          },
+                          child: WorkoutCardHorizontal(
+                            workout: result[index],
+                          ),
                         ),
-                      
-                      ]
+                      );
+                    },
+                    childCount: result.length,
                   ),
                 ),
-              );
+              ]),
+            ),
+          );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, s) => Center(child: Text(e.toString())));
