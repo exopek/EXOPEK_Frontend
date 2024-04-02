@@ -6,7 +6,7 @@
     "configurations": [
 
         {
-            "name": "exopek_workout_app",
+            "name": "dev",
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
@@ -20,13 +20,18 @@
             ],
         },
         {
-            "name": "exopek_workout_app (profile mode)",
+            "name": "prod",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "program": "lib/main.dart",
+            "flutterMode": "release",
+            "toolArgs": [
+                "--dart-define-from-file",
+                "configProd.json", // for json files
+            ],
         },
         {
-            "name": "exopek_workout_app (azure)",
+            "name": "stag",
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",

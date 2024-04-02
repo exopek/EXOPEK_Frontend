@@ -108,10 +108,10 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
               physics: const ClampingScrollPhysics(),
               child: Container(
                 width: MediaQuery.sizeOf(context).width,
+                
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
-                child: Expanded(
-                  child: Column(
+                child: Column(
                     children: [
                       SizedBox(
                         height: 30,
@@ -241,7 +241,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                       ),
                     ],
                   ),
-                ),
+                
               ),
             ));
       },

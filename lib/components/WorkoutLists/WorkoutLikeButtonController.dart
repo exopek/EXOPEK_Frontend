@@ -14,7 +14,7 @@ class WorkoutLikeButtonController
     final result = await AsyncValue.guard(
         () => ref.watch(dioWorkoutProvider).likeWorkout(workoutId: workoutId));
     if (result is AsyncError) {
-      state = AsyncError("Plan could not be fetched", StackTrace.current);
+      state = AsyncError(result.error.toString(), StackTrace.current);
     }
     
     return result.asData!.value;

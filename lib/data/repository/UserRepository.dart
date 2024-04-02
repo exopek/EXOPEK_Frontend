@@ -67,6 +67,6 @@ class UserRepository implements IUserRepository {
       var jwt = res.data["token"] as String;
       return jwt;
     } else {
-      throw Exception("Failed to login");
+      throw Exception(res.statusMessage);
     }
   }}

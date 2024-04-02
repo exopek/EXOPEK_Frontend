@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
@@ -24,6 +26,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.listen(asyncLoginButtonControllerProvider, (previous, next) { 
       if (next is AsyncData) {
         AppRouter.goToMainPage();
+      }
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(next.error.toString()),
+        ));
       }
     });
     final loginButtonState = ref.watch(asyncLoginButtonControllerProvider);
@@ -113,6 +120,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               controller: usernameController,
               hint: 'Benutzername',
               focusNode: usernameFocusNode,
+              icon: Icon(
+                Icons.verified_user,
+                color: Color(0xFF838282),
+                size: 16,
+              ),
             ),
           ),
           Positioned(
@@ -123,6 +135,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               controller: passwordController,
               hint: 'Passwort',
               focusNode: passwordFocusNode,
+              icon: Icon(
+                Icons.lock,
+                color: Color(0xFF838282),
+                size: 16,
+              ),
               )
           ),
         ],

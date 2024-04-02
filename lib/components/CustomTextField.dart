@@ -8,7 +8,8 @@ class CustomTextField extends StatefulWidget {
       required this.hint,
       required this.xsize,
       this.onChanged,
-      this.onClear});
+      this.onClear,
+      this.icon});
 
   final TextEditingController? controller;
   final String hint;
@@ -16,6 +17,7 @@ class CustomTextField extends StatefulWidget {
   final void Function(String)? onChanged;
   final void Function()? onClear;
   final double xsize;
+  final Icon? icon;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -46,17 +48,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               left: -30,
               top: 25,
               child: SizedBox(
                   width: 124,
                   height: 16,
-                  child: Icon(
-                    Icons.search,
-                    color: Color(0xFF838282),
-                    size: 16,
-                  )),
+                  child: widget.icon ??
+                      Icon(
+                        Icons.search,
+                        color: Color(0xFF838282),
+                        size: 16,
+                      )),
             ),
             Positioned(
               left: 53,

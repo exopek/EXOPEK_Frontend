@@ -1,9 +1,11 @@
+import 'package:exopek_workout_app/components/Profil/CustomTimelineTile.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({super.key});
@@ -108,7 +110,7 @@ class _ProfileState extends ConsumerState<Profile> {
                         ),
                         Positioned(
                           left: 16,
-                          top: 361,
+                          top: 341,
                           child: Text(
                             'Last Sessions',
                             style: TextStyle(
@@ -122,15 +124,22 @@ class _ProfileState extends ConsumerState<Profile> {
                         ),
                         Positioned(
                           left: 4,
-                          top: 391,
+                          top: 371,
                           child: Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 130,
+                              height: 360,
                               child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
+                                scrollDirection: Axis.vertical,
                                 itemCount: data.workouts.length,
                                 itemBuilder: (context, index) {
-                                  return TextButton(
+                                  return CustomTimelineTile(
+                                    workoutName: data.workouts[index].workout.name,
+                                    date: data.workouts[index].createdAt.toIso8601String().split("T")[0],
+                                    isFirst: index == 0,
+                                    isLast: index == data.workouts.length - 1,
+                                    isPast: index > 0 && index < data.workouts.length - 1,
+                                  );
+                                  /* TextButton(
                                     onPressed: () {
                                       ref
                                           .read(selectedWorkoutIdProvider
@@ -144,7 +153,7 @@ class _ProfileState extends ConsumerState<Profile> {
                                       child: WorkoutCardHorizontal(
                                           workout: data.workouts[index].workout),
                                     ),
-                                  );
+                                  ); */
                                 },
                               )),
                         ),

@@ -15,10 +15,14 @@ class PlanPhasePageController
 
   Future<PlanPhaseViewModel> fetchPlanAndStatus() async {
     final id = ref.read(selectedPlanIdProvider);
+    print(id);
     state = const AsyncLoading();
     final resultPlan = await AsyncValue.guard(
         () => ref.watch(planRepositoryProvider).getPlan(id));
     if (resultPlan is AsyncError) {
+      print("Error resultPlan");
+      print(resultPlan.error);
+      print(StackTrace.current);
       state = AsyncError("Plan could not be fetched", StackTrace.current);
     }
     final planStatus = await AsyncValue.guard(
@@ -26,6 +30,9 @@ class PlanPhasePageController
     if (planStatus is AsyncError) {
       state =
           AsyncError("PlanStatuses could not be fetched", StackTrace.current);
+          print("Error planStatus");
+      print(planStatus.error);
+          print(StackTrace.current);
     }
     var workouts = resultPlan.asData!.value
             .workoutMap[planStatus.asData!.value.first.currentPhase]

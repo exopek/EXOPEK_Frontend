@@ -17,7 +17,7 @@ class LoginButtonController extends AutoDisposeAsyncNotifier<void> {
     state = await AsyncValue.guard(
         () => userRepository.login(username, password));
     if (state is AsyncError) {
-      state = AsyncError("Plan could not be fetched", StackTrace.current);
+      state = AsyncValue.error(state.asError!.error.toString(), StackTrace.current);
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (state is AsyncData) {

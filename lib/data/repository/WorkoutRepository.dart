@@ -105,7 +105,7 @@ class WorkoutRepository implements IWorkoutRepository {
       var like = LikeReadDto.fromJson(res.data as Map<String, dynamic>);
       return like as LikeReadDto;
     } else {
-      throw Exception("Failed to add comment");
+      throw Exception(res.statusMessage);
     }
   }
   
