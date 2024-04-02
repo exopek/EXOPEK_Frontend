@@ -159,7 +159,6 @@ class _CoachState extends ConsumerState<Coach> {
                                 left: 86,
                                 top: 117,
                                 child: SizedBox(
-                                  width: 100,
                                   child: Text(
                                     '${data.user.firstname} ${data.user.lastname}',
                                     style: TextStyle(

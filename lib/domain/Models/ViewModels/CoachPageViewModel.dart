@@ -8,7 +8,7 @@ class CoachPageViewModel {
   List<WorkoutListItem> workouts = [];
   List<PlanListItem> startedPlans = [];
   List<PlanStatus> planStatuses = [];
-  final ReadUserDto user;
+  ReadUserDto user;
 
   CoachPageViewModel(
       {required this.plans,

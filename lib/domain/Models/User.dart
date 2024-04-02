@@ -103,7 +103,7 @@ class ReadUserDto extends User {
         lastname: json["lastName"] as String,
         email: json["email"] as String,
         username: json["userName"] as String,
-        imageUrl: json["imageUrl"] as String,
+        imageUrl: json["imageUrl"] as String?,
       );   
 }
 
