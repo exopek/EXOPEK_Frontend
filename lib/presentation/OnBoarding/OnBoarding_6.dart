@@ -69,9 +69,10 @@ class _OnBoarding6State extends ConsumerState<OnBoarding6> {
             ),
             Positioned(
               left: 36,
+              right: 36,
               top: 228,
               child: CustomTextField(
-                xsize: 0.8,
+                
                 controller: heightController,
                 hint: 'Körpergröße (cm)',
                 focusNode: heightFocusNode,

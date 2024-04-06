@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:exopek_workout_app/domain/Models/User.dart';
 
 abstract class IUserRepository {
@@ -6,4 +8,5 @@ abstract class IUserRepository {
   Future<bool> createUser(CreateUserDto user);
   Future<bool> deleteUser(String id);
   Future<String> login(String email, String password);
+  Future<bool> uploadProfilImage(File image);
 }

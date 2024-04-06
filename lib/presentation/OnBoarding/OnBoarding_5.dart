@@ -20,7 +20,7 @@ class _OnBoarding5State extends State<OnBoarding5> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: 390,
+        width: MediaQuery.of(context).size.width,
         height: 844,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
@@ -69,9 +69,10 @@ class _OnBoarding5State extends State<OnBoarding5> {
             ),
             Positioned(
               left: 36,
+              right: 36,
               top: 228,
               child: CustomTextField(
-                xsize: 0.8,
+                
                 controller: ageController,
                 hint: 'Alter',
                 focusNode: ageFocusNode,

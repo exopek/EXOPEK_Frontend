@@ -15,7 +15,7 @@ class _OnBoarding2State extends State<OnBoarding2> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: 390,
+        width: MediaQuery.of(context).size.width,
         height: 844,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
@@ -27,7 +27,7 @@ class _OnBoarding2State extends State<OnBoarding2> {
               child: SizedBox(
                 width: 300,
                 child: Text(
-                  'Willkommen Name,',
+                  'Willkommen',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 28,

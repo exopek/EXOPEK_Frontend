@@ -39,7 +39,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
           // rebuild the page to show the new state
           //ref.invalidate(asyncPlanDetailPageControllerProvider);
           ref.invalidate(asyncPlansPageControllerProvider);
-          ref.invalidate(asyncCoachPageController);
+          ref.invalidate(asyncCoachPageControllerProvider);
           Navigator.of(context).pop();
         },
       ),

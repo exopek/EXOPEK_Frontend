@@ -6,9 +6,10 @@ class CustomTextField extends StatefulWidget {
       super.key,
       this.focusNode,
       required this.hint,
-      required this.xsize,
       this.onChanged,
       this.onClear,
+      this.onTap,
+      this.onValidate,
       this.icon});
 
   final TextEditingController? controller;
@@ -16,98 +17,149 @@ class CustomTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final void Function(String)? onChanged;
   final void Function()? onClear;
-  final double xsize;
-  final Icon? icon;
+  final void Function()? onTap;
+  final bool Function(String)? onValidate;
+  final IconData? icon;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
+  late bool _hasError;
+
+  @override
+  void initState() {
+    _hasError = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: SizedBox(
-        width: MediaQuery.sizeOf(context).width * widget.xsize,
+      child: Container(
         height: 67,
+        width: MediaQuery.of(context).size.width,
+        decoration: ShapeDecoration(
+          color: Color(0x00262323),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+                width: 1, color: _hasError ? Colors.red : Color(0xFF262424)),
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
         child: Stack(
           children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
-                width: MediaQuery.sizeOf(context).width * widget.xsize,
-                height: 67,
-                decoration: ShapeDecoration(
-                  color: Color(0x00262323),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFF262424)),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: -30,
-              top: 25,
-              child: SizedBox(
-                  width: 124,
-                  height: 16,
-                  child: widget.icon ??
-                      Icon(
-                        Icons.search,
-                        color: Color(0xFF838282),
+            Row(
+              children: [
+                if (widget.icon != null)
+                  Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Icon(
+                        widget.icon,
+                        color: Colors.white,
                         size: 16,
                       )),
-            ),
-            Positioned(
-              left: 53,
-              top: 32,
-              child: SizedBox(
-                width: MediaQuery.sizeOf(context).width * widget.xsize - 53,
-                height: 16,
-                child: TextFormField(
-                  controller: widget.controller,
-                  focusNode: widget.focusNode,
-                  onChanged: (value) {
-                    if (widget.onChanged != null) widget.onChanged!(value);
-                  },
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(bottom: 17.0),
-                    border: InputBorder.none,
-                    hintText: widget.hint,
-                    hintStyle: const TextStyle(
-                      color: Color(0xFF838282),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
+                Expanded(
+                  child: Center(
+                    child: Container(
+                      child: TextField(
+                        controller: widget.controller,
+                        focusNode: widget.focusNode,
+                        onTap: () {
+                          if (widget.onTap != null) widget.onTap!();
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                              _hasError = widget.onValidate != null &&
+                                  !widget.onValidate!(value);
+                          });
+                          if (widget.onChanged != null) widget.onChanged!(value);
+                        },
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(
+                              bottom: 0.0, left: 16.0, right: 16.0),
+                          border: InputBorder.none,
+                          hintText: widget.hint,
+                          hintStyle: const TextStyle(
+                            color: Color(0xFF838282),
+                            fontSize: 16,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Color(0xFF838282),
+                          fontSize: 16,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        /* onEditingComplete: () {
+                          setState(() {
+                            widget.focusNode!.unfocus();
+                          });
+                        },
+                        onFieldSubmitted: (value) {
+                          setState(() {
+                            widget.focusNode!.unfocus();
+                          });
+                        }, */
+                        onTapOutside: (event) {
+                          setState(() {
+                            widget.focusNode!.unfocus();
+                          });
+                        },
+                      ),
                     ),
                   ),
-                  style: const TextStyle(
-                    color: Color(0xFF838282),
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
+                ),
+                if (widget.controller!.text.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          widget.controller!.clear();
+                          if (widget.onClear != null) widget.onClear!();
+                        });
+                      },
+                      child: Container(
+                        decoration: ShapeDecoration(
+                          color: Colors.transparent,
+                          shape: CircleBorder(
+                            side: BorderSide(
+                              width: 1,
+                              color: Color.fromARGB(255, 64, 64, 64),
+                            ),
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.clear,
+                          color: Color.fromARGB(255, 64, 64, 64),
+                          size: 16,
+                        ),
+                      ),
+                    ),
                   ),
-                  onTapOutside: (event) => widget.focusNode!.unfocus(),
+              ],
+            ),
+            if (_hasError)
+              Positioned(
+                left: 16,
+                bottom: 0,
+                child: Text(
+                  'Password min 10 characters and 1 number',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 12,
+                    fontFamily: 'Inter',
+                    
+                    height: 2
+                  ),
                 ),
               ),
-            ),
-            if (widget.controller!.text.isNotEmpty)
-              Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                child: IconButton(
-                  onPressed: () => widget.onClear!(),
-                  icon: const Icon(
-                    Icons.clear,
-                    color: Color(0xFF838282),
-                    size: 16,
-                  ),
-                ),
-              )
           ],
         ),
       ),

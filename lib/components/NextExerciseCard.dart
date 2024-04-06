@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class NextExerciseCard extends StatelessWidget {
   final String title;
-  final String imageUrl;
+  final String? imageUrl;
   final String exerciseFrequenceType;
 
   const NextExerciseCard(
@@ -14,7 +14,7 @@ class NextExerciseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 283,
+      width: 323,
       height: 77,
       child: Stack(
         children: [
@@ -22,7 +22,7 @@ class NextExerciseCard extends StatelessWidget {
             left: 0,
             top: 0,
             child: Container(
-              width: 283,
+              width: 323,
               height: 77,
               decoration: ShapeDecoration(
                 color: Color(0x00D9D9D9),
@@ -33,24 +33,47 @@ class NextExerciseCard extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 77,
-              height: 77,
-              decoration: ShapeDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.cover,
-                ),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 0.50, color: Color(0xFF262424)),
-                  borderRadius: BorderRadius.circular(10),
+          if (imageUrl != null)
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: 77,
+                height: 77,
+                decoration: ShapeDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(imageUrl!),
+                    fit: BoxFit.cover,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 0.50, color: Color(0xFF262424)),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
-          ),
+          if (imageUrl == null)
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: 77,
+                height: 77,
+                decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 0.50, color: Color(0xFF262424)),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.greenAccent,
+                    size: 40,
+                  ),
+                ),
+              ),
+            ),
           Positioned(
             left: 88,
             top: 15,

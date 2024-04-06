@@ -34,7 +34,7 @@ class _OnBoarding4State extends State<OnBoarding4> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: 390,
+        width: MediaQuery.of(context).size.width,
         height: 844,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(color: Color(0xFF0C0C0C)),

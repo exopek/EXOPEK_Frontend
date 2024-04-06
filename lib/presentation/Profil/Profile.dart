@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:exopek_workout_app/components/Profil/CustomTimelineTile.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
+import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class Profile extends ConsumerStatefulWidget {
@@ -15,15 +19,50 @@ class Profile extends ConsumerStatefulWidget {
 }
 
 class _ProfileState extends ConsumerState<Profile> {
+
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
+
+  Future<XFile?> getImageFromGallery(User user) async {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+        maxWidth: 800,
+        maxHeight: 600
+      );
+      if (image != null) {
+        return image;
+      }
+      return null;
+    }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(uploadProfilImageButtonControllerProvider, (previous, next) {
+      if (next is AsyncData) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Image uploaded'),
+        ));
+        ref.invalidate(asyncProfilPageControllerProvider);
+        /* setState(() {
+          
+        }); */
+      }
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(next.error.toString()),
+        ));
+      }
+     });
     final profilPageControllerProvider =
         ref.watch(asyncProfilPageControllerProvider);
     return Scaffold(
         backgroundColor: Color(0xFF0C0C0C),
         appBar: AppBar(
             backgroundColor: Color(0xFF212326),
-            actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
+            actions: [IconButton(onPressed: () {
+              AppRouter.goToSettings();
+            }, icon: Icon(Icons.settings))],
             title: Text('Profile')),
         body: profilPageControllerProvider.when(
             data: (data) {
@@ -52,6 +91,16 @@ class _ProfileState extends ConsumerState<Profile> {
                                   ),
                                   shape: OvalBorder(),
                                 ),
+                                child: TextButton(
+                                  onPressed: () async {
+                                    var image = await getImageFromGallery(data.user);
+                                    if (image != null) {
+                                      ref.read(uploadProfilImageButtonControllerProvider.notifier).updateUserImage(
+                                          file: File(image.path),
+                                        );
+                                    }
+                                  },
+                                   child: Container()),
                               );
                             } else {
                               return Container(
@@ -65,8 +114,18 @@ class _ProfileState extends ConsumerState<Profile> {
                                     ),
                                   ),
                                 ),
-                                child: Icon(Icons.person,
-                                    color: Colors.white, size: 100),
+                                child: TextButton(
+                                  onPressed: () async {
+                                    var image = await getImageFromGallery(data.user);
+                                    if (image != null) {
+                                      ref.read(uploadProfilImageButtonControllerProvider.notifier).updateUserImage(
+                                          file: File(image.path),
+                                        );
+                                    }
+                                  },
+                                  child: Icon(Icons.person,
+                                      color: Colors.white, size: 100),
+                                ),
                               );
                             }
                           }),

@@ -61,7 +61,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
             },
           ); */
           ref.invalidate(asyncPlansPageControllerProvider);
-          ref.invalidate(asyncCoachPageController);
+          ref.invalidate(asyncCoachPageControllerProvider);
           AppRouter.goToPlanTransition();
         },
       ),

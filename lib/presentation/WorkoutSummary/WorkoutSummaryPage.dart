@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/dependencyInjection/coachProvider/coachPageControllerProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/plansProvider/PlansProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageViewModel.dart';
@@ -24,6 +25,7 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
     ref.listen(asyncWorkoutSummarySaveButtonControllerProvider,
         (previous, next) {
       if (next is AsyncData) {
+        ref.invalidate(asyncCoachPageControllerProvider);
         AppRouter.goToMainPage();
       }
     });

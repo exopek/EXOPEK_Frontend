@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:core';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
@@ -68,5 +69,20 @@ class UserRepository implements IUserRepository {
       return jwt;
     } else {
       throw Exception(res.statusMessage);
+    }
+  }
+
+  @override
+  Future<bool> uploadProfilImage(File image) async {
+    Dio _dio = ref.watch(dioProvider);
+    var formData = FormData.fromMap({
+      "files": await MultipartFile.fromFile(image.path),
+      "fileType": 1
+    });
+    Response res = await _dio.post("files", data: formData);
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Failed to upload image");
     }
   }}

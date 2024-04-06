@@ -94,7 +94,8 @@ class ReadUserDto extends User {
           email: email,
           roles: [],
           username: username ?? '',
-          password: ''
+          password: '',
+          imageUrl: imageUrl,
 
         );
     factory ReadUserDto.fromJson(Map<String, dynamic> json) => ReadUserDto(
@@ -115,6 +116,7 @@ class UpdateUserDto extends User {
   int? sport;
   int? previousTrainingFrequency;
   int? trainingFrequency;
+  String? imageUrl;
 
   UpdateUserDto({
     required String? id,
@@ -130,7 +132,8 @@ class UpdateUserDto extends User {
     this.weight,
     this.sport,
     this.previousTrainingFrequency,
-    this.trainingFrequency,})
+    this.trainingFrequency,
+    this.imageUrl})
       : super(
           id: id,
           firstname: firstname,
@@ -139,6 +142,7 @@ class UpdateUserDto extends User {
           email: email,
           password: password,
           roles: roles,
+          imageUrl: imageUrl,
         );
 
   Map<String, dynamic> toJson() => {
@@ -155,6 +159,7 @@ class UpdateUserDto extends User {
         "sport": sport,
         "previousTrainingFrequency": previousTrainingFrequency,
         "trainingFrequency": trainingFrequency,
+        "imageUrl": imageUrl,
       };
 
   UpdateUserDto copyWith({  
@@ -172,6 +177,7 @@ class UpdateUserDto extends User {
     int? sport,
     int? previousTrainingFrequency,
     int? trainingFrequency,
+    String? imageUrl,
   }) {
     return UpdateUserDto(
       id: id ?? this.id,
@@ -188,6 +194,7 @@ class UpdateUserDto extends User {
       sport: sport ?? this.sport,
       previousTrainingFrequency: previousTrainingFrequency ?? this.previousTrainingFrequency,
       trainingFrequency: trainingFrequency ?? this.trainingFrequency,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
         

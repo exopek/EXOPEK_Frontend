@@ -1,5 +1,6 @@
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
+import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,7 +15,6 @@ class OnBoarding1 extends ConsumerStatefulWidget {
 }
 
 class _OnBoarding1State extends ConsumerState<OnBoarding1> {
-
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerFirstname = TextEditingController();
   final TextEditingController controllerLastname = TextEditingController();
@@ -140,29 +140,66 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
             ),
             Positioned(
               left: 32,
+              right: 32,
               top: 155,
-              child: CustomTextField(controller: controllerUsername, hint: "Username", focusNode: focusNodeUsername, xsize: 0.8,),
-              
+              child: CustomTextField(
+                  controller: controllerUsername,
+                  hint: "Username",
+                  focusNode: focusNodeUsername,
+                  ),
             ),
             Positioned(
               left: 32,
+              right: 32,
               top: 404,
-              child: CustomTextField(controller: controllerPassword, hint: "Password", focusNode: focusNodePassword, xsize: 0.8,),
+              child: CustomTextField(
+                  controller: controllerPassword,
+                  hint: "Password",
+                  focusNode: focusNodePassword,
+                  onValidate: (p0) {
+                    if (p0.isEmpty) {
+                      return false;
+                    }
+                    if (p0.length < 10) {
+                      return false;
+                    }
+                    if (!p0.contains(RegExp(r'[0-9]'))) {
+                      return false;
+                    }
+                    return true;
+                  
+                  },
+                  ),
+            ),
+            Positioned(
+                left: 32,
+                right: 32,
+                top: 321,
+                child: CustomTextField(
+                    controller: controllerEmail,
+                    hint: "Email",
+                    focusNode: focusNodeEmail,
+                    )
             ),
             Positioned(
               left: 32,
-              top: 321,
-              child: CustomTextField(controller: controllerEmail, hint: "Email", focusNode: focusNodeEmail, xsize: 0.8,),
+              right: 200,
+              top: 238,
+              child: CustomTextField(
+                  controller: controllerFirstname,
+                  hint: "Firstname",
+                  focusNode: focusNodeFirstname,
+                  ),
             ),
             Positioned(
-              left: 32,
-              top: 238,
-              child: CustomTextField(controller: controllerFirstname, hint: "Firstname", focusNode: focusNodeFirstname, xsize: 0.38,),
-            ),
-            Positioned(
-              left: 195,
-              top: 238,
-              child: CustomTextField(controller: controllerLastname, hint: "Lastname", focusNode: focusNodeLastname, xsize: 0.38,),
+                left: 200,
+                right: 32,
+                top: 238,
+                child: CustomTextField(
+                    controller: controllerLastname,
+                    hint: "Lastname",
+                    focusNode: focusNodeLastname,
+                    )
             ),
             Positioned(
               left: 32,
@@ -174,12 +211,12 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                 onPressed: () {
                   //AppRouter.goToRegisterSucceed();
                   ref.read(registerButtonControllerProvider.notifier).register(
-                    email: controllerEmail.text,
-                    firstname: controllerFirstname.text,
-                    lastname: controllerLastname.text,
-                    username: controllerUsername.text,
-                    password: controllerPassword.text,
-                  );
+                        email: controllerEmail.text,
+                        firstname: controllerFirstname.text,
+                        lastname: controllerLastname.text,
+                        username: controllerUsername.text,
+                        password: controllerPassword.text,
+                      );
                 },
               ),
             ),

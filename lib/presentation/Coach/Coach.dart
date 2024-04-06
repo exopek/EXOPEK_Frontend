@@ -59,7 +59,7 @@ class _CoachState extends ConsumerState<Coach> {
 
   @override
   Widget build(BuildContext context) {
-    final coachControllerProvider = ref.watch(asyncCoachPageController);
+    final coachControllerProvider = ref.watch(asyncCoachPageControllerProvider);
     return Scaffold(
       backgroundColor: Color(0xFF0C0C0C),
       body: coachControllerProvider.when(

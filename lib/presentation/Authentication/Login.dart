@@ -114,32 +114,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               )),
           Positioned(
             left: 40,
+            right: 40,
             top: 260,
             child: CustomTextField(
-              xsize: 0.8,
+              
               controller: usernameController,
               hint: 'Benutzername',
               focusNode: usernameFocusNode,
-              icon: Icon(
-                Icons.verified_user,
-                color: Color(0xFF838282),
-                size: 16,
-              ),
+              
             ),
           ),
           Positioned(
             left: 40,
+            right: 40,
             top: 343,
             child: CustomTextField(
-              xsize: 0.8,
+              
               controller: passwordController,
               hint: 'Passwort',
               focusNode: passwordFocusNode,
-              icon: Icon(
-                Icons.lock,
-                color: Color(0xFF838282),
-                size: 16,
-              ),
+              
               )
           ),
         ],

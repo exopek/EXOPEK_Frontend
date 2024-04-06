@@ -9,6 +9,8 @@ import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/PreTimerPage.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
+import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPage.dart';
+import 'package:exopek_workout_app/presentation/Settings/Settings.dart';
 import 'package:exopek_workout_app/presentation/WorkoutDetail.dart';
 import 'package:exopek_workout_app/presentation/Workouts.dart';
 import 'package:flutter/material.dart';
@@ -170,6 +172,18 @@ class AppRouter {
             /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return CommentsPage();
           }),
+      GoRoute(
+          path: "/settings",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return SettingsPage();
+          }),
+      GoRoute(
+          path: "/profilEdit",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return ProfilEditPage();
+          }),
     ],
   );
 
@@ -267,5 +281,13 @@ class AppRouter {
 
   static void goToComments() {
     router.push("/comments");
+  }
+
+  static void goToSettings() {
+    router.push("/settings");
+  }
+
+  static void goToProfilEdit() {
+    router.push("/profilEdit");
   }
 }

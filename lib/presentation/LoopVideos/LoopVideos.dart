@@ -259,7 +259,11 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                                 .duration
                                 .toString(),
                       )
-                    : Container()),
+                    : const NextExerciseCard(
+                        title: "Workout Completed",
+                        imageUrl: null,
+                        exerciseFrequenceType: "",
+                      )),
             Positioned(
               left: 10,
               top: 40,
