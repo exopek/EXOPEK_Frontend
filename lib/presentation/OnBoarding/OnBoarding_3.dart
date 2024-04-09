@@ -2,6 +2,7 @@ import 'package:exopek_workout_app/components/Onboarding/OnboardingSelectionButt
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,6 +33,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
       lastname: '',
       firstname: '',
       roles: [],
+      sport: SportType.None,
     );
     selection = {
       '0 - 1 Unregelmäßig': false,
@@ -55,6 +57,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
           lastname: user.lastname,
           firstname: user.firstname,
           roles: user.roles,
+          sport: user.sport
         );
         return Scaffold(
           body: Container(

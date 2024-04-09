@@ -31,7 +31,10 @@ class _PlansPageState extends ConsumerState<PlansPage> {
     return result.when(
       data: (result) {
         return Scaffold(
-            appBar: PreferredSize(
+            appBar: AppBar(
+              backgroundColor: Color(0xFF212326),
+              title: Text('Pläne'),
+              ),/* PreferredSize(
                 preferredSize: const Size.fromHeight(150.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -81,17 +84,15 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                       ),
                     ],
                   ),
-                )),
-            body: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
-              child: Container(
+                )), */
+            body: Container(
                 width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height - 158,
+                //height: MediaQuery.sizeOf(context).height - 158,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
                 child: Column(
                   children: [
-                    Padding(
+                    /* Padding(
                       padding: const EdgeInsets.only(
                           left: 16.0, top: 24.0, bottom: 8.0),
                       child: Align(
@@ -107,7 +108,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                           ),
                         ),
                       ),
-                    ),
+                    ), */
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 0.0),
@@ -138,15 +139,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                                   child: PlanListCard(
                                     planListItem: result.plans[index],
                                   ),
-                                ), /* AspectRatio(
-                                        aspectRatio: 16 / 9,
-                                        child: VisibleListVideoPlayer(
-                                          path: result.plans[index].videoUrl,
-                                          videoKey: result.plans[index].id,
-                                          lazyLoad: false,
-                                          
-                                        ),
-                                      ), */
+                                ),
                               );
                             }),
                       ),
@@ -154,7 +147,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                   ],
                 ),
               ),
-            ));
+            );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Center(

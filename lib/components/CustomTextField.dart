@@ -38,65 +38,107 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: Container(
-        height: 67,
-        width: MediaQuery.of(context).size.width,
-        decoration: ShapeDecoration(
-          color: Color(0x00262323),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-                width: 1, color: _hasError ? Colors.red : Color(0xFF262424)),
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                if (widget.icon != null)
-                  Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Icon(
-                        widget.icon,
-                        color: Colors.white,
-                        size: 16,
-                      )),
-                Expanded(
-                  child: Center(
-                    child: Container(
-                      child: TextField(
-                        controller: widget.controller,
-                        focusNode: widget.focusNode,
+      child: Stack(
+        children: [
+          TextField(
+            controller: widget.controller,
+            focusNode: widget.focusNode,
+            onTap: () {
+              if (widget.onTap != null) widget.onTap!();
+            },
+            onChanged: (value) {
+              setState(() {
+                _hasError =
+                    widget.onValidate != null && !widget.onValidate!(value);
+              });
+              if (widget.onChanged != null) widget.onChanged!(value);
+            },
+            maxLines: 1,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(
+                  bottom: 21.0, top: 21.0, left: 16.0, right: 16.0),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                gapPadding: 4.0,
+                borderSide: BorderSide(
+                  color: _hasError ? Colors.red : Color(0xFF262424),
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                gapPadding: 4.0,
+                borderSide: BorderSide(
+                  color: _hasError ? Colors.red : Color(0xFF262424),
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                gapPadding: 4.0,
+                borderSide: BorderSide(
+                  color: _hasError ? Colors.red : Color(0xFF262424),
+                ),
+              ),
+              labelText: widget.hint,
+              floatingLabelAlignment: FloatingLabelAlignment.start,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              labelStyle: const TextStyle(
+                color: Color(0xFF838282),
+                fontSize: 16,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w400,
+              ),
+              hintText: widget.hint,
+              prefixIcon: widget.icon != null
+                  ? Icon(
+                      widget.icon,
+                      color: Colors.white,
+                      size: 16,
+                    )
+                  : null,
+              suffixIcon: widget.controller!.text.isNotEmpty &&
+                      widget.focusNode!.hasFocus
+                  ? Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: GestureDetector(
                         onTap: () {
-                          if (widget.onTap != null) widget.onTap!();
-                        },
-                        onChanged: (value) {
                           setState(() {
-                              _hasError = widget.onValidate != null &&
-                                  !widget.onValidate!(value);
+                            widget.controller!.clear();
+                            if (widget.onClear != null) widget.onClear!();
                           });
-                          if (widget.onChanged != null) widget.onChanged!(value);
                         },
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(
-                              bottom: 0.0, left: 16.0, right: 16.0),
-                          border: InputBorder.none,
-                          hintText: widget.hint,
-                          hintStyle: const TextStyle(
-                            color: Color(0xFF838282),
-                            fontSize: 16,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w400,
+                        child: Container(
+                          decoration: ShapeDecoration(
+                            color: Colors.transparent,
+                            shape: CircleBorder(
+                              side: BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 64, 64, 64),
+                              ),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.clear,
+                            color: Color.fromARGB(255, 64, 64, 64),
+                            size: 16,
                           ),
                         ),
-                        style: const TextStyle(
-                          color: Color(0xFF838282),
-                          fontSize: 16,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        /* onEditingComplete: () {
+                      ),
+                    )
+                  : null,
+              hintStyle: const TextStyle(
+                color: Color(0xFF838282),
+                fontSize: 16,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            style: const TextStyle(
+              color: Color(0xFF838282),
+              fontSize: 16,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w400,
+            ),
+            /* onEditingComplete: () {
                           setState(() {
                             widget.focusNode!.unfocus();
                           });
@@ -106,62 +148,26 @@ class _CustomTextFieldState extends State<CustomTextField> {
                             widget.focusNode!.unfocus();
                           });
                         }, */
-                        onTapOutside: (event) {
-                          setState(() {
-                            widget.focusNode!.unfocus();
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                if (widget.controller!.text.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          widget.controller!.clear();
-                          if (widget.onClear != null) widget.onClear!();
-                        });
-                      },
-                      child: Container(
-                        decoration: ShapeDecoration(
-                          color: Colors.transparent,
-                          shape: CircleBorder(
-                            side: BorderSide(
-                              width: 1,
-                              color: Color.fromARGB(255, 64, 64, 64),
-                            ),
-                          ),
-                        ),
-                        child: const Icon(
-                          Icons.clear,
-                          color: Color.fromARGB(255, 64, 64, 64),
-                          size: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            if (_hasError)
-              Positioned(
-                left: 16,
-                bottom: 0,
-                child: Text(
-                  'Password min 10 characters and 1 number',
-                  style: TextStyle(
+            onTapOutside: (event) {
+              setState(() {
+                widget.focusNode!.unfocus();
+              });
+            },
+          ),
+          if (_hasError)
+            Positioned(
+              left: 16,
+              bottom: 0,
+              child: Text(
+                'Password min 10 characters and 1 number',
+                style: TextStyle(
                     color: Colors.red,
                     fontSize: 12,
                     fontFamily: 'Inter',
-                    
-                    height: 2
-                  ),
-                ),
+                    height: 2),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

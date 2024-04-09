@@ -117,7 +117,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                       child: Padding(
                         padding: const EdgeInsets.only(right: 52.0),
                         child: Text(
-                          "Discover",
+                          "Filter",
                           textAlign: TextAlign.center,
                           style: ThemeBase.of(context).titleMedium,
                         ),

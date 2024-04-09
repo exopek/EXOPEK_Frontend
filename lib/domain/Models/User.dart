@@ -1,3 +1,5 @@
+import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
+
 enum GenderType {
   Male,
   Female,
@@ -27,6 +29,12 @@ sealed class User {
     required this.email,
     required this.password,
     this.imageUrl,
+    required this.sport,
+    this.height,
+    this.weight,
+    this.age,
+    this.previousTrainingFrequency,
+    this.trainingFrequency,
   });
 
   final String? id;
@@ -37,6 +45,29 @@ sealed class User {
   final String password;
   final List<String>? roles;
   final String? imageUrl;
+  final SportType sport;
+  final double? height;
+  final double? weight;
+  final int? age;
+  final int? previousTrainingFrequency;
+  final int? trainingFrequency;
+
+  get trainingFrequencyType => TrainingFrequencyType.values[trainingFrequency ?? 0];
+
+  get trainingFrequencyTypeAsString {
+    switch (trainingFrequency) {
+      case 0:
+        return '0 - 1 Unregelmäßig';
+      case 1:
+        return '2 - 3 Regelmäßig';
+      case 2:
+        return '4 - 5 Athlet';
+      case 3:
+        return '6 - 7 Profi Athlet';
+      default:
+        return '0 - 1 Unregelmäßig';
+    }
+  }
 }
 
 class CreateUserDto extends User {
@@ -55,6 +86,7 @@ class CreateUserDto extends User {
           email: email,
           password: password,
           roles: roles,
+          sport: SportType.None,
         );
     factory CreateUserDto.fromJson(Map<String, dynamic> json) => CreateUserDto(
         firstname: json["firstname"] as String,
@@ -78,7 +110,12 @@ class CreateUserDto extends User {
 }
 
 class ReadUserDto extends User {
-
+  double? height;
+  double? weight;
+  int? age;
+  SportType sport;
+  int? previousTrainingFrequency;
+  int? trainingFrequency;
   ReadUserDto({
     required String id,
     required String firstname,
@@ -86,6 +123,12 @@ class ReadUserDto extends User {
     required String email,
     final String? username,
     final String? imageUrl,
+    this.height,
+    this.weight,
+    this.age,
+    required this.sport,
+    this.previousTrainingFrequency,
+    this.trainingFrequency,
     List<String>? roles,})
       : super(
           id: id,
@@ -96,7 +139,12 @@ class ReadUserDto extends User {
           username: username ?? '',
           password: '',
           imageUrl: imageUrl,
-
+          age: age,
+          height: height,
+          weight: weight,
+          sport: sport,
+          previousTrainingFrequency: previousTrainingFrequency,
+          trainingFrequency: trainingFrequency,
         );
     factory ReadUserDto.fromJson(Map<String, dynamic> json) => ReadUserDto(
         id: json["id"] as String,
@@ -105,6 +153,12 @@ class ReadUserDto extends User {
         email: json["email"] as String,
         username: json["userName"] as String,
         imageUrl: json["imageUrl"] as String?,
+        height: double.tryParse(json["height"].toString()),
+        weight: double.tryParse(json["weight"].toString()),
+        age: json["age"] as int?,
+        sport: SportType.values[json["sportType"] as int],
+        previousTrainingFrequency: json["previousTrainingFrequency"] as int?,
+        trainingFrequency: json["trainingFrequency"] as int?,
       );   
 }
 
@@ -113,7 +167,7 @@ class UpdateUserDto extends User {
   int? age;
   double? height;
   double? weight;
-  int? sport;
+  SportType sport;
   int? previousTrainingFrequency;
   int? trainingFrequency;
   String? imageUrl;
@@ -130,7 +184,7 @@ class UpdateUserDto extends User {
     this.age,
     this.height,
     this.weight,
-    this.sport,
+    required this.sport,
     this.previousTrainingFrequency,
     this.trainingFrequency,
     this.imageUrl})
@@ -143,6 +197,7 @@ class UpdateUserDto extends User {
           password: password,
           roles: roles,
           imageUrl: imageUrl,
+          sport: sport,
         );
 
   Map<String, dynamic> toJson() => {
@@ -156,7 +211,7 @@ class UpdateUserDto extends User {
         "age": age,
         "height": height,
         "weight": weight,
-        "sport": sport,
+        "sportType": sport.index,
         "previousTrainingFrequency": previousTrainingFrequency,
         "trainingFrequency": trainingFrequency,
         "imageUrl": imageUrl,
@@ -174,7 +229,7 @@ class UpdateUserDto extends User {
     int? age,
     double? height,
     double? weight,
-    int? sport,
+    SportType? sport,
     int? previousTrainingFrequency,
     int? trainingFrequency,
     String? imageUrl,

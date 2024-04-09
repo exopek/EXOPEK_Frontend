@@ -176,7 +176,9 @@ class AppRouter {
           path: "/settings",
           builder: (context, state) {
             /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
-            return SettingsPage();
+            return SettingsPage(
+              user: state.extra as User,
+            );
           }),
       GoRoute(
           path: "/profilEdit",
@@ -283,8 +285,8 @@ class AppRouter {
     router.push("/comments");
   }
 
-  static void goToSettings() {
-    router.push("/settings");
+  static void goToSettings(User user) {
+    router.push("/settings", extra: user);
   }
 
   static void goToProfilEdit() {

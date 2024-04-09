@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:json_path/json_path.dart';
 //import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import '../main.dart';
 
@@ -46,6 +47,19 @@ Future launchURL(String url) async {
   } catch (e) {
     throw 'Could not launch $uri: $e';
   }
+}
+
+Future<String> getReleaseVersion() async {
+  final contents = await rootBundle.loadString('pubspec.yaml');
+  final lines = contents.split('\n');
+  
+  for (var line in lines) {
+    if (line.startsWith('version:')) {
+      final version = line.split(':')[1].trim();
+      return version;
+    }
+  }
+  return 'Error: Version not found';
 }
 
 Color colorFromCssString(String color, {Color? defaultColor}) {

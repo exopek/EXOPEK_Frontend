@@ -57,7 +57,10 @@ class _WorkoutsState extends ConsumerState<Workouts> {
     return result.when(
         data: (result) {
           return Scaffold(
-            appBar: PreferredSize(
+            appBar: AppBar(
+              backgroundColor: Color(0xFF212326),
+              title: Text('Workouts'),
+              ),/* PreferredSize(
                 preferredSize: const Size.fromHeight(150.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -107,14 +110,14 @@ class _WorkoutsState extends ConsumerState<Workouts> {
                       ),
                     ],
                   ),
-                )),
+                )), */
             body: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 128,
               clipBehavior: Clip.antiAlias,
               decoration: const BoxDecoration(color: Color(0xFF0C0C0C)),
               child: CustomScrollView(slivers: [
                 SliverAppBar(
+                  leading: Container(),
                   expandedHeight: 329,
                   floating: true,
                   flexibleSpace: PromoHeader(

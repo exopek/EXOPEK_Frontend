@@ -48,7 +48,7 @@ class _CoachState extends ConsumerState<Coach> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _selectedAreas = ["Workouts", "Plans", "Coming Soon", "Coming Soon", "Coming Soon"];
+    _selectedAreas = ["Workouts", "Pläne", "Coming Soon", "Coming Soon", "Coming Soon"];
     /* loadImage('assets/images/testImage.jpeg').then((value) => image = value); */
   }
 
@@ -330,7 +330,7 @@ class _CoachState extends ConsumerState<Coach> {
                               left: 16,
                             ),
                             child: Text(
-                              'New Workouts',
+                              'Die neusten Workouts',
                               style: TextStyle(
                                 color: Color(0xFF838282),
                                 fontSize: 16,
@@ -381,7 +381,7 @@ class _CoachState extends ConsumerState<Coach> {
                               left: 16,
                             ),
                             child: Text(
-                              'Top Programs',
+                              'Top Pläne',
                               style: TextStyle(
                                 color: Color(0xFF838282),
                                 fontSize: 16,

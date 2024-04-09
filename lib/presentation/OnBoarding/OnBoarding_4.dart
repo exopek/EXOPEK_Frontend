@@ -22,12 +22,12 @@ class _OnBoarding4State extends State<OnBoarding4> {
   void initState() {
     super.initState();
     selection = {
-      'Kampfsport': false,
-      'Gesundheitssport': false,
-      'Teamsport': false,
-      'Fitness': false
+      'Running': false,
+      'Cycling': false,
+      'Swimming': false,
+      'Walking': false
     };
-    sportType = SportType.none;
+    sportType = SportType.None;
   }
 
   @override
@@ -114,7 +114,7 @@ class _OnBoarding4State extends State<OnBoarding4> {
               child: CtaButton(
                 label: 'Weiter',
                 onPressed: () {
-                  var userDto = widget.userDto.copyWith(sport: sportType.index);
+                  var userDto = widget.userDto.copyWith(sport: sportType);
                   AppRouter.goToOnBoarding5(userDto);
                 },
               ),

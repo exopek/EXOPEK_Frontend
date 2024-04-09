@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class SettingsCtaButtonProfilEdit extends StatelessWidget {
   final String userName;
+  final String? imageUrl;
   final VoidCallback? onPressed;
   const SettingsCtaButtonProfilEdit(
-      {super.key, required this.userName, this.onPressed});
+      {super.key, required this.userName, this.onPressed, this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +19,45 @@ class SettingsCtaButtonProfilEdit extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: ShapeDecoration(
-                  color: Color(0xFFD9D9D9),
-                  shape: OvalBorder(),
+            if (imageUrl != null)
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: ShapeDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(imageUrl!),
+                      fit: BoxFit.cover,
+                    ),
+                    color: Color(0xFFD9D9D9),
+                    shape: OvalBorder(),
+                  ),
                 ),
               ),
-            ),
+            if (imageUrl == null)
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: ShapeDecoration(
+                      shape: OvalBorder(
+                        side: BorderSide(
+                          color: Color(0xFF262424),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                    )),
+              ),
             Positioned(
               left: 100,
               top: 23,
