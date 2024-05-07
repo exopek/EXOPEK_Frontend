@@ -20,3 +20,5 @@ final currentRouteProvider = Provider<String>((ref) {
 });
 
 final likedWorkoutIdsProvider = StateProvider<List<LikeReadDto>>((ref) => []);
+
+final menuBarWidthProvider = StateProvider<double>((ref) => 0.0);

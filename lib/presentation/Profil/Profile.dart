@@ -61,10 +61,9 @@ class _ProfileState extends ConsumerState<Profile> {
         return Scaffold(
             backgroundColor: Color(0xFF0C0C0C),
             appBar: AppBar(
+              
                 backgroundColor: Color(0xFF212326),
-                actions: [IconButton(onPressed: () {
-                  AppRouter.goToSettings(data.user);
-                }, icon: Icon(Icons.settings))],
+                
                 title: Text('Profil')),
             body: Container(
                       height: MediaQuery.of(context).size.height,

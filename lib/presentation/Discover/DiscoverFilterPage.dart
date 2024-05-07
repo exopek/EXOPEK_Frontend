@@ -108,7 +108,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                               Navigator.of(context).pop();
                             },
                             child: Icon(
-                              Icons.arrow_back,
+                              Icons.arrow_back_ios,
                               color: Color(0xFFD9D9D9),
                             )),
                       ),
@@ -185,7 +185,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                               : Color(0xFF0C0C0C),
                         ),
                       ),
-                      SizedBox(
+                      /* SizedBox(
                         width: 8,
                       ),
                       GestureDetector(
@@ -200,7 +200,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                               ? Color(0xFFC91717)
                               : Color(0xFF0C0C0C),
                         ),
-                      ),
+                      ), */
                     ],
                   ),
                 ),
@@ -220,6 +220,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
+                        physics: ClampingScrollPhysics(),
                         padding: EdgeInsets.zero,
                         scrollDirection: Axis.vertical,
                         itemCount: data.workouts.length,
@@ -246,6 +247,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
+                        physics: ClampingScrollPhysics(),
                         padding: EdgeInsets.zero,
                         scrollDirection: Axis.vertical,
                         itemCount: data.plans.length,

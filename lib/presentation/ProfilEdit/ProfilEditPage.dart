@@ -219,7 +219,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                                       age: int.parse(ageController.text),
                                       height: double.parse(heightController.text),
                                       sport: sportController.text == "---" ? SportType.None : SportType.values.firstWhere((element) => element.name == sportController.text),
-                                      trainingFrequency: int.parse(trainingFrequencyController.text)));
+                                      trainingFrequency: int.parse(TrainingFrequencyType.values.firstWhere((element) => element.name == trainingFrequencyController.text).toString())));
                         },
                       ),
                     ),

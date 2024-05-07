@@ -12,6 +12,10 @@ import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPageControl
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPageUpdateUserButtonController.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final userStateProvider = StateProvider<User?>((ref) {
+  return null;
+});
+
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   return UserRepository(ref);
 });
@@ -34,6 +38,7 @@ final updateUserButtonControllerProvider =
 
 final userProvider = FutureProvider.autoDispose<ReadUserDto>((ref) async {
   final data = await ref.watch(userRepositoryProvider).getUser();
+  ref.read(userStateProvider.notifier).state = data;
   return data;
 });
 

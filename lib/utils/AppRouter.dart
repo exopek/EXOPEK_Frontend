@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/components/Navigation/DashboardSideMenu.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
@@ -186,6 +187,25 @@ class AppRouter {
             /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return ProfilEditPage();
           }),
+      GoRoute(
+          path: "/sideBar",
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const DashboardSideMenu(0.8),
+              opaque: false,
+            barrierColor: Colors.black.withOpacity(0.5), // Hintergrundfarbe des Overlays
+            barrierDismissible: true, // Klick auf Hintergrund schließt Overlay
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(-1, 0),
+                    end: const Offset(0, 0),
+                  ).animate(animation),
+                  child: child,
+                );
+              });
+          }),
     ],
   );
 
@@ -202,7 +222,7 @@ class AppRouter {
   }
 
   static void goToProfile() {
-    router.go("/profile");
+    router.push("/profile");
   }
 
   static void goToWorkouts() {
@@ -292,4 +312,39 @@ class AppRouter {
   static void goToProfilEdit() {
     router.push("/profilEdit");
   }
+
+  static void goToSideBar() {
+    router.push("/sideBar");
+  }
+}
+
+class OverlayPageRoute extends PageRouteBuilder<void> {
+  final WidgetBuilder builder;
+
+  OverlayPageRoute({required this.builder})
+      : super(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              builder(context),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+
+  @override
+  Color get barrierColor => Colors.black.withOpacity(0.5);
+
+  @override
+  bool get opaque => false;
+
+  @override
+  String? get barrierLabel => null;
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  Duration get transitionDuration => Duration(milliseconds: 200);
 }

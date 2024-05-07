@@ -232,16 +232,16 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
-  String get titleMediumFamily => 'Roboto';
+  String get titleMediumFamily => 'Inter';
   TextStyle get titleMedium => GoogleFonts.getFont(
-        'Roboto',
+        'Inter',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 18.0,
       );
-  String get titleSmallFamily => 'Roboto';
+  String get titleSmallFamily => 'Inter';
   TextStyle get titleSmall => GoogleFonts.getFont(
-        'Roboto',
+        'Inter',
         color: theme.secondaryText,
         fontWeight: FontWeight.w500,
         fontSize: 16.0,
@@ -301,13 +301,13 @@ class DarkModeTheme extends ThemeBase {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF0F1212);
+  late Color primary = const Color(0xFF0C0C0C);
   late Color secondary = const Color(0xFFD8272B);
   late Color tertiary = const Color(0xFFFFFFFF);
   late Color alternate = const Color(0xFFFF5963);
   late Color primaryText = const Color(0xFFFFFFFF);
   late Color secondaryText = const Color(0xFF838282);
-  late Color primaryBackground = const Color(0xFF0F1212);
+  late Color primaryBackground = const Color(0xFF0C0C0C);
   late Color secondaryBackground = const Color(0xFF1F2328);
   late Color accent1 = const Color(0xFFEEEEEE);
   late Color accent2 = const Color(0xFFE0E0E0);

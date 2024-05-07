@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/components/Navigation/DashboardSideMenu.dart';
 import 'package:exopek_workout_app/components/NavigationBarCustom.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/presentation/Coach/Coach.dart';
@@ -19,27 +20,26 @@ class _MainPageState extends ConsumerState<MainPage> {
   @override
   Widget build(BuildContext context) {
     final currentRouteIndex = ref.watch(selectedNavigationBarIndexProvider);
+    final menuBarWidth = ref.watch(menuBarWidthProvider);
     return Scaffold(
       backgroundColor: Color(0xFF0C0C0C),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
-        child: Column(
+        child: Stack(
           children: [
-            if (currentRouteIndex == 0)
-              Expanded(
-                  child: Coach())
+            //if (currentRouteIndex == 0)
+              Coach()
             /* Container(
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.red,
               ) */
-            else if (currentRouteIndex == 1)
-              Expanded(
-                  child: DiscoverPage())
+            /* else if (currentRouteIndex == 1)
+              DiscoverPage()
             else if (currentRouteIndex == 2)
-              Expanded(
-                  child: Profile()),
-            NavigationBarCustom(),
+              Profile(), */
+            //DashboardSideMenu(menuBarWidth)
+            //NavigationBarCustom(),
           ],
         ),
       ),

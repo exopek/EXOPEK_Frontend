@@ -44,6 +44,7 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
     final planIds =
         planStatusResult.asData!.value.map((e) => e.planId).toSet().toList();
     if (planIds.isEmpty) {
+      ref.read(userStateProvider.notifier).state = user.asData!.value;
       return CoachPageViewModel(
           plans: planResult.asData!.value,
           workouts: workoutResult.asData!.value,
@@ -64,7 +65,7 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
     }
     ref.read(likedWorkoutIdsProvider.notifier).state = likedWorkoutsResult.asData!.value.map((e) => e).toList();
     
-
+    ref.read(userStateProvider.notifier).state = user.asData!.value;
     return CoachPageViewModel(
         plans: planResult.asData!.value,
         workouts: workoutResult.asData!.value,
