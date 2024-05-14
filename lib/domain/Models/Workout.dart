@@ -40,6 +40,7 @@ class WorkoutListItem extends Workout {
   final int? comments;
   final int? likes;
   final bool isWorkoutOfTheWeek;
+  final dynamic rating;
 
   WorkoutListItem(
       {required this.id,
@@ -49,7 +50,8 @@ class WorkoutListItem extends Workout {
       required this.duration,
       required this.isWorkoutOfTheWeek,
       this.comments,
-      this.likes})
+      this.likes,
+      this.rating})
       : super(
             id: id,
             name: name,
@@ -66,6 +68,7 @@ class WorkoutListItem extends Workout {
     final comments = json['comments'] as int;
     final likes = json['likes'] as int;
     final isWorkoutOfTheWeek = json['isWorkoutOfTheWeek'] as bool;
+    final rating = json['rating'];
 
     return WorkoutListItem(
       id: id,
@@ -76,8 +79,11 @@ class WorkoutListItem extends Workout {
       comments: comments,
       likes: likes,
       isWorkoutOfTheWeek: isWorkoutOfTheWeek,
+      rating: rating,
     );
   }
+
+  get ratingAsString => rating != null ? rating.toStringAsFixed(1) : '';
 
   get durationString => '$duration m';
 }

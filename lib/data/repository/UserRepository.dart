@@ -85,4 +85,28 @@ class UserRepository implements IUserRepository {
     } else {
       throw Exception("Failed to upload image");
     }
+  }
+  
+  @override
+  Future<bool> resetPassword(String email) async {
+    Dio _dio = ref.watch(dioProvider);
+    Response res = await _dio.post("users/forget-password", queryParameters: {"email": email});
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Failed to reset password");
+    }
+  }
+  
+  @override
+  Future<bool> checkUserIsLogedIn() async {
+    Dio _dio = ref.watch(dioProvider);
+    Response res = await _dio.post("users/check-user-login");
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }}
+
+  

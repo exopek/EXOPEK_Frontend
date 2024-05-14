@@ -19,7 +19,9 @@ class WorkoutSummarySaveButtonController
       required PhaseType phase,
       required List<String> workoutIds,
       required String workoutId,
-      String? comment}) async {
+      int? rating,
+      String? comment
+      }) async {
     final planRepository = ref.read(planRepositoryProvider);
     final WorkoutRepository workoutRepository = ref.read(dioWorkoutProvider);
     state = const AsyncLoading();
@@ -33,16 +35,16 @@ class WorkoutSummarySaveButtonController
     if (state is AsyncError) {
       state = AsyncError("Plan could not be fetched", StackTrace.current);
     }
-    if (comment != null && comment.isNotEmpty) {
+    if (comment != null && comment.isNotEmpty || rating != null) {
       state = await AsyncValue.guard(() => workoutRepository.addWorkoutComment(
-          workoutId: workoutId, comment: comment));
+          workoutId: workoutId, comment: comment ?? '', rating: rating ?? 0));
       if (state is AsyncError) {
         state = AsyncError("Comment Workout failed", StackTrace.current);
       }
     }
   }
 
-  void saveWorkout(String workoutId, {String? comment}) async {
+  void saveWorkout(String workoutId, {String? comment, int? rating}) async {
     final WorkoutRepository workoutRepository = ref.read(dioWorkoutProvider);
     state = const AsyncLoading();
     state = await AsyncValue.guard(
@@ -50,9 +52,9 @@ class WorkoutSummarySaveButtonController
     if (state is AsyncError) {
       state = AsyncError("Workout complete could not be saved", StackTrace.current);
     }
-    if (comment != null && comment.isNotEmpty) {
+    if (comment != null && comment.isNotEmpty || rating != null) {
       state = await AsyncValue.guard(() => workoutRepository.addWorkoutComment(
-          workoutId: workoutId, comment: comment));
+          workoutId: workoutId, comment: comment ?? '', rating: rating ?? 0));
       if (state is AsyncError) {
         state = AsyncError("Comment Workout failed", StackTrace.current);
       }

@@ -7,6 +7,7 @@ import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageVi
 import 'package:exopek_workout_app/presentation/Comments/CommentsPage.dart';
 import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart';
+import 'package:exopek_workout_app/presentation/ForgotPassword/ForgotPasswordPage.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/PreTimerPage.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
@@ -185,7 +186,13 @@ class AppRouter {
           path: "/profilEdit",
           builder: (context, state) {
             /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
-            return ProfilEditPage();
+            return const ProfilEditPage();
+          }),
+      GoRoute(
+          path: "/resetPassword",
+          builder: (context, state) {
+            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
+            return const ForgotPasswordPage();
           }),
       GoRoute(
           path: "/sideBar",
@@ -315,6 +322,14 @@ class AppRouter {
 
   static void goToSideBar() {
     router.push("/sideBar");
+  }
+
+  static void goToResetPassword() {
+    router.push("/resetPassword");
+  }
+
+  static void goToOnBoarding0() {
+    router.pushReplacement("/onBoarding0");
   }
 }
 

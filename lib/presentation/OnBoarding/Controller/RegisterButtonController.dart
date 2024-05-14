@@ -27,6 +27,8 @@ class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (state is AsyncData) {
       prefs.setString('jwt_token', (state as AsyncData).value.toString());
+      prefs.setString('username', username);
+      prefs.setString('password', password);
       _dio.options.headers["Authorization"] =
           "Bearer ${prefs.getString('jwt_token')}";
     }

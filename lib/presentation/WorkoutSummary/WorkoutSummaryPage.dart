@@ -19,6 +19,13 @@ class WorkoutSummaryPage extends ConsumerStatefulWidget {
 class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
 
   TextEditingController _notesController = TextEditingController();
+  late int _rating;
+
+  @override
+  void initState() {
+    _rating = 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,33 +157,61 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _rating = 1;
+                      });
+                    },
                     child: Icon(
-                      Icons.sentiment_very_dissatisfied_outlined,
+                      _rating == 1 || _rating == 2 || _rating == 3 || _rating == 4 || _rating == 5 ? Icons.star : Icons.star_border,
                       color: Colors.white,
                       size: 50,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _rating = 2;
+                      });
+                    },
                     child: Icon(
-                      Icons.sentiment_dissatisfied_outlined,
+                      _rating == 2 || _rating == 3 || _rating == 4 || _rating == 5 ? Icons.star : Icons.star_border,
                       color: Colors.white,
                       size: 50,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _rating = 3;
+                      });
+                    },
                     child: Icon(
-                      Icons.sentiment_neutral_outlined,
+                      _rating == 3 || _rating == 4 || _rating == 5 ? Icons.star : Icons.star_border,
                       color: Colors.white,
                       size: 50,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _rating = 4;
+                      });
+                    },
                     child: Icon(
-                      Icons.sentiment_very_satisfied_outlined,
+                      _rating == 4 || _rating == 5 ? Icons.star : Icons.star_border,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _rating = 5;
+                      });
+                    },
+                    child: Icon(
+                      _rating == 5 ? Icons.star : Icons.star_border,
                       color: Colors.white,
                       size: 50,
                     ),
@@ -256,13 +291,15 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                                 phase: widget
                                     .viewModel.planStatus!.phaseTypeAsType,
                                 workoutIds: workoutIds,
-                                workoutId: widget.viewModel.workoutDetails.id);
+                                workoutId: widget.viewModel.workoutDetails.id,
+                                comment: _notesController.text,
+                                rating: _rating);
                       } else {
                         ref
                             .read(
                                 asyncWorkoutSummarySaveButtonControllerProvider
                                     .notifier)
-                            .saveWorkout(widget.viewModel.workoutDetails.id, comment: _notesController.text);
+                            .saveWorkout(widget.viewModel.workoutDetails.id, comment: _notesController.text, rating: _rating);
                       }
                     }),
               ),

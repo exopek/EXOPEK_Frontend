@@ -6,6 +6,7 @@ import 'package:exopek_workout_app/components/WorkoutLists/WorkoutLikeButtonCont
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/data/repository/WorkoutRepository.dart';
+import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../AppConfig.dart';
@@ -19,6 +20,25 @@ final dioProvider = Provider((ref) {
         ..badCertificateCallback =
             (X509Certificate cert, String host, int port) => true; */
   // Set default configs
+  dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+    return handler.next(options); //continue
+  }, onResponse: (response, handler) {
+    return handler.next(response); // continue
+  }, onError: (DioError e, handler) {
+    print(AppRouter.router.routeInformationProvider.value.uri.toString());
+    if (e.response?.statusCode == 401) {
+      switch (AppRouter.router.routeInformationProvider.value.uri.toString()) {
+        case "/login":
+          break;
+        default:
+          AppRouter.goToOnBoarding0();
+          break;
+      }
+      
+      return handler.resolve(Response(requestOptions: e.requestOptions, data: {"error": "Unauthorized"}));
+    }
+    return handler.next(e); //continue
+  }));
   return dio;
 });
 

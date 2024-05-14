@@ -82,11 +82,12 @@ class WorkoutRepository implements IWorkoutRepository {
   }
   
   @override
-  Future<bool> addWorkoutComment({required String workoutId, required String comment}) async {
+  Future<bool> addWorkoutComment({required String workoutId, required String comment, required int rating}) async {
     Dio _dio = ref.watch(dioProvider);
     Response res = await _dio.post("workouts/comments", data: {
       "workoutId": workoutId,
       "comment": comment,
+      "rating": rating,
     });
     if (res.statusCode == 200) {
       return true;

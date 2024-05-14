@@ -139,8 +139,8 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                 ),
                 const SizedBox(width: 10),
                 CardInformationBlock(
-                    value: widget.workout.likes.toString(),
-                    icon: Icons.favorite_border_rounded),
+                    value: widget.workout.ratingAsString.toString(),
+                    icon: Icons.star_border),
                 const SizedBox(width: 10),
                 if (widget.workout.comments != null &&
                     widget.workout.comments! > 0)

@@ -9,4 +9,6 @@ abstract class IUserRepository {
   Future<bool> deleteUser(String id);
   Future<String> login(String email, String password);
   Future<bool> uploadProfilImage(File image);
+  Future<bool> resetPassword(String email);
+  Future<bool> checkUserIsLogedIn();
 }

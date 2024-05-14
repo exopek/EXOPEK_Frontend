@@ -4,6 +4,7 @@ import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,12 +29,39 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         AppRouter.goToMainPage();
       }
       if (next is AsyncError) {
+        if (next.error.toString().contains('401')) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: ThemeBase.of(context).primaryBackground,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            
+            content: Row(
+              children: [
+                const Icon(Icons.error, color: Colors.red),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Benutzername oder Passwort ist falsch!',
+                  style: TextStyle(
+                    color: ThemeBase.of(context).primaryText,
+                    fontSize: 12,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),),
+                ),
+              ],
+            ),
+          ));
+        } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(next.error.toString()),
         ));
-      }
+      }}
     });
     final loginButtonState = ref.watch(asyncLoginButtonControllerProvider);
+    final pageState = ref.watch(asyncUserCredentialsProvider);
     return Scaffold(
         body: Container(
       width: MediaQuery.of(context).size.width,
@@ -90,14 +118,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Positioned(
             left: 112,
             top: 510,
-            child: Text(
-              'Passwort vergessen?',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w600,
-                height: 0,
+            child: GestureDetector(
+              onTap: () {
+                AppRouter.goToResetPassword();
+              },
+              child: Text(
+                'Passwort vergessen?',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
               ),
             ),
           ),
@@ -112,6 +145,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ref.read(asyncLoginButtonControllerProvider.notifier).login(usernameController.text, passwordController.text);
                 },
               )),
+          
           Positioned(
             left: 40,
             right: 40,

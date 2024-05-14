@@ -1,9 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/ProfilEditPageViewModel.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/ProfilPageViewModel.dart';
 import 'package:exopek_workout_app/presentation/Authentication/LoginButtonController.dart';
+import 'package:exopek_workout_app/presentation/Authentication/LoginPageController.dart';
+import 'package:exopek_workout_app/presentation/ForgotPassword/ResetButtonController.dart';
 import 'package:exopek_workout_app/presentation/OnBoarding/Controller/RegisterButtonController.dart';
 import 'package:exopek_workout_app/presentation/OnBoarding/Controller/UpdateUserButtonController.dart';
 import 'package:exopek_workout_app/presentation/Profil/ProfilPageController.dart';
@@ -11,9 +14,16 @@ import 'package:exopek_workout_app/presentation/Profil/UploadProfilImageButtonCo
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPageController.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPageUpdateUserButtonController.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../presentation/OnBoarding/Controller/CheckValidTokenController.dart';
 
 final userStateProvider = StateProvider<User?>((ref) {
   return null;
+});
+
+final asyncCheckValidTokenStateProvider = AsyncNotifierProvider.autoDispose<CheckValidTokenController ,bool>(() {
+  return CheckValidTokenController();
 });
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
@@ -60,4 +70,14 @@ final asyncProfilEditPageControllerProvider =
 final asyncProfilEditPageUpdateUserButtonControllerProvider =
     AsyncNotifierProvider.autoDispose<ProfilEditPageUpdateUserButtonController, void>(() {
   return ProfilEditPageUpdateUserButtonController();
+});
+
+final asyncResetPasswordButtonControllerProvider =
+    AsyncNotifierProvider.autoDispose<ResetButtonController, void>(() {
+  return ResetButtonController();
+});
+
+final asyncUserCredentialsProvider =
+    AsyncNotifierProvider.autoDispose<LoginPageController, Map<String, String>>(() {
+  return LoginPageController();
 });
