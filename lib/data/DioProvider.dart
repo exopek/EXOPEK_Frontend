@@ -27,13 +27,13 @@ final dioProvider = Provider((ref) {
   }, onError: (DioError e, handler) {
     print(AppRouter.router.routeInformationProvider.value.uri.toString());
     if (e.response?.statusCode == 401) {
-      switch (AppRouter.router.routeInformationProvider.value.uri.toString()) {
+      /* switch (AppRouter.router.routeInformationProvider.value.uri.toString()) {
         case "/login":
           break;
         default:
           AppRouter.goToOnBoarding0();
           break;
-      }
+      } */
       
       return handler.resolve(Response(requestOptions: e.requestOptions, data: {"error": "Unauthorized"}));
     }

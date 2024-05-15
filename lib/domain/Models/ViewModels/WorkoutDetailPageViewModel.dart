@@ -1,8 +1,12 @@
+import 'package:exopek_workout_app/domain/Models/Comment.dart';
+import 'package:exopek_workout_app/domain/Models/Workout.dart';
+import 'package:exopek_workout_app/domain/Models/WorkoutComplete.dart';
+
 import '../Plan.dart';
 
 class WorkoutDetailPageViewModel {
-  final PlanStatus? planStatus;
-  final String? planWorkoutId;
+  final WorkoutDetails workout;
+  final List<Comment> comments;
 
-  WorkoutDetailPageViewModel({this.planStatus, this.planWorkoutId});
+  WorkoutDetailPageViewModel({required this.workout, required this.comments});
 }

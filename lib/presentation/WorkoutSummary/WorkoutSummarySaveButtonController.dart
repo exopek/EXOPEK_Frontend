@@ -35,9 +35,9 @@ class WorkoutSummarySaveButtonController
     if (state is AsyncError) {
       state = AsyncError("Plan could not be fetched", StackTrace.current);
     }
-    if (comment != null && comment.isNotEmpty || rating != null) {
+    if (rating != null && rating != 0) {
       state = await AsyncValue.guard(() => workoutRepository.addWorkoutComment(
-          workoutId: workoutId, comment: comment ?? '', rating: rating ?? 0));
+          workoutId: workoutId, comment: comment ?? '', rating: rating));
       if (state is AsyncError) {
         state = AsyncError("Comment Workout failed", StackTrace.current);
       }
@@ -52,9 +52,9 @@ class WorkoutSummarySaveButtonController
     if (state is AsyncError) {
       state = AsyncError("Workout complete could not be saved", StackTrace.current);
     }
-    if (comment != null && comment.isNotEmpty || rating != null) {
+    if (rating != null && rating != 0) {
       state = await AsyncValue.guard(() => workoutRepository.addWorkoutComment(
-          workoutId: workoutId, comment: comment ?? '', rating: rating ?? 0));
+          workoutId: workoutId, comment: comment ?? '', rating: rating));
       if (state is AsyncError) {
         state = AsyncError("Comment Workout failed", StackTrace.current);
       }

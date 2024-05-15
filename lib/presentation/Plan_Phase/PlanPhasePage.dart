@@ -214,10 +214,9 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                                             selectedWorkoutIdProvider.notifier)
                                         .state = data.workouts[index].id;
                                     AppRouter.goToWorkoutDetail(
-                                        viewModel: WorkoutDetailPageViewModel(
                                             planStatus: data.planStatus,
                                             planWorkoutId: data.workouts[index]
-                                                .planWorkoutId));
+                                                .planWorkoutId);
                                   },
                                   child: WorkoutCardHorizontal(
                                     hasTrained: data.planStatus!.workoutIds

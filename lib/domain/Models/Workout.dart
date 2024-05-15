@@ -83,6 +83,8 @@ class WorkoutListItem extends Workout {
     );
   }
 
+  get ratingAsDouble => double.tryParse(rating.toString());
+
   get ratingAsString => rating != null ? rating.toStringAsFixed(1) : '';
 
   get durationString => '$duration m';

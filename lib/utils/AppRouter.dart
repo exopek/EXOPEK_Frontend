@@ -13,7 +13,7 @@ import 'package:exopek_workout_app/presentation/LoopVideos/PreTimerPage.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPage.dart';
 import 'package:exopek_workout_app/presentation/Settings/Settings.dart';
-import 'package:exopek_workout_app/presentation/WorkoutDetail.dart';
+import 'package:exopek_workout_app/presentation/WorkoutDetails/WorkoutDetail.dart';
 import 'package:exopek_workout_app/presentation/Workouts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -68,8 +68,13 @@ class AppRouter {
       GoRoute(
           path: "/workoutDetails",
           builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>?;
+            final PlanStatus? planStatus = extra?['planStatus'] as PlanStatus?;
+            final String? planWorkoutId = extra?['planWorkoutId'] as String?;
             return WorkoutDetail(
-                viewModel: state.extra as WorkoutDetailPageViewModel?);
+              planStatus: planStatus,
+              planWorkoutId: planWorkoutId,
+            );
           }),
       GoRoute(
           path: "/planDetails",
@@ -252,8 +257,8 @@ class AppRouter {
     router.push("/planPhase");
   }
 
-  static void goToWorkoutDetail({WorkoutDetailPageViewModel? viewModel}) {
-    router.push("/workoutDetails", extra: viewModel);
+  static void goToWorkoutDetail({PlanStatus? planStatus, String? planWorkoutId}) {
+    router.push("/workoutDetails", extra: {'planStatus': planStatus, 'planWorkoutId': planWorkoutId});
   }
 
   static void goToPlanDetail() {

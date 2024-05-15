@@ -125,23 +125,25 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                     value: widget.workout.duration.toString(),
                     icon: Icons.watch),
                 const SizedBox(width: 10),
-                Container(
-                  height: 12.05,
-                  decoration: const ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 0.50,
-                        strokeAlign: BorderSide.strokeAlignCenter,
-                        color: Color(0xFF838282),
+                if (widget.workout.rating != null && widget.workout.ratingAsDouble != 0.0)
+                  Container(
+                    height: 12.05,
+                    decoration: const ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 0.50,
+                          strokeAlign: BorderSide.strokeAlignCenter,
+                          color: Color(0xFF838282),
+                        ),
                       ),
                     ),
                   ),
-                ),
                 const SizedBox(width: 10),
-                CardInformationBlock(
-                    value: widget.workout.ratingAsString.toString(),
-                    icon: Icons.star_border),
-                const SizedBox(width: 10),
+                if (widget.workout.rating != null && widget.workout.ratingAsDouble != 0.0)
+                  CardInformationBlock(
+                      value: widget.workout.ratingAsString.toString(),
+                      icon: Icons.star_border),
+                /* const SizedBox(width: 10),
                 if (widget.workout.comments != null &&
                     widget.workout.comments! > 0)
                   GestureDetector(
@@ -153,7 +155,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                     child: CardInformationBlock(
                         value: widget.workout.comments.toString(),
                         icon: Icons.chat_outlined),
-                  )
+                  ) */
               ],
             ),
           ),

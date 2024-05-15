@@ -7,6 +7,7 @@ sealed class Comment {
   final String? userName;
   final String? firstName;
   final String? lastName;
+  final dynamic rating;
 
   Comment(
       {this.id,
@@ -15,6 +16,7 @@ sealed class Comment {
       this.userName,
       this.firstName,
       this.lastName,
+      this.rating
       });
 }
 
@@ -25,6 +27,7 @@ class CommentReadDto extends Comment {
   final String? userName;
   final String? firstName;
   final String? lastName;
+  final dynamic rating;
   final ReadUserDto? user;
 
   CommentReadDto(
@@ -34,6 +37,7 @@ class CommentReadDto extends Comment {
       required this.userName,
       required this.firstName,
       required this.lastName,
+      required this.rating,
       this.user})
       : super(
             id: id,
@@ -48,6 +52,7 @@ class CommentReadDto extends Comment {
     final comment = json['comment'] as String;
     final createdAt = json['createdAt'] as String;
     final user = ReadUserDto.fromJson(json['user'] as Map<String, dynamic>);
+    final rating = json['rating'] as dynamic;
 
     return CommentReadDto(
       id: id,
@@ -56,6 +61,7 @@ class CommentReadDto extends Comment {
       userName: user.username,
       firstName: user.firstname,
       lastName: user.lastname,
+      rating: rating,
     );
   }
 }

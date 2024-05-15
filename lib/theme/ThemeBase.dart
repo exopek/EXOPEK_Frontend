@@ -81,7 +81,7 @@ abstract class ThemeBase {
   @Deprecated('Use bodySmallFamily instead')
   String get bodyText2Family => typography.bodySmallFamily;
   @Deprecated('Use bodySmall instead')
-  TextStyle get bodyText2 => typography.bodySmallSecondary;
+  TextStyle get bodyText2 => typography.bodySmall;
 
   String get displayLargeFamily => typography.displayLargeFamily;
   TextStyle get displayLarge => typography.displayLarge;
@@ -112,8 +112,7 @@ abstract class ThemeBase {
   String get bodyMediumFamily => typography.bodyMediumFamily;
   TextStyle get bodyMedium => typography.bodyMedium;
   String get bodySmallFamily => typography.bodySmallFamily;
-  TextStyle get bodySmallSecondary => typography.bodySmallSecondary;
-  TextStyle get bodySmallPrimary => typography.bodySmallPrimary;
+  TextStyle get bodySmall => typography.bodySmall;
 
   Typography get typography => ThemeTypography(this);
 }
@@ -174,8 +173,7 @@ abstract class Typography {
   String get bodyMediumFamily;
   TextStyle get bodyMedium;
   String get bodySmallFamily;
-  TextStyle get bodySmallSecondary;
-  TextStyle get bodySmallPrimary;
+  TextStyle get bodySmall;
 }
 
 class ThemeTypography extends Typography {
@@ -183,16 +181,16 @@ class ThemeTypography extends Typography {
 
   final ThemeBase theme;
 
-  String get displayLargeFamily => 'Poppins';
+  String get displayLargeFamily => 'Inter';
   TextStyle get displayLarge => GoogleFonts.getFont(
-        'Poppins',
+        'Inter',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 57.0,
       );
-  String get displayMediumFamily => 'Poppins';
+  String get displayMediumFamily => 'Inter';
   TextStyle get displayMedium => GoogleFonts.getFont(
-        'Poppins',
+        'Inter',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 45.0,
@@ -218,16 +216,16 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.normal,
         fontSize: 32.0,
       );
-  String get headlineSmallFamily => 'Roboto';
+  String get headlineSmallFamily => 'Inter';
   TextStyle get headlineSmall => GoogleFonts.getFont(
-        'Roboto',
+        'Inter',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 24.0,
       );
-  String get titleLargeFamily => 'Poppins';
+  String get titleLargeFamily => 'Inter';
   TextStyle get titleLarge => GoogleFonts.getFont(
-        'Poppins',
+        'Inter',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
@@ -246,47 +244,44 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.w500,
         fontSize: 16.0,
       );
-  String get labelLargeFamily => 'Poppins';
+  String get labelLargeFamily => 'Inter';
   TextStyle get labelLarge => GoogleFonts.getFont(
-        'Poppins',
+        'Inter',
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         fontSize: 14.0,
       );
-  String get labelMediumFamily => 'Roboto';
+  String get labelMediumFamily => 'Inter';
   TextStyle get labelMedium => GoogleFonts.getFont(
-        'Roboto',
+        'Inter',
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         fontSize: 12.0,
       );
-  String get labelSmallFamily => 'Poppins';
+  String get labelSmallFamily => 'Inter';
   TextStyle get labelSmall => GoogleFonts.getFont(
-        'Poppins',
+        'Inter',
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         fontSize: 11.0,
       );
-  String get bodyLargeFamily => '';
+  String get bodyLargeFamily => 'Inter';
   TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Roboto',
+        'Inter',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 18.0,
       );
-  String get bodyMediumFamily => 'Roboto';
+  String get bodyMediumFamily => 'Inter';
   TextStyle get bodyMedium => GoogleFonts.getFont(
-        'Roboto',
-        color: theme.secondaryText,
+        'Inter',
+        color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodySmallFamily => 'Roboto';
-  TextStyle get bodySmallSecondary => GoogleFonts.getFont(
-        'Roboto',
-        color: theme.secondaryText,
-        fontWeight: FontWeight.normal,
-        fontSize: 14.0,
-      );
-  TextStyle get bodySmallPrimary => GoogleFonts.getFont(
-        'Roboto',
+  String get bodySmallFamily => 'Inter';
+  TextStyle get bodySmall => GoogleFonts.getFont(
+        'Inter',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,

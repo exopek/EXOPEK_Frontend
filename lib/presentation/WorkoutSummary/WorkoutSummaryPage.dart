@@ -276,6 +276,12 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                     label: 'Beenden und Speichern',
                     isLoading: state is AsyncLoading,
                     onPressed: () {
+                      if (_notesController.text.isNotEmpty && _rating == 0) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'Please rate the workout before saving')));
+                        return;
+                      }
                       if (widget.viewModel.planStatus != null) {
                         List<String> workoutIds =
                             widget.viewModel.planStatus!.workoutIds.toList();

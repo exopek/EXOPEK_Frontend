@@ -20,7 +20,7 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
       if (next is AsyncData) {
         next.whenData((value) {
           if (value) {
-            AppRouter.goToMainPage();
+            //AppRouter.goToMainPage();
           }
         });
       }
