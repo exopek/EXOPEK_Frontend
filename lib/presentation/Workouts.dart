@@ -31,14 +31,6 @@ class _WorkoutsState extends ConsumerState<Workouts> {
     _scrollController!.addListener(_scrollListener);
   }
 
-  /* void _scrollListener() {
-    if (_scrollController!.position.pixels ==
-        _scrollController!.position.maxScrollExtent) {
-      ref.read(workoutProvider.notifier).fetchMore();
-    }
-  } */
-
-  // change promoheader by scrolling
   void _scrollListener() {
     if (_scrollController!.position.pixels > 0) {
       setState(() {
@@ -58,59 +50,10 @@ class _WorkoutsState extends ConsumerState<Workouts> {
         data: (result) {
           return Scaffold(
             appBar: AppBar(
+              centerTitle: false,
               backgroundColor: Color(0xFF212326),
               title: Text('Workouts'),
-              ),/* PreferredSize(
-                preferredSize: const Size.fromHeight(150.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 150,
-                  decoration: const BoxDecoration(color: Color(0xFF212326)),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 70),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            width: 105,
-                            height: 21,
-                            decoration: ShapeDecoration(
-                              color: const Color(0xFFD9D9D9),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Workouts',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 12.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                        child: SearchBarCustom(
-                          controller: _searchController,
-                          xsize: 1.0,
-                          hint: 'Search',
-                          focusNode: _searchFocusNode,
-                        ),
-                      ),
-                    ],
-                  ),
-                )), */
+              ),
             body: Container(
               width: MediaQuery.of(context).size.width,
               clipBehavior: Clip.antiAlias,
@@ -125,22 +68,6 @@ class _WorkoutsState extends ConsumerState<Workouts> {
                         (element) => element.isWorkoutOfTheWeek == true),
                   ),
                 ),
-
-                /* SliverPadding(
-                        padding: const EdgeInsets.only(
-                            left: 16.0, top: 24.0, bottom: 8.0),
-                        sliver: Text(
-                          '${result.length} Workouts',
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            color: Color(0xFF838282),
-                            fontSize: 16,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        ), */
-
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {

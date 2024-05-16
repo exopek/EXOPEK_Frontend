@@ -29,6 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           backgroundColor: Color(0xFF212326),
           title: Text('Einstellungen'),
         ),

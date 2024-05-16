@@ -61,7 +61,7 @@ class _ProfileState extends ConsumerState<Profile> {
         return Scaffold(
             backgroundColor: Color(0xFF0C0C0C),
             appBar: AppBar(
-              
+                centerTitle: false,
                 backgroundColor: Color(0xFF212326),
                 
                 title: Text('Profil')),

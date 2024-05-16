@@ -46,16 +46,33 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: MediaQuery.sizeOf(context).width,
-                          height: 370,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(result.workout
-                                  .previewImageUrl /* "https://via.placeholder.com/390x370" */),
-                              fit: BoxFit.cover,
+                        Stack(
+                          children: [
+                            Container(
+                              width: MediaQuery.sizeOf(context).width,
+                              height: 370,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(result.workout
+                                      .previewImageUrl /* "https://via.placeholder.com/390x370" */),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              top: 56,
+                              left: 16,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
@@ -194,7 +211,8 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                             padding: const EdgeInsets.only(
                                 left: 16.0, right: 16, bottom: 8, top: 8),
                             child: CtaButton(
-                                label: 'Alle Kommentare',
+                                label: 'Alle Bewertungen',
+                                color: ThemeBase.of(context).accent4,
                                 onPressed: () {
                                   ref.read(selectedWorkoutIdProvider.notifier).state =
                                       result.workout.id;

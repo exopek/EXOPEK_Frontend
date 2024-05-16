@@ -67,6 +67,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
         return Scaffold(
             backgroundColor: Color(0xFF0C0C0C),
             appBar: AppBar(
+              centerTitle: false,
               backgroundColor: Color(0xFF0C0C0C),
               title: Text(data.plan.name),
               actions: [

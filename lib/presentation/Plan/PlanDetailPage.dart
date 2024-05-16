@@ -92,16 +92,33 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: 390,
-                          height: 370,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(result.plan
-                                  .previewImageUrl /* "https://via.placeholder.com/390x370" */),
-                              fit: BoxFit.cover,
+                        Stack(
+                          children: [
+                            Container(
+                              width: MediaQuery.sizeOf(context).width,
+                              height: 370,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(result.plan
+                                      .previewImageUrl /* "https://via.placeholder.com/390x370" */),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              top: 56,
+                              left: 16,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
 
                         /* Positioned(

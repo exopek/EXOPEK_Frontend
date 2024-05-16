@@ -8,6 +8,7 @@ class CtaButton extends StatelessWidget {
   final double? height;
   final double? fontSizeLable;
   final double? width;
+  final Color? color;
 
   const CtaButton(
       {super.key,
@@ -16,7 +17,8 @@ class CtaButton extends StatelessWidget {
       this.isLoading,
       this.height = 49,
       this.width,
-      this.fontSizeLable = 20});
+      this.fontSizeLable = 20,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class CtaButton extends StatelessWidget {
         style: ButtonStyle(
           overlayColor:
               MaterialStateProperty.all(Colors.white.withOpacity(0.1)),
-          backgroundColor: MaterialStateProperty.all(Color(0xFFD12626)),
+          backgroundColor: MaterialStateProperty.all(color ?? ThemeBase.of(context).secondary), // 0xFFD12626
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),

@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../components/WorkoutDetailPage/CommentRatingCard.dart';
+
 class CommentsPage extends ConsumerStatefulWidget {
   const CommentsPage({super.key});
 
@@ -17,7 +19,22 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     var result = ref.watch(commentsProvider);
     return result.when(
       data: (data) {
+        var sortedData = data.where((element) => element.comment!.isNotEmpty).toList();
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color(0xFF212326),
+            centerTitle: false,
+            title: Text(
+              'Bewertungen',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w400,
+                height: 0,
+              ),
+            ),
+          ),
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -25,37 +42,18 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
             decoration: const BoxDecoration(color: Color(0xFF0C0C0C)),
             child: Column(
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 110,
-                  decoration: const BoxDecoration(color: Color(0xFF212326)),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 50.0),
-                    child: Center(
-                      child: Text(
-                        'Comments (${data.length})',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w400,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                
                 Expanded(
                     child: ListView.builder(
                         physics: const ClampingScrollPhysics(),
                         padding: EdgeInsets.zero,
-                        itemCount: data.length,
+                        itemCount: sortedData.length,
                         itemBuilder: (context, index) {
-                          return CommentCard(
-                            comment: data[index].comment ?? '',
-                            name: data[index].firstName ?? '',
-                            createdAt: data[index].createdAt ?? '',
-                            lastName: data[index].lastName ?? '',
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
+                            child: CommentRatingCard(
+                              comment: sortedData[index],
+                            ),
                           );
                         }))
               ],

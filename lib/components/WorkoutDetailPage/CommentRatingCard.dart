@@ -4,10 +4,27 @@ import 'package:exopek_workout_app/domain/Models/Comment.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class CommentRatingCard extends StatelessWidget {
   final Comment comment;
   const CommentRatingCard({super.key, required this.comment});
+
+  String get timeAgo {
+    final now = DateTime.now();
+    DateFormat format = DateFormat('MM.dd.yy HH:mm:ss'); // MM.dd.yyyy HH:mm:ss
+    final createdAtDate = format.parseUTC(comment.createdAt!);
+    final difference = now.difference(createdAtDate);
+    if (difference.inDays > 0) {
+      return 'vor ${difference.inDays} Tagen';
+    } else if (difference.inHours > 0) {
+      return 'vor ${difference.inHours} Stunden';
+    } else if (difference.inMinutes > 0) {
+      return 'vor ${difference.inMinutes} Minuten';
+    } else {
+      return 'jetzt';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +81,7 @@ class CommentRatingCard extends StatelessWidget {
               SizedBox(
                 width: 8,
               ),
-              Text('vor 2 Tagen',
+              Text('${timeAgo}',
                   style: ThemeBase.of(context).labelMedium
                     .copyWith(color: ThemeBase.of(context).secondaryText)),
             ],
@@ -72,9 +89,12 @@ class CommentRatingCard extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(
-            comment.comment!,
-            style: ThemeBase.of(context).bodySmall,
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              comment.comment!,
+              style: ThemeBase.of(context).bodySmall,
+            ),
           ),
           SizedBox(
             height: 10,

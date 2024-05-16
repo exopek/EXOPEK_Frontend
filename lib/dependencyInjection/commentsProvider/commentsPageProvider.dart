@@ -4,7 +4,7 @@ import 'package:exopek_workout_app/domain/Models/Comment.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final commentsProvider =
-    FutureProvider.autoDispose<List<CommentReadDto>>((ref) async {
+    FutureProvider.autoDispose<List<Comment>>((ref) async {
       final id = ref.read(selectedWorkoutIdProvider);
   final data = await ref.watch(dioWorkoutProvider).getWorkoutComments(id);
   return data;

@@ -67,8 +67,8 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
     
     ref.read(userStateProvider.notifier).state = user.asData!.value;
     return CoachPageViewModel(
-        plans: planResult.asData!.value,
-        workouts: workoutResult.asData!.value,
+        plans: planResult.asData!.value.take(4).toList(),
+        workouts: workoutResult.asData!.value.take(4).toList(),
         startedPlans: startedPlans.asData!.value,
         planStatuses: planStatusResult.asData!.value,
         user: user.asData!.value);

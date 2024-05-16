@@ -132,7 +132,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                   padding: const EdgeInsets.only(left: 0.0),
                   child: SearchBarCustom(
                     xsize: 0.92,
-                    hint: "Search",
+                    hint: "Suchen",
                     controller: _searchController,
                     focusNode: _focusNode,
                     onClear: () {
@@ -178,7 +178,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                               FetchType.plan;
                         },
                         child: BigHashTagPill(
-                          text: "PLANS",
+                          text: "PLÄNE",
                           textColor: Color(0xFFD9D9D9),
                           color: fetchType == FetchType.plan
                               ? Color(0xFFC91717)
