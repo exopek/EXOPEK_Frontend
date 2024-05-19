@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,30 +8,51 @@ class ExerciseInfoCard extends StatelessWidget {
   final String name;
   final String sets;
   final String duration;
-  const ExerciseInfoCard({super.key, required this.name, required this.sets, required this.duration});
+  final String imageUrl;
+  const ExerciseInfoCard({super.key, required this.name, required this.sets, required this.duration, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 106,
-      height: 159,
-      child: Stack(
-        children: [
-          Positioned(
-            left: 1,
-            top: 0,
-            child: Container(
-              width: 105,
-              height: 159,
-              decoration: ShapeDecoration(
+      decoration: ShapeDecoration(
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+        ),
                 color: Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 0.50, color: Color(0xFF262424)),
+                  side: BorderSide(width: 0.50, color: ThemeBase.of(context).secondaryText),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          width: 106,
+          height: 50,
+          decoration: ShapeDecoration(
+            color: ThemeBase.of(context).primary.withOpacity(0.6),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
             ),
           ),
+          child: Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  style: ThemeBase.of(context).titleSmall.copyWith(
+                    color: ThemeBase.of(context).secondaryText,
+                    fontSize: 16,
+                    height: 0,
+                  ),
+                ),
+        ),
+      )/* Stack(
+        children: [
+          
           Positioned(
             left: -10,
             top: -10,
@@ -89,7 +111,7 @@ class ExerciseInfoCard extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      ), */
     );
   }
 

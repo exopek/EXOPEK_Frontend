@@ -303,7 +303,7 @@ class GenericBottomSheet {
                           itemCount: excerciseWorkoutConfig.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
-                              return ExerciseInfoCard(name: excerciseWorkoutConfig[index].name, sets: "1", duration: excerciseWorkoutConfig[index].duration.toString(),);
+                              return ExerciseInfoCard(name: excerciseWorkoutConfig[index].name, sets: "1", duration: excerciseWorkoutConfig[index].duration.toString(), imageUrl: '',);
                           },
                       ),
                     ),

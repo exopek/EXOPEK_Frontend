@@ -303,7 +303,7 @@ class DarkModeTheme extends ThemeBase {
   late Color primaryText = const Color(0xFFFFFFFF);
   late Color secondaryText = const Color(0xFF838282);
   late Color primaryBackground = const Color(0xFF0C0C0C);
-  late Color secondaryBackground = const Color(0xFF1F2328);
+  late Color secondaryBackground = const Color(0xFF1F2328);// für border 0xFF262424
   late Color accent1 = const Color(0xFFEEEEEE);
   late Color accent2 = const Color(0xFFE0E0E0);
   late Color accent3 = const Color(0xFF757575);

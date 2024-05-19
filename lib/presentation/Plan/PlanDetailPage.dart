@@ -2,12 +2,16 @@ import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/GenericBottomSheet.dart';
 import 'package:exopek_workout_app/components/HashTagPill.dart';
 import 'package:exopek_workout_app/components/PlanBenefits.dart';
+import 'package:exopek_workout_app/components/PlanDetailPage/PhaseDetails.dart';
+import 'package:exopek_workout_app/components/WorkoutDetailPage/ExerciseInfoCard.dart';
 import 'package:exopek_workout_app/components/WorkoutOverviewCard.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
+import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -79,6 +83,9 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                 plan: result.plan);
             AppRouter.goToPlanPhase(planPhase);
           } */
+          var distinctWorkouts = result.plan.workouts
+              .distinct((a, b) => a.name == b.name)
+              .toList();
           return Scaffold(
             body: SingleChildScrollView(
               physics: ClampingScrollPhysics(),
@@ -142,16 +149,9 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                         ), */
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 16.0, top: 8.0, bottom: 8.0),
-                          child: Text(
-                            result.plan.name,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                              left: 16.0, top: 8.0, bottom: 0.0),
+                          child: Text(result.plan.name,
+                              style: ThemeBase.of(context).headlineSmall),
                         ),
 
                         /* Positioned(
@@ -173,13 +173,11 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                           child: SizedBox(
                             width: MediaQuery.sizeOf(context).width,
                             child: Text(
-                              result.plan.description,
-                              style: TextStyle(
-                                color: Color(0xFF838282),
-                                fontSize: 12,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w300,
-                              ),
+                              result.plan.description.maybeHandleOverflow(
+                                  maxChars: 300, replacement: '...'),
+                              style: ThemeBase.of(context).bodySmall.copyWith(
+                                    color: ThemeBase.of(context).secondaryText,
+                                  ),
                             ),
                           ),
                         ),
@@ -211,6 +209,57 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                           ),
                         ),
                         Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, top: 8, bottom: 16),
+                          child: Text(
+                            'Workouts',
+                            style: ThemeBase.of(context).headlineSmall,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 200,
+                          width: MediaQuery.sizeOf(context).width,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: distinctWorkouts
+                                .length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 16.0, right: 16, bottom: 8),
+                                child: ExerciseInfoCard(
+                                  name: distinctWorkouts[index].name,
+                                  sets: "",
+                                  duration: "",
+                                  imageUrl: distinctWorkouts[index].previewImageUrl,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, top: 8, bottom: 0),
+                          child: Text(
+                            'Programm Details',
+                            style: ThemeBase.of(context).headlineSmall,
+                          ),
+                        ),
+                        for (int i = 0; i < result.plan.workoutMap.length; i++)
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
+                            child: PhaseDetails(
+                              title: 'Phase ${i + 1}',
+                              workoutPlanConfig: result.plan.workoutMap[
+                                      result.sortedCurrentPhaseTypes[i]]
+                                  as List<WorkoutPlanConfig>,
+                            ),
+                          ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        /* Padding(
                           padding: const EdgeInsets.only(
                               left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
                           child: Text(
@@ -268,7 +317,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                   );
                                 }),
                           ),
-                        ),
+                        ), */
                       ],
                     ),
                   ),

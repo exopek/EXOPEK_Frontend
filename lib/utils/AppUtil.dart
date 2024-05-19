@@ -271,7 +271,7 @@ void showSnackbar(
   );
 }
 
-extension FFStringExt on String {
+extension StringExt on String {
   String maybeHandleOverflow({int? maxChars, String replacement = ''}) =>
       maxChars != null && length > maxChars
           ? replaceRange(maxChars, null, replacement)
@@ -297,5 +297,17 @@ extension ListDivideExt<T extends Widget> on Iterable<T> {
 
   List<Widget> addToEnd(Widget t) =>
       enumerate.map((e) => e.value).toList()..add(t);
+}
+
+extension Distinct<E> on List<E> {
+  List<E> distinct([bool Function(E, E)? equals]) {
+    var result = <E>[];
+    for (var element in this) {
+      if (!result.any((e) => equals?.call(e, element) ?? e == element)) {
+        result.add(element);
+      }
+    }
+    return result;
+  }
 }
 

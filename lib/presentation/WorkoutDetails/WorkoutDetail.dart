@@ -12,10 +12,12 @@ import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutDetailPageViewModel.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
+import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../components/WorkoutDetailPage/CommentRatingCard.dart';
+import '../../components/WorkoutDetailPage/ExerciseInfoCard.dart';
 
 class WorkoutDetail extends ConsumerStatefulWidget {
   final PlanStatus? planStatus;
@@ -32,6 +34,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
     final result = ref.watch(asyncWorkoutDetailPageControllerProvider);
     return result.when(
         data: (result) {
+          var distinctExercises = result.workout.exercises.distinct((a, b) => a.name == b.name).toList();
           return Scaffold(
             backgroundColor: Color(0xFF0C0C0C),
             body: SingleChildScrollView(
@@ -150,12 +153,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                               children: [
                                 Text(
                                   'Bewertungen',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: ThemeBase.of(context).headlineSmall,
                                 ),
                             
                               ],
@@ -221,18 +219,36 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                           ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 16.0, top: 8, bottom: 8),
+                              left: 16.0, top: 8, bottom: 16),
                           child: Text(
-                            'Workout-Ablauf',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w600,
-                            ),
+                            'Übungen',
+                            style: ThemeBase.of(context).headlineSmall,
                           ),
                         ),
-                        Padding(
+                        SizedBox(
+                          height: 200,
+                          width: MediaQuery.sizeOf(context).width,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: distinctExercises.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 16.0, right: 16, bottom: 8),
+                                child: ExerciseInfoCard(
+                                  name: distinctExercises[index].name,
+                                  sets: '',
+                                  duration: '',
+                                  imageUrl: distinctExercises[index].previewImageUrl,
+                                ),
+                              );
+                            },),
+                        ),
+                        SizedBox(
+                          height: 46,
+                        ),
+                          
+                        /* Padding(
                           padding: const EdgeInsets.only(left: 0.0, bottom: 24),
                           child: SizedBox(
                             width: MediaQuery.sizeOf(context).width,
@@ -262,7 +278,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                                   );
                                 }),
                           ),
-                        ),
+                        ), */
                         /* Padding(
                           padding: const EdgeInsets.only(left: 16.0, bottom: 8),
                           child: Text(
