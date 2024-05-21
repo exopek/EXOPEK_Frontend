@@ -9,6 +9,7 @@ import 'package:exopek_workout_app/components/PlanProgressCard.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/dependencyInjection/plansProvider/PlansProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
@@ -303,7 +304,8 @@ class _CoachState extends ConsumerState<Coach> {
                                                         status: 0,
                                                         workoutIds: [],
                                                         progressPercentage: 0,
-                                                        planId: ""),
+                                                        planId: "",
+                                                        createdAt: DateTime.now().toString()),
                                                     plan: PlanListItem(
                                                         id: "",
                                                         name: "Stability Plan",
@@ -548,7 +550,8 @@ class _CoachState extends ConsumerState<Coach> {
               );
         },
         loading: () => Align(
-            alignment: Alignment.center, child: CircularProgressIndicator(strokeWidth: 1.0, color: Colors.black,)),
+            alignment: Alignment.center, child: CircularProgressIndicator(strokeWidth: 0.5, color: ThemeBase.of(context).secondary,
+              )),
         error: (error, stackTrace) => Text(error.toString()),
       ),
     );

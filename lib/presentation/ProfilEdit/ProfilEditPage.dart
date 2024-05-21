@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/components/CustomTextFieldButton.dart';
@@ -7,6 +9,7 @@ import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilEditPage extends ConsumerStatefulWidget {
   const ProfilEditPage({super.key});
@@ -32,8 +35,35 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
   FocusNode ageFocusNode = FocusNode();
   FocusNode heightFocusNode = FocusNode();
 
+  final ImagePicker _picker = ImagePicker();
+
+  Future<XFile?> getImageFromGallery(User user) async {
+    final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+        maxWidth: 800,
+        maxHeight: 600);
+    if (image != null) {
+      return image;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(uploadProfilImageButtonControllerProvider, (previous, next) {
+      if (next is AsyncData) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Image uploaded'),
+        ));
+        ref.invalidate(asyncProfilEditPageControllerProvider);
+      }
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(next.error.toString()),
+        ));
+      }
+    });
     ref.listen(asyncProfilEditPageUpdateUserButtonControllerProvider, (previous, next) { 
       if (next is AsyncData) {
         ref.invalidate(asyncProfilEditPageControllerProvider);
@@ -74,6 +104,69 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                 physics: ClampingScrollPhysics(),
                 child: Column(
                   children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Builder(builder: (context) {
+                        if (data.user.imageUrl != null) {
+                          return Container(
+                            width: 150,
+                            height: 150,
+                            decoration: ShapeDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(data.user.imageUrl!),
+                                fit: BoxFit.cover,
+                              ),
+                              shape: const OvalBorder(),
+                            ),
+                            child: TextButton(
+                                onPressed: () async {
+                                  var image =
+                                      await getImageFromGallery(data.user);
+                                  if (image != null) {
+                                    ref
+                                        .read(
+                                            uploadProfilImageButtonControllerProvider
+                                                .notifier)
+                                        .updateUserImage(
+                                          file: File(image.path),
+                                        );
+                                  }
+                                },
+                                child: Container()),
+                          );
+                        } else {
+                          return Container(
+                            width: 150,
+                            height: 150,
+                            decoration: const ShapeDecoration(
+                              shape: OvalBorder(
+                                side: BorderSide(
+                                  color: Color(0xFF262424),
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            child: TextButton(
+                              onPressed: () async {
+                                var image =
+                                    await getImageFromGallery(data.user);
+                                if (image != null) {
+                                  ref
+                                      .read(
+                                          uploadProfilImageButtonControllerProvider
+                                              .notifier)
+                                      .updateUserImage(
+                                        file: File(image.path),
+                                      );
+                                }
+                              },
+                              child: const Icon(Icons.person,
+                                  color: Colors.white, size: 100),
+                            ),
+                          );
+                        }
+                      }),
                     Divider(
                       height: 32,
                       thickness: 2,
@@ -233,7 +326,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
             },
             loading: () => Center(
                   child: CircularProgressIndicator(
-                    color: Colors.white,
+                    color: ThemeBase.of(context).secondary,
+                    strokeWidth: 0.5,
                   ),
                 ),
             error: (error, stack) => Center(

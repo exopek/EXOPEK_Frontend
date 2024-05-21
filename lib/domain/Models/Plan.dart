@@ -183,6 +183,7 @@ class PlanStatus {
   final List<String> workoutIds;
   final int progressPercentage;
   final String planId;
+  final String createdAt;
 
   PlanStatus(
       {required this.id,
@@ -190,7 +191,8 @@ class PlanStatus {
       required this.status,
       required this.workoutIds,
       required this.progressPercentage,
-      required this.planId});
+      required this.planId,
+      required this.createdAt});
 
   // FromReadDto
   factory PlanStatus.fromJson(Map<String, dynamic> json) {
@@ -200,6 +202,7 @@ class PlanStatus {
     final workoutIds = (json['workoutIds'] as List<dynamic>);
     final progressPercentage = json['progressPercentage'] as int;
     final planId = json['planId'] as String;
+    final createdAt = json['createdAt'] as String;
 
     return PlanStatus(
       id: id,
@@ -208,6 +211,7 @@ class PlanStatus {
       workoutIds: workoutIds.map((e) => e as String).toList(),
       progressPercentage: progressPercentage,
       planId: planId,
+      createdAt: createdAt,
     );
   }
 
@@ -219,6 +223,7 @@ class PlanStatus {
       workoutIds: [],
       progressPercentage: 0,
       planId: '',
+      createdAt: DateTime.now().toString(),
     );
   }
 

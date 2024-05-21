@@ -12,9 +12,10 @@ import 'package:flutter_svg/svg.dart';
 class WorkoutCardHorizontal extends ConsumerStatefulWidget {
   final WorkoutListItem workout;
   final bool hasTrained;
+  final String? lastTrained;
 
   const WorkoutCardHorizontal(
-      {super.key, required this.workout, this.hasTrained = false});
+      {super.key, required this.workout, this.hasTrained = false, this.lastTrained});
 
   @override
   ConsumerState<WorkoutCardHorizontal> createState() =>
@@ -122,7 +123,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CardInformationBlock(
-                    value: widget.workout.duration.toString(),
+                    value: widget.workout.duration.toString() + ' min',
                     icon: Icons.watch),
                 const SizedBox(width: 10),
                 if (widget.workout.rating != null && widget.workout.ratingAsDouble != 0.0)
@@ -138,11 +139,21 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                       ),
                     ),
                   ),
-                const SizedBox(width: 10),
+                if (widget.workout.rating != null && widget.workout.ratingAsDouble != 0.0)   
+                  const SizedBox(width: 10),
                 if (widget.workout.rating != null && widget.workout.ratingAsDouble != 0.0)
                   CardInformationBlock(
                       value: widget.workout.ratingAsString.toString(),
                       icon: Icons.star_border),
+                if (widget.lastTrained != null)
+                  Text(
+                    'Letztes Training: ${widget.lastTrained}',
+                    style: const TextStyle(
+                      color: Color(0xFF838282),
+                      fontSize: 10,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w300,
+                    )),
                 /* const SizedBox(width: 10),
                 if (widget.workout.comments != null &&
                     widget.workout.comments! > 0)

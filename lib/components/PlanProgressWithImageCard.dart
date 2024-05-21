@@ -67,65 +67,82 @@ class PlanProgressWithImageCard extends StatelessWidget {
               ),
             ),
           ),
-          // Progress bar
-          Positioned(
-            left: 125.90,
-            top: 128,
-            child: Container(
-              height: 10,
-              width: 172,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      width: 172,
-                      height: 10,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFD9D9D9),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color.fromARGB(255, 181, 156, 156)),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      width: 172 * planStatus.progressPercentage / 100,
-                      height: 10,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFCE2323),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Progress text
-          Positioned(
-            left: 125.90,
-            top: 108,
-            child: SizedBox(
+          if (planStatus.progressPercentage == 100)
+            Positioned(
+              left: 125.90,
+              top: 128,
               child: Text(
-                '${planStatus.progressPercentage}% Completed',
+                "Plan Abgeschlossen: " + planStatus.createdAt.toString().split("T")[0],
                 style: TextStyle(
                   color: Color(0xFF838282),
                   fontSize: 10,
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w300,
                   height: 0,
+                )
+              )
+            ),
+          // Progress bar
+          if (planStatus.progressPercentage != 100)
+            Positioned(
+              left: 125.90,
+              top: 128,
+              child: Container(
+                height: 10,
+                width: 172,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Container(
+                        width: 172,
+                        height: 10,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFD9D9D9),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color.fromARGB(255, 181, 156, 156)),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Container(
+                        width: 172 * planStatus.progressPercentage / 100,
+                        height: 10,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFCE2323),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ),
+          // Progress text
+          if (planStatus.progressPercentage != 100)
+            Positioned(
+              left: 125.90,
+              top: 108,
+              child: SizedBox(
+                child: Text(
+                  '${planStatus.progressPercentage}% Abgeschlossen',
+                  style: TextStyle(
+                    color: Color(0xFF838282),
+                    fontSize: 10,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w300,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
           // Information Block
           Positioned(
             left: 122.81,
@@ -140,7 +157,7 @@ class PlanProgressWithImageCard extends StatelessWidget {
                     left: 3.52,
                     top: 4.68,
                     child: CardInformationBlock(
-                      value: plan.duration.toString() + " weeks",
+                      value: plan.duration.toString() + " wochen",
                       icon: Icons.watch,
                     )
                   ),
