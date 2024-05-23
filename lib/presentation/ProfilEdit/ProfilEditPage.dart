@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/components/CustomTextFieldButton.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/TrainingFrequencyType.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
+import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -64,25 +67,67 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
         ));
       }
     });
-    ref.listen(asyncProfilEditPageUpdateUserButtonControllerProvider, (previous, next) { 
+    ref.listen(asyncProfilEditPageUpdateUserButtonControllerProvider,
+        (previous, next) {
       if (next is AsyncData) {
         ref.invalidate(asyncProfilEditPageControllerProvider);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Update erfolgreich."),
-          ),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: ThemeBase.of(context).primaryBackground,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            
+            content: Row(
+              children: [
+                const Icon(Icons.check, color: Colors.green),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Update erfolgreich!',
+                  style: TextStyle(
+                    color: ThemeBase.of(context).primaryText,
+                    fontSize: 12,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),),
+                ),
+              ],
+            ),
+          ));
       } else if (next is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Update fehlgeschlagen."),
-          ),
-        );
+        next.whenOrNull(
+            error: (error, stackTrace) =>
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: ThemeBase.of(context).primaryBackground,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            
+            content: Row(
+              children: [
+                const Icon(Icons.error, color: Colors.red),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(error.toString(),
+                  style: TextStyle(
+                    color: ThemeBase.of(context).primaryText,
+                    fontSize: 12,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),),
+                ),
+              ],
+            ),
+          )));
       }
     });
     final profilEditPageControllerProvider =
         ref.watch(asyncProfilEditPageControllerProvider);
-    final state = ref.watch(asyncProfilEditPageUpdateUserButtonControllerProvider);
+    final state =
+        ref.watch(asyncProfilEditPageUpdateUserButtonControllerProvider);
     return Scaffold(
         backgroundColor: Color(0xFF0C0C0C),
         appBar: AppBar(
@@ -92,14 +137,25 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
         ),
         body: profilEditPageControllerProvider.when(
             data: (data) {
+              /// <summary>
+              /// If Page refreshes, all changes are lost
+              /// </summary>
               usernameController.text = data.user.username;
               firstnameController.text = data.user.firstname;
               lastnameController.text = data.user.lastname;
               emailController.text = data.user.email;
-              ageController.text = data.user.age == null ? "---" : data.user.age.toString();
-              heightController.text = data.user.height == null ? "---" : data.user.height.toString();
-              sportController.text = data.user.sport == SportType.None ? "---" : data.user.sport.name;
-              trainingFrequencyController.text = data.user.trainingFrequency == null ? "---" : data.user.trainingFrequencyTypeAsString.toString();
+              ageController.text =
+                  data.user.age == null ? "---" : data.user.age.toString();
+              heightController.text = data.user.height == null
+                  ? "---"
+                  : data.user.height.toString();
+              sportController.text = data.user.sport == SportType.None
+                  ? "---"
+                  : data.user.sport.name;
+              trainingFrequencyController.text =
+                  data.user.previousTrainingFrequency == TrainingFrequencyType.None
+                      ? "---"
+                      : data.user.previousTrainingFrequency!.name;
               return SingleChildScrollView(
                 physics: ClampingScrollPhysics(),
                 child: Column(
@@ -108,46 +164,18 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       height: 20,
                     ),
                     Builder(builder: (context) {
-                        if (data.user.imageUrl != null) {
-                          return Container(
-                            width: 150,
-                            height: 150,
-                            decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(data.user.imageUrl!),
-                                fit: BoxFit.cover,
-                              ),
-                              shape: const OvalBorder(),
+                      if (data.user.imageUrl != null) {
+                        return Container(
+                          width: 150,
+                          height: 150,
+                          decoration: ShapeDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(data.user.imageUrl!),
+                              fit: BoxFit.cover,
                             ),
-                            child: TextButton(
-                                onPressed: () async {
-                                  var image =
-                                      await getImageFromGallery(data.user);
-                                  if (image != null) {
-                                    ref
-                                        .read(
-                                            uploadProfilImageButtonControllerProvider
-                                                .notifier)
-                                        .updateUserImage(
-                                          file: File(image.path),
-                                        );
-                                  }
-                                },
-                                child: Container()),
-                          );
-                        } else {
-                          return Container(
-                            width: 150,
-                            height: 150,
-                            decoration: const ShapeDecoration(
-                              shape: OvalBorder(
-                                side: BorderSide(
-                                  color: Color(0xFF262424),
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                            child: TextButton(
+                            shape: const OvalBorder(),
+                          ),
+                          child: TextButton(
                               onPressed: () async {
                                 var image =
                                     await getImageFromGallery(data.user);
@@ -161,12 +189,39 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                                       );
                                 }
                               },
-                              child: const Icon(Icons.person,
-                                  color: Colors.white, size: 100),
+                              child: Container()),
+                        );
+                      } else {
+                        return Container(
+                          width: 150,
+                          height: 150,
+                          decoration: const ShapeDecoration(
+                            shape: OvalBorder(
+                              side: BorderSide(
+                                color: Color(0xFF262424),
+                                width: 2,
+                              ),
                             ),
-                          );
-                        }
-                      }),
+                          ),
+                          child: TextButton(
+                            onPressed: () async {
+                              var image = await getImageFromGallery(data.user);
+                              if (image != null) {
+                                ref
+                                    .read(
+                                        uploadProfilImageButtonControllerProvider
+                                            .notifier)
+                                    .updateUserImage(
+                                      file: File(image.path),
+                                    );
+                              }
+                            },
+                            child: const Icon(Icons.person,
+                                color: Colors.white, size: 100),
+                          ),
+                        );
+                      }
+                    }),
                     Divider(
                       height: 32,
                       thickness: 2,
@@ -274,7 +329,12 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         controller: trainingFrequencyController,
                         hint: "Wie oft trainierts du pro Woche?",
                         suffixIcon: Icons.chevron_right,
-                        onTap: () => print("object"),
+                        onTap: () => AppRouter.goToTrainingFrequencySelection(
+                          (trainingFrequencyType) {
+                            trainingFrequencyController.text =
+                                trainingFrequencyType.name;
+                          },
+                        )
                       ),
                     ),
                     SizedBox(
@@ -286,7 +346,11 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         controller: sportController,
                         hint: "Deine Sportart?",
                         suffixIcon: Icons.chevron_right,
-                        onTap: () => print("object"),
+                        onTap: () => AppRouter.goToSportTypeSelection(
+                          (sportType) {
+                            sportController.text = sportType.name;
+                          },
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -298,22 +362,35 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         isLoading: state.isLoading,
                         label: "Speichern",
                         onPressed: () {
-                          
                           ref
-                              .read(asyncProfilEditPageUpdateUserButtonControllerProvider.notifier)
+                              .read(
+                                  asyncProfilEditPageUpdateUserButtonControllerProvider
+                                      .notifier)
                               .updateUser(
                                   user: UpdateUserDto(
-                                      id: data.user.id,
-                                      firstname: firstnameController.text,
-                                      lastname: lastnameController.text,
-                                      username: usernameController.text,
-                                      email: emailController.text,
-                                      password: data.user.password,
-                                      imageUrl: data.user.imageUrl,
-                                      age: int.parse(ageController.text),
-                                      height: double.parse(heightController.text),
-                                      sport: sportController.text == "---" ? SportType.None : SportType.values.firstWhere((element) => element.name == sportController.text),
-                                      trainingFrequency: int.parse(TrainingFrequencyType.values.firstWhere((element) => element.name == trainingFrequencyController.text).toString())));
+                                id: data.user.id,
+                                firstname: firstnameController.text,
+                                lastname: lastnameController.text,
+                                username: usernameController.text,
+                                email: emailController.text,
+                                password: data.user.password,
+                                imageUrl: data.user.imageUrl,
+                                age: int.parse(ageController.text),
+                                height: double.parse(heightController.text),
+                                sport: sportController.text == "---"
+                                    ? SportType.None
+                                    : SportType.values.firstWhere((element) =>
+                                        element.name ==
+                                        sportController
+                                            .text), 
+                                previousTrainingFrequency: trainingFrequencyController.text == "---"
+                                    ? TrainingFrequencyType.None
+                                    : TrainingFrequencyType.values.firstWhere((element) =>
+                                        element.name ==
+                                        trainingFrequencyController
+                                            .text),
+                                trainingFrequency: data.user.trainingFrequency,
+                              ));
                         },
                       ),
                     ),

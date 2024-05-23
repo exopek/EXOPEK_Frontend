@@ -1,9 +1,9 @@
 import 'package:exopek_workout_app/components/Onboarding/OnboardingSelectionButton.dart';
-import 'package:exopek_workout_app/data/DioProvider.dart';
-import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/TrainingFrequencyType.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,12 +35,9 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
       roles: [],
       sport: SportType.None,
     );
-    selection = {
-      '0 - 1 Unregelmäßig': false,
-      '2 - 3 Regelmäßig': false,
-      '4 - 5 Athlet': false,
-      '6 - 7 Profi Athlet': false
-    };
+    selection = TrainingFrequencyType.values
+        .asMap()
+        .map((key, value) => MapEntry(value.name.toString(), false));
     previousTrainingFrequency = TrainingFrequencyType.None;
   }
 
@@ -57,7 +54,9 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
           lastname: user.lastname,
           firstname: user.firstname,
           roles: user.roles,
-          sport: user.sport
+          sport: user.sport,
+          trainingFrequency: user.trainingFrequency,
+          previousTrainingFrequency: user.previousTrainingFrequency,
         );
         return Scaffold(
           body: Container(
@@ -101,7 +100,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
                         height: 400,
                         width: MediaQuery.of(context).size.width-72,
                         child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
+                          
                           itemCount: selection.length,
                           itemBuilder: ((context, index) {
                             return Padding(
@@ -121,7 +120,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
                                             if (key ==
                                                 selection.keys.toList()[index]) {
                                               selection[key] = true;
-                                              previousTrainingFrequency = TrainingFrequencyType.values[index+1];
+                                              previousTrainingFrequency = TrainingFrequencyType.values[index];
 
                                             } else {
                                               selection[key] = false;
@@ -142,7 +141,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
                     label: 'Weiter',
                     onPressed: () {
                       updateUserDto = updateUserDto.copyWith(
-                          previousTrainingFrequency: previousTrainingFrequency.index);
+                          previousTrainingFrequency: previousTrainingFrequency);
                       AppRouter.goToOnBoarding4(updateUserDto);
                     },
                   ),
@@ -154,7 +153,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
       },
       loading: () {
         return Align(
-            alignment: Alignment.topCenter, child: CircularProgressIndicator(strokeWidth: 1.0, color: Colors.white,));
+            alignment: Alignment.topCenter, child: CircularProgressIndicator(strokeWidth: 0.5, color: ThemeBase.of(context).secondary,));
       },
       error: (error, stack) {
         throw Exception(error);

@@ -119,16 +119,17 @@ class _ProfileState extends ConsumerState<Profile> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            'Letzten Workouts',
-                            style: ThemeBase.of(context).headlineSmall,
+                      if (data.workouts.isNotEmpty)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'Letzten Workouts',
+                              style: ThemeBase.of(context).headlineSmall,
+                            ),
                           ),
                         ),
-                      ),
                       const SizedBox(height: 10),
                       SizedBox(
                           width: MediaQuery.of(context).size.width,
@@ -154,16 +155,17 @@ class _ProfileState extends ConsumerState<Profile> {
                             },
                           )),
                       const SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            'Abgeschlossene Pläne',
-                            style: ThemeBase.of(context).headlineSmall,
+                      if (data.plans.isNotEmpty)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'Abgeschlossene Pläne',
+                              style: ThemeBase.of(context).headlineSmall,
+                            ),
                           ),
                         ),
-                      ),
                       const SizedBox(height: 10),
                       SizedBox(
                           width: MediaQuery.of(context).size.width,

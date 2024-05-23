@@ -12,7 +12,7 @@ class CommentRatingCard extends StatelessWidget {
 
   String get timeAgo {
     final now = DateTime.now();
-    DateFormat format = DateFormat('MM/dd/yy HH:mm:ss'); // MM.dd.yyyy HH:mm:ss
+    DateFormat format = DateFormat('MM/dd/yy HH:mm:ss'); // MM.dd.yyyy HH:mm:ss für lokal backend laufend
     final createdAtDate = format.parseUTC(comment.createdAt!);
     final difference = now.difference(createdAtDate);
     if (difference.inDays > 0) {

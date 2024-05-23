@@ -1,4 +1,6 @@
 import 'package:exopek_workout_app/components/Navigation/DashboardSideMenu.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/TrainingFrequencyType.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
@@ -12,6 +14,8 @@ import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/PreTimerPage.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPage.dart';
+import 'package:exopek_workout_app/presentation/ProfilEdit/SportTypeSelectionPage.dart';
+import 'package:exopek_workout_app/presentation/ProfilEdit/TrainingFrequencySelectionPage.dart';
 import 'package:exopek_workout_app/presentation/Settings/Settings.dart';
 import 'package:exopek_workout_app/presentation/WorkoutDetails/WorkoutDetail.dart';
 import 'package:exopek_workout_app/presentation/Workouts.dart';
@@ -89,7 +93,6 @@ class AppRouter {
       GoRoute(
           path: "/planPhase",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return PlanPhasePage();
           }),
       GoRoute(
@@ -100,21 +103,18 @@ class AppRouter {
       GoRoute(
           path: "/videoLoops",
           builder: (context, state) {
-            //final workoutConfig = state./* queryParams['workoutConfig']; */
             return LoopVideos(
                 viewModel: state.extra as LoopVideosPageViewModel);
           }),
       GoRoute(
           path: "/preTimer",
           builder: (context, state) {
-            //final workoutConfig = state./* queryParams['workoutConfig']; */
             return PreTimerPage(
                 viewModel: state.extra as LoopVideosPageViewModel);
           }),
       GoRoute(
           path: "/workoutSummary",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return WorkoutSummaryPage(
               viewModel: state.extra as WorkoutSummaryPageViewModel,
             );
@@ -122,31 +122,26 @@ class AppRouter {
       GoRoute(
           path: "/onBoarding0",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return OnBoarding0();
           }),
       GoRoute(
           path: "/onBoarding1",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return OnBoarding1();
           }),
       GoRoute(
           path: "/onBoarding2",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return OnBoarding2();
           }),
       GoRoute(
           path: "/onBoarding3",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return OnBoarding3();
           }),
       GoRoute(
           path: "/onBoarding4",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return OnBoarding4(
               userDto: state.extra as UpdateUserDto,
             );
@@ -154,7 +149,6 @@ class AppRouter {
       GoRoute(
           path: "/onBoarding5",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return OnBoarding5(
               userDto: state.extra as UpdateUserDto,
             );
@@ -162,7 +156,6 @@ class AppRouter {
       GoRoute(
           path: "/onBoarding6",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return OnBoarding6(
               userDto: state.extra as UpdateUserDto,
             );
@@ -170,19 +163,16 @@ class AppRouter {
       GoRoute(
           path: "/login",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return LoginPage();
           }),
       GoRoute(
           path: "/comments",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return CommentsPage();
           }),
       GoRoute(
           path: "/settings",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return SettingsPage(
               user: state.extra as User,
             );
@@ -190,13 +180,11 @@ class AppRouter {
       GoRoute(
           path: "/profilEdit",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return const ProfilEditPage();
           }),
       GoRoute(
           path: "/resetPassword",
           builder: (context, state) {
-            /* return PlanPhasePage(planPhase: state.extra as PlanPhase); */
             return const ForgotPasswordPage();
           }),
       GoRoute(
@@ -217,6 +205,26 @@ class AppRouter {
                   child: child,
                 );
               });
+          }),
+      GoRoute(
+          path: "/sportTypeSelection",
+          builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>?;
+            final Function(SportType) onSportTypeSelected =
+                extra?['onSportTypeSelected'] as Function(SportType);
+            return SportTypeSelectionPage(
+              onSportTypeSelected: onSportTypeSelected,
+            );
+          }),
+      GoRoute(
+          path: "/trainingFrequencySelection",
+          builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>?;
+            final Function(TrainingFrequencyType) onTrainingFrequencySelected =
+                extra?['onTrainingFrequencyTypeSelected'] as Function(TrainingFrequencyType);
+            return TrainingFrequencySelectionPage(
+              onTrainingFrequencyTypeSelected: onTrainingFrequencySelected,
+            );
           }),
     ],
   );
@@ -335,6 +343,14 @@ class AppRouter {
 
   static void goToOnBoarding0() {
     router.pushReplacement("/onBoarding0");
+  }
+
+  static void goToSportTypeSelection(Function(SportType) onSportTypeSelected) {
+    router.push("/sportTypeSelection", extra: {'onSportTypeSelected': onSportTypeSelected});
+  }
+
+  static void goToTrainingFrequencySelection(Function(TrainingFrequencyType) onTrainingFrequencySelected) {
+    router.push("/trainingFrequencySelection", extra: {'onTrainingFrequencyTypeSelected': onTrainingFrequencySelected});
   }
 }
 

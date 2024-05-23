@@ -1,22 +1,11 @@
 import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/TrainingFrequencyType.dart';
 
 enum GenderType {
   Male,
   Female,
   Diverse
 }
-
-enum TrainingFrequencyType {
-  None,
-  Once,
-  Twice,
-  ThreeTimes,
-  FourTimes,
-  FiveTimes,
-  SixTimes,
-  SevenTimes
-}
-
 
 sealed class User {
   
@@ -49,10 +38,10 @@ sealed class User {
   final double? height;
   final double? weight;
   final int? age;
-  final int? previousTrainingFrequency;
-  final int? trainingFrequency;
+  final TrainingFrequencyType? previousTrainingFrequency;
+  final TrainingFrequencyType? trainingFrequency;
 
-  get trainingFrequencyType => TrainingFrequencyType.values[trainingFrequency ?? 0];
+  //get trainingFrequencyType => TrainingFrequencyType.values[trainingFrequency ?? 0];
 
   get trainingFrequencyTypeAsString {
     switch (trainingFrequency) {
@@ -114,8 +103,8 @@ class ReadUserDto extends User {
   double? weight;
   int? age;
   SportType sport;
-  int? previousTrainingFrequency;
-  int? trainingFrequency;
+  TrainingFrequencyType? previousTrainingFrequency;
+  TrainingFrequencyType? trainingFrequency;
   ReadUserDto({
     required String id,
     required String firstname,
@@ -157,8 +146,8 @@ class ReadUserDto extends User {
         weight: double.tryParse(json["weight"].toString()),
         age: json["age"] as int?,
         sport: SportType.values[json["sportType"] as int],
-        previousTrainingFrequency: json["previousTrainingFrequency"] as int?,
-        trainingFrequency: json["trainingFrequency"] as int?,
+        previousTrainingFrequency: TrainingFrequencyType.values[json["previousTrainingFrequency"] as int],
+        trainingFrequency: TrainingFrequencyType.values[json["trainingFrequency"] as int],
       );   
 }
 
@@ -168,8 +157,8 @@ class UpdateUserDto extends User {
   double? height;
   double? weight;
   SportType sport;
-  int? previousTrainingFrequency;
-  int? trainingFrequency;
+  TrainingFrequencyType? previousTrainingFrequency;
+  TrainingFrequencyType? trainingFrequency = TrainingFrequencyType.None;
   String? imageUrl;
 
   UpdateUserDto({
@@ -212,8 +201,8 @@ class UpdateUserDto extends User {
         "height": height,
         "weight": weight,
         "sportType": sport.index,
-        "previousTrainingFrequency": previousTrainingFrequency,
-        "trainingFrequency": trainingFrequency,
+        "previousTrainingFrequency": previousTrainingFrequency!.index,
+        "trainingFrequency": trainingFrequency!.index,
         "imageUrl": imageUrl,
       };
 
@@ -230,8 +219,8 @@ class UpdateUserDto extends User {
     double? height,
     double? weight,
     SportType? sport,
-    int? previousTrainingFrequency,
-    int? trainingFrequency,
+    TrainingFrequencyType? previousTrainingFrequency,
+    TrainingFrequencyType? trainingFrequency,
     String? imageUrl,
   }) {
     return UpdateUserDto(

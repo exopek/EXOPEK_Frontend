@@ -20,26 +20,32 @@ class ProfilPageController extends AutoDisposeAsyncNotifier<ProfilPageViewModel>
     if (workoutResult is AsyncError) {
       state = AsyncError("Workouts could not be fetched", StackTrace.current);
     }
+    final user = await AsyncValue.guard(() => userRepository.getUser());
+    if (user is AsyncError) {
+      state = AsyncError("User could not be fetched", StackTrace.current);
+    }
     final planStatusResult = await AsyncValue.guard(
         () => planRepository.getPlanStatuses(status: StatusType.COMPLETED)); 
     if (planStatusResult is AsyncError) {
       state = AsyncError("Plan statuses could not be fetched", StackTrace.current);
     }
-    final planResult = await AsyncValue.guard(
+    if (planStatusResult is AsyncData && planStatusResult.asData!.value.isNotEmpty) {
+      final planResult = await AsyncValue.guard(
         () => planRepository.getPlans(planIds: planStatusResult.asData!.value.map((e) => e.planId).join(",")));
-    if (planResult is AsyncError) {
-      state = AsyncError("Plans could not be fetched", StackTrace.current);
-    }
-    final user = await AsyncValue.guard(() => userRepository.getUser());
-    if (user is AsyncError) {
-      state = AsyncError("User could not be fetched", StackTrace.current);
-    }
-    
-    return ProfilPageViewModel(
+      if (planResult is AsyncError) {
+        state = AsyncError("Plans could not be fetched", StackTrace.current);
+      }
+      return ProfilPageViewModel(
         workouts: workoutResult.asData!.value,
         user: user.asData!.value,
         plans: planResult.asData!.value,
         planStatuses: planStatusResult.asData!.value);
+    }
+    return ProfilPageViewModel(
+      workouts: workoutResult.asData!.value,
+      user: user.asData!.value,
+      plans: [],
+      planStatuses: planStatusResult.asData!.value);
   }
 
   @override

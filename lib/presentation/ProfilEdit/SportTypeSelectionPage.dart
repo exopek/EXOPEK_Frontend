@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
 
-class OnBoarding4 extends StatefulWidget {
-  final UpdateUserDto userDto;
-  const OnBoarding4({super.key, required this.userDto});
+class SportTypeSelectionPage extends StatefulWidget {
+  final Function(SportType) onSportTypeSelected;
+  const SportTypeSelectionPage({super.key, required this.onSportTypeSelected});
 
   @override
-  State<OnBoarding4> createState() => _OnBoarding4State();
+  State<SportTypeSelectionPage> createState() => _SportTypeSelectionPageState();
 }
 
-class _OnBoarding4State extends State<OnBoarding4> {
+class _SportTypeSelectionPageState extends State<SportTypeSelectionPage> {
   late Map selection;
   late SportType sportType;
 
@@ -32,6 +32,10 @@ class _OnBoarding4State extends State<OnBoarding4> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeBase.of(context).primaryBackground,
+      appBar: AppBar(
+        title: Text('Sportart auswählen'),
+        centerTitle: false,
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -81,10 +85,10 @@ class _OnBoarding4State extends State<OnBoarding4> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: CtaButton(
-                  label: 'Weiter',
+                  label: 'Übernehmen',
                   onPressed: () {
-                    var userDto = widget.userDto.copyWith(sport: sportType);
-                    AppRouter.goToOnBoarding5(userDto);
+                    widget.onSportTypeSelected(sportType);
+                    Navigator.pop(context);
                   },
                 ),
               ),

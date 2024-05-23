@@ -7,6 +7,7 @@ import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/data/repository/WorkoutRepository.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../AppConfig.dart';
@@ -24,7 +25,7 @@ final dioProvider = Provider((ref) {
     return handler.next(options); //continue
   }, onResponse: (response, handler) {
     return handler.next(response); // continue
-  }, onError: (DioError e, handler) {
+  }, /* onError: (DioException e, handler) {
     print(AppRouter.router.routeInformationProvider.value.uri.toString());
     if (e.response?.statusCode == 401) {
       /* switch (AppRouter.router.routeInformationProvider.value.uri.toString()) {
@@ -37,8 +38,11 @@ final dioProvider = Provider((ref) {
       
       return handler.resolve(Response(requestOptions: e.requestOptions, data: {"error": "Unauthorized"}));
     }
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(e.response?.data["error"] ?? "An error occured"),
+    ));
     return handler.next(e); //continue
-  }));
+  } */));
   return dio;
 });
 

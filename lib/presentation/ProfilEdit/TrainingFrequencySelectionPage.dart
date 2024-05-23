@@ -1,5 +1,6 @@
 import 'package:exopek_workout_app/components/Onboarding/OnboardingSelectionButton.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/TrainingFrequencyType.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
@@ -7,38 +8,42 @@ import 'package:flutter/material.dart';
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
 
-class OnBoarding4 extends StatefulWidget {
-  final UpdateUserDto userDto;
-  const OnBoarding4({super.key, required this.userDto});
+class TrainingFrequencySelectionPage extends StatefulWidget {
+  final Function(TrainingFrequencyType) onTrainingFrequencyTypeSelected;
+  const TrainingFrequencySelectionPage({super.key, required this.onTrainingFrequencyTypeSelected});
 
   @override
-  State<OnBoarding4> createState() => _OnBoarding4State();
+  State<TrainingFrequencySelectionPage> createState() => _TrainingFrequencySelectionPageState();
 }
 
-class _OnBoarding4State extends State<OnBoarding4> {
+class _TrainingFrequencySelectionPageState extends State<TrainingFrequencySelectionPage> {
   late Map selection;
-  late SportType sportType;
+  late TrainingFrequencyType trainingFrequencyType;
 
   @override
   void initState() {
     super.initState();
-    selection = SportType.values
+    selection = TrainingFrequencyType.values
         .asMap()
         .map((key, value) => MapEntry(value.name.toString(), false));
-    sportType = SportType.None;
+    trainingFrequencyType = TrainingFrequencyType.None;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeBase.of(context).primaryBackground,
+      appBar: AppBar(
+        title: Text('Trainingsfrequenz auswählen'),
+        centerTitle: false,
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Padding(
               padding:
                   const EdgeInsets.only(left: 36.0, right: 36.0, top: 50.0),
-              child: Text('In welchem Sport bist Du aktiv?',
+              child: Text('Wie oft trainierst Du pro Woche?',
                   style: ThemeBase.of(context).headlineLarge),
             ),
             const SizedBox(
@@ -63,7 +68,7 @@ class _OnBoarding4State extends State<OnBoarding4> {
                                 selection.forEach((key, value) {
                                   if (key == selection.keys.toList()[index]) {
                                     selection[key] = true;
-                                    sportType = SportType.values[index];
+                                    trainingFrequencyType = TrainingFrequencyType.values[index];
                                   } else {
                                     selection[key] = false;
                                   }
@@ -81,10 +86,10 @@ class _OnBoarding4State extends State<OnBoarding4> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: CtaButton(
-                  label: 'Weiter',
+                  label: 'Übernehmen',
                   onPressed: () {
-                    var userDto = widget.userDto.copyWith(sport: sportType);
-                    AppRouter.goToOnBoarding5(userDto);
+                    widget.onTrainingFrequencyTypeSelected(trainingFrequencyType);
+                    Navigator.pop(context);
                   },
                 ),
               ),

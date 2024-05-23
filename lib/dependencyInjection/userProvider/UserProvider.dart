@@ -48,6 +48,9 @@ final updateUserButtonControllerProvider =
 
 final userProvider = FutureProvider.autoDispose<ReadUserDto>((ref) async {
   final data = await ref.watch(userRepositoryProvider).getUser();
+  /// <summary>
+  /// User is a state provider that is used to store the user data in the app
+  /// </summary>
   ref.read(userStateProvider.notifier).state = data;
   return data;
 });
