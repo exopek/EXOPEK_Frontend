@@ -13,6 +13,7 @@ import 'package:exopek_workout_app/presentation/Profil/ProfilPageController.dart
 import 'package:exopek_workout_app/presentation/Profil/UploadProfilImageButtonController.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPageController.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPageUpdateUserButtonController.dart';
+import 'package:exopek_workout_app/presentation/Settings/DeleteUserController.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -83,4 +84,9 @@ final asyncResetPasswordButtonControllerProvider =
 final asyncUserCredentialsProvider =
     AsyncNotifierProvider.autoDispose<LoginPageController, Map<String, String>>(() {
   return LoginPageController();
+});
+
+final asyncDeleteUserControllerProvider =
+    AsyncNotifierProvider.autoDispose<DeleteUserController, void>(() {
+  return DeleteUserController();
 });

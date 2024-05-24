@@ -1,6 +1,7 @@
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,15 +21,37 @@ class _OnBoarding6State extends ConsumerState<OnBoarding6> {
   FocusNode heightFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
-    ref.listen(updateUserButtonControllerProvider, (previous, next) { 
+    ref.listen(updateUserButtonControllerProvider, (previous, next) {
       if (next is AsyncData) {
         AppRouter.goToMainPage();
       } else if (next is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Update fehlgeschlagen."),
-          ),
-        );
+        next.whenOrNull(
+            error: (error, stackTrace) =>
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: ThemeBase.of(context).primaryBackground,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  content: Row(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          error.toString(),
+                          style: TextStyle(
+                            color: ThemeBase.of(context).primaryText,
+                            fontSize: 12,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )));
       }
     });
     final state = ref.watch(updateUserButtonControllerProvider);
@@ -72,7 +95,6 @@ class _OnBoarding6State extends ConsumerState<OnBoarding6> {
               right: 36,
               top: 228,
               child: CustomTextField(
-                
                 controller: heightController,
                 hint: 'Körpergröße (cm)',
                 focusNode: heightFocusNode,
@@ -89,7 +111,9 @@ class _OnBoarding6State extends ConsumerState<OnBoarding6> {
                   var userDto = widget.userDto.copyWith(
                     height: double.parse(heightController.text),
                   );
-                  ref.read(updateUserButtonControllerProvider.notifier).updateUser(user: userDto);
+                  ref
+                      .read(updateUserButtonControllerProvider.notifier)
+                      .updateUser(user: userDto);
                 },
               ),
             ),

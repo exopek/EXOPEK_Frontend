@@ -7,6 +7,7 @@ import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/data/contracts/IUserRepository.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository implements IUserRepository {
   UserRepository(this.ref);
@@ -54,9 +55,14 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<bool> deleteUser(String id) {
-    // TODO: implement deleteUser
-    throw UnimplementedError();
+  Future<bool> deleteUser() async {
+    Dio _dio = ref.watch(dioProvider);
+    Response res = await _dio.delete("users");
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -107,6 +113,15 @@ class UserRepository implements IUserRepository {
     } else {
       return false;
     }
+  }
+  
+  @override
+  Future<bool> logout() async {
+    Dio _dio = ref.watch(dioProvider);
+    _dio.options.headers.remove("Authorization");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("jwt_token");
+    return true;
   }}
 
   

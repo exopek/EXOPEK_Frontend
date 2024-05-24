@@ -305,6 +305,10 @@ class AppRouter {
     router.push("/login");
   }
 
+  static void goToLoginAndRemoveLastRoute() {
+    router.go("/login");
+  }
+
   static void goToVideoLoops(LoopVideosPageViewModel viewModel) {
     router.push("/videoLoops", extra: viewModel);
   }
@@ -343,6 +347,10 @@ class AppRouter {
 
   static void goToOnBoarding0() {
     router.pushReplacement("/onBoarding0");
+  }
+
+  static void goToOnBoarding0AndRemoveLastRoute() {
+    router.go("/onBoarding0");
   }
 
   static void goToSportTypeSelection(Function(SportType) onSportTypeSelected) {

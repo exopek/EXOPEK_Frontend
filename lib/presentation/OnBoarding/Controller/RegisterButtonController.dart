@@ -11,19 +11,53 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
   RegisterButtonController();
 
-  void register({required String username, required String password, required String email, required String lastname, required String firstname}) async {
+  void register(
+      {required String username,
+      required String password,
+      required String email,
+      required String lastname,
+      required String firstname}) async {
     final UserRepository userRepository = ref.read(userRepositoryProvider);
     final Dio _dio = ref.read(dioProvider);
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => userRepository.createUser(CreateUserDto(username: username, password: password, email: email, lastname: lastname, firstname: firstname, roles: ["user"])));
-    if (state is AsyncError) {
-      state = AsyncError('Failure to register!', StackTrace.current);
+    try {
+      await userRepository.createUser(CreateUserDto(
+          username: username,
+          password: password,
+          email: email,
+          lastname: lastname,
+          firstname: firstname,
+          roles: ["user"]));
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response != null && e.response!.data != null) {
+          state =
+              AsyncError(e.response!.data[0].toString(), StackTrace.current);
+        } else {
+          state = AsyncError(e.message.toString(), StackTrace.current);
+        }
+      } else {
+        state = AsyncError(e.toString(), StackTrace.current);
+      }
     }
-    state = await AsyncValue.guard(
-        () => userRepository.login(username, password));
-    if (state is AsyncError) {
-      state = AsyncError("Plan could not be fetched", StackTrace.current);
+    if (state is! AsyncError) {
+      try {
+        await userRepository.login(username, password);
+        state = const AsyncValue.data(null);
+      } catch (e) {
+        if (e is DioException) {
+          if (e.response != null && e.response!.data != null) {
+            state =
+                AsyncError(e.response!.data[0].toString(), StackTrace.current);
+          } else {
+            state = AsyncError(e.message.toString(), StackTrace.current);
+          }
+        } else {
+          state = AsyncError(e.toString(), StackTrace.current);
+        }
+      }
     }
+      
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (state is AsyncData) {
       prefs.setString('jwt_token', (state as AsyncData).value.toString());
@@ -32,13 +66,8 @@ class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
       _dio.options.headers["Authorization"] =
           "Bearer ${prefs.getString('jwt_token')}";
     }
-    if (state is AsyncError) {
-       state = AsyncError('Failure to login!', StackTrace.current);
-    }
-  }
-  
-  @override
-  FutureOr<void> build() {
   }
 
+  @override
+  FutureOr<void> build() {}
 }

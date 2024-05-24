@@ -1,21 +1,50 @@
 import 'package:exopek_workout_app/components/Settings/SettingsCtaButton.dart';
 import 'package:exopek_workout_app/components/Settings/SettingsCtaButtonProfilEdit.dart';
+import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends ConsumerStatefulWidget {
   final User user;
   const SettingsPage({super.key, required this.user});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  ConsumerState<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsPageState extends ConsumerState<SettingsPage> {
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        var state = ref.watch(asyncDeleteUserControllerProvider);
+        return AlertDialog(
+          title: Text("Konto löschen"),
+          content: Text("Möchtest du dein Konto wirklich löschen?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Abbrechen"),
+            ),
+            TextButton(
+              onPressed: () async {
+                ref.read(asyncDeleteUserControllerProvider.notifier).deleteUser();
+              },
+              child: state.isLoading ? CircularProgressIndicator() : Text("Löschen"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   String version = "";
 
@@ -27,6 +56,16 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(asyncDeleteUserControllerProvider, (previous, next) {
+      if (next is AsyncData) {
+        AppRouter.goToOnBoarding0AndRemoveLastRoute();
+      }
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(next.error.toString()),
+        ));
+      }
+    });
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
@@ -105,11 +144,20 @@ class _SettingsPageState extends State<SettingsPage> {
                   left: 16,
                   top: 413,
                   child: SettingsCtaButton(
+                    onPressed: () {
+                      _showDialog();
+                    },
                       title: "Konto löschen", icon: Icon(Icons.chevron_right))),
               Positioned(
                   left: 16,
                   top: 458,
                   child: SettingsCtaButton(
+                    onPressed: () async {
+                      var success = await ref.read(userRepositoryProvider).logout();
+                      if (success) {
+                        AppRouter.goToLoginAndRemoveLastRoute();
+                      }
+                    },
                     title: "Abmelden",
                     icon: Icon(
                       Icons.chevron_right,

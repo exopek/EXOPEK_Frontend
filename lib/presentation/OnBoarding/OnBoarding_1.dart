@@ -1,5 +1,6 @@
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,11 +33,33 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
       if (next is AsyncData) {
         AppRouter.goToRegisterSucceed();
       } else if (next is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Registrierung fehlgeschlagen."),
-          ),
-        );
+        next.whenOrNull(
+            error: (error, stackTrace) =>
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: ThemeBase.of(context).secondaryBackground,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  content: Row(
+                    children: [
+                      const Icon(Icons.error, color: Colors.red),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          error.toString(),
+                          style: TextStyle(
+                            color: ThemeBase.of(context).primaryText,
+                            fontSize: 12,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )));
       }
     });
     final registerState = ref.watch(registerButtonControllerProvider);

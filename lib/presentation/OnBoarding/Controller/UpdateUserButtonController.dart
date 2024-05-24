@@ -15,14 +15,24 @@ class UpdateUserButtonController extends AutoDisposeAsyncNotifier<void> {
     final UserRepository userRepository = ref.read(userRepositoryProvider);
     final Dio _dio = ref.read(dioProvider);
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => userRepository.updateUser(user));
-    if (state is AsyncError) {
-      state = AsyncError('Failure to register!', StackTrace.current);
+    try {
+      await userRepository.updateUser(user);
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response != null && e.response!.data != null) {
+          state =
+              AsyncError(e.response!.data[0].toString(), StackTrace.current);
+        } else {
+          state = AsyncError(e.message.toString(), StackTrace.current);
+        }
+      } else {
+        state = AsyncError(e.toString(), StackTrace.current);
+      }
+    } finally {
+      state = const AsyncValue.data(null);
     }
   }
-  
-  @override
-  FutureOr<void> build() {
-  }
 
+  @override
+  FutureOr<void> build() {}
 }
