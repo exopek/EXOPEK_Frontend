@@ -228,7 +228,7 @@ class _DashboardSideMenuState extends ConsumerState<DashboardSideMenu> {
                         width: double.infinity,
                         child: TextButton(
                           onPressed: () {
-                            AppRouter.goToSettings(user);
+                            AppRouter.goToSettings();
                            /*  ref
                                 .read(
                                     selectedNavigationBarIndexProvider.notifier)

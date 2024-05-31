@@ -10,9 +10,11 @@ import 'package:exopek_workout_app/presentation/Comments/CommentsPage.dart';
 import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart';
 import 'package:exopek_workout_app/presentation/ForgotPassword/ForgotPasswordPage.dart';
+import 'package:exopek_workout_app/presentation/LikedWorkouts/LikedWorkoutsPage.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/PreTimerPage.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
+import 'package:exopek_workout_app/presentation/OnBoarding/OnBoarding_1_1.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPage.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/SportTypeSelectionPage.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/TrainingFrequencySelectionPage.dart';
@@ -130,6 +132,11 @@ class AppRouter {
             return OnBoarding1();
           }),
       GoRoute(
+          path: "/onBoarding1_1",
+          builder: (context, state) {
+            return OnBoardingCode();
+          }),
+      GoRoute(
           path: "/onBoarding2",
           builder: (context, state) {
             return OnBoarding2();
@@ -174,7 +181,6 @@ class AppRouter {
           path: "/settings",
           builder: (context, state) {
             return SettingsPage(
-              user: state.extra as User,
             );
           }),
       GoRoute(
@@ -226,6 +232,10 @@ class AppRouter {
               onTrainingFrequencyTypeSelected: onTrainingFrequencySelected,
             );
           }),
+      GoRoute(
+        path: "/likedWorkouts",
+        builder: (context, state) => const LikedWorkoutsPage(),
+      ),
     ],
   );
 
@@ -281,6 +291,10 @@ class AppRouter {
     router.push("/onBoarding1");
   }
 
+  static void goToConfirmEmail() {
+    router.push("/onBoarding1_1");
+  }
+
   static void goToRegisterSucceed() {
     router.push("/onBoarding2");
   }
@@ -329,8 +343,8 @@ class AppRouter {
     router.push("/comments");
   }
 
-  static void goToSettings(User user) {
-    router.push("/settings", extra: user);
+  static void goToSettings() {
+    router.push("/settings");
   }
 
   static void goToProfilEdit() {
@@ -359,6 +373,10 @@ class AppRouter {
 
   static void goToTrainingFrequencySelection(Function(TrainingFrequencyType) onTrainingFrequencySelected) {
     router.push("/trainingFrequencySelection", extra: {'onTrainingFrequencyTypeSelected': onTrainingFrequencySelected});
+  }
+
+  static void goToLikedWorkouts() {
+    router.push("/likedWorkouts");
   }
 }
 

@@ -99,9 +99,7 @@ class WorkoutRepository implements IWorkoutRepository {
   @override
   Future<LikeReadDto> likeWorkout({required String workoutId}) async {
     Dio _dio = ref.watch(dioProvider);
-    Response res = await _dio.post("workouts/likes", data: {
-      "workoutId": workoutId,
-    });
+    Response res = await _dio.post("workouts/likes/$workoutId");
     if (res.statusCode == 200) {
       var like = LikeReadDto.fromJson(res.data as Map<String, dynamic>);
       return like as LikeReadDto;

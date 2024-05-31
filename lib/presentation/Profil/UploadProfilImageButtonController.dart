@@ -17,6 +17,11 @@ class UploadProfilImageButtonController extends AutoDisposeAsyncNotifier<void> {
     if (state is AsyncError) {
       state = AsyncError('Failure to register!', StackTrace.current);
     }
+    final user = await AsyncValue.guard(() => userRepository.getUser());
+    if (user is AsyncError) {
+      state = AsyncError('Failure to register!', StackTrace.current);
+    }
+    ref.read(userStateProvider.notifier).state = user.asData!.value;
   }
 
   @override

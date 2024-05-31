@@ -16,7 +16,10 @@ class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
       required String password,
       required String email,
       required String lastname,
-      required String firstname}) async {
+      required String firstname,
+      bool? marketingConfirmed,
+      bool? privacyPolicyConfirmed
+      }) async {
     final UserRepository userRepository = ref.read(userRepositoryProvider);
     final Dio _dio = ref.read(dioProvider);
     state = const AsyncLoading();
@@ -27,7 +30,9 @@ class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
           email: email,
           lastname: lastname,
           firstname: firstname,
-          roles: ["user"]));
+          roles: ["user"],
+          marketingConfirmed: marketingConfirmed,
+          privacyPolicyConfirmed: privacyPolicyConfirmed));
     } catch (e) {
       if (e is DioException) {
         if (e.response != null && e.response!.data != null) {
@@ -40,9 +45,10 @@ class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
         state = AsyncError(e.toString(), StackTrace.current);
       }
     }
+    String jwtToken = "";
     if (state is! AsyncError) {
       try {
-        await userRepository.login(username, password);
+        jwtToken = await userRepository.login(username, password);
         state = const AsyncValue.data(null);
       } catch (e) {
         if (e is DioException) {
@@ -57,14 +63,24 @@ class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
         }
       }
     }
-      
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (state is AsyncData) {
-      prefs.setString('jwt_token', (state as AsyncData).value.toString());
+      prefs.setString('jwt_token', jwtToken);
       prefs.setString('username', username);
       prefs.setString('password', password);
       _dio.options.headers["Authorization"] =
           "Bearer ${prefs.getString('jwt_token')}";
+    }
+
+    // Fetch fresh User
+    if (state is AsyncData) {
+      final user = await AsyncValue.guard(() => userRepository.getUser());
+      if (user is AsyncError) {
+        state = AsyncError("User could not be fetched", StackTrace.current);
+      }
+      // Set the user state
+      ref.read(userStateProvider.notifier).state = user.asData!.value;
     }
   }
 

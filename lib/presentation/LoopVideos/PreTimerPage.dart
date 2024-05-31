@@ -111,6 +111,7 @@ class _PreTimerPageState extends State<PreTimerPage>
                   imageUrl: sortedExerciseConfig[0].previewImageUrl,
                   exerciseFrequenceType:
                       sortedExerciseConfig[0].duration.toString(),
+                      reps: sortedExerciseConfig[0].reps.toString(),
                 )),
             Positioned(
               left: 65,

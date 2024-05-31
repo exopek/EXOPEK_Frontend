@@ -24,6 +24,8 @@ sealed class User {
     this.age,
     this.previousTrainingFrequency,
     this.trainingFrequency,
+    this.marketingConfirmed,
+    this.privacyPolicyConfirmed,
   });
 
   final String? id;
@@ -40,6 +42,8 @@ sealed class User {
   final int? age;
   final TrainingFrequencyType? previousTrainingFrequency;
   final TrainingFrequencyType? trainingFrequency;
+  final bool? marketingConfirmed;
+  final bool? privacyPolicyConfirmed;
 
   //get trainingFrequencyType => TrainingFrequencyType.values[trainingFrequency ?? 0];
 
@@ -67,7 +71,9 @@ class CreateUserDto extends User {
     required String username,
     required String email,
     required String password,
-    List<String>? roles,})
+    List<String>? roles,
+    bool? marketingConfirmed,
+    bool? privacyPolicyConfirmed})
       : super(
           firstname: firstname,
           lastname: lastname,
@@ -76,7 +82,8 @@ class CreateUserDto extends User {
           password: password,
           roles: roles,
           sport: SportType.None,
-        );
+          marketingConfirmed: marketingConfirmed,
+          privacyPolicyConfirmed: privacyPolicyConfirmed,);
     factory CreateUserDto.fromJson(Map<String, dynamic> json) => CreateUserDto(
         firstname: json["firstname"] as String,
         lastname: json["lastname"] as String,
@@ -84,6 +91,8 @@ class CreateUserDto extends User {
         email: json["email"] as String,
         password: json["password"] as String,
         roles: json["roles"] as List<String>,
+        marketingConfirmed: json["marketingConfirmed"] as bool,
+        privacyPolicyConfirmed: json["privacyPolicyConfirmed"] as bool,
       );
 
   Map<String, dynamic> toJson() => {
@@ -94,6 +103,8 @@ class CreateUserDto extends User {
         "email": email,
         "password": password,
         "roles": roles,
+        "marketingConfirmed": marketingConfirmed,
+        "privacyPolicyConfirmed": privacyPolicyConfirmed,
       };
         
 }

@@ -130,6 +130,8 @@ class WorkoutDetails extends Workout {
     final description = json['description'] as String;
     final difficultyType = json['difficulty'] as int;
 
+    // hier kann eigentlich direkt auf exercises gemappt werden
+    // exercisesList ist überflüssig
     final exercisesList = exercises != null
         ? exercises
             .map((e) =>
@@ -142,6 +144,7 @@ class WorkoutDetails extends Workout {
 
     final exerciseMap = <int, List<ExcerciseWorkoutConfig>>{};
 
+    // Sort exercises by stageType (warmup, workout, cooldown)
     exercisesList.forEach((exercise) {
       if (!exerciseMap.containsKey(exercise.stageType)) {
         exerciseMap[exercise.stageType] = <ExcerciseWorkoutConfig>[];

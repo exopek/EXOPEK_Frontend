@@ -7,6 +7,7 @@ import 'package:exopek_workout_app/domain/Models/ViewModels/ProfilPageViewModel.
 import 'package:exopek_workout_app/presentation/Authentication/LoginButtonController.dart';
 import 'package:exopek_workout_app/presentation/Authentication/LoginPageController.dart';
 import 'package:exopek_workout_app/presentation/ForgotPassword/ResetButtonController.dart';
+import 'package:exopek_workout_app/presentation/OnBoarding/Controller/ConfirmEmailButtonController.dart';
 import 'package:exopek_workout_app/presentation/OnBoarding/Controller/RegisterButtonController.dart';
 import 'package:exopek_workout_app/presentation/OnBoarding/Controller/UpdateUserButtonController.dart';
 import 'package:exopek_workout_app/presentation/Profil/ProfilPageController.dart';
@@ -89,4 +90,9 @@ final asyncUserCredentialsProvider =
 final asyncDeleteUserControllerProvider =
     AsyncNotifierProvider.autoDispose<DeleteUserController, void>(() {
   return DeleteUserController();
+});
+
+final asyncConfirmEmailButtonControllerProvider =
+    AsyncNotifierProvider.autoDispose<ConfirmEmailButtonController, void>(() {
+  return ConfirmEmailButtonController();
 });

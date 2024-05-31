@@ -20,31 +20,43 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
     final workoutRepository = ref.read(dioWorkoutProvider);
     final userRepository = ref.read(userRepositoryProvider);
     state = const AsyncLoading();
+    // Get the plans
     final planResult =
         await AsyncValue.guard(() => planRepository.getPlans(query: "All"));
     if (planResult is AsyncError) {
       state = AsyncError("Plans could not be fetched", StackTrace.current);
     }
+    // Get the workouts
     final workoutResult = await AsyncValue.guard(
         () => workoutRepository.getWorkouts(query: "All"));
     if (workoutResult is AsyncError) {
       state = AsyncError("Workouts could not be fetched", StackTrace.current);
     }
+    // Get the user
     final user = await AsyncValue.guard(() => userRepository.getUser());
     if (user is AsyncError) {
       state = AsyncError("User could not be fetched", StackTrace.current);
     }
+    // Get the plan statuses
     final planStatusResult = await AsyncValue.guard(
         () => planRepository.getPlanStatuses(status: StatusType.ACTIVE));
     if (planStatusResult is AsyncError) {
       state =
           AsyncError("PlanStatuses could not be fetched", StackTrace.current);
     }
-
+    // Get the liked workouts
+    final likedWorkoutsResult = await AsyncValue.guard(
+        () => workoutRepository.getWorkoutLikes());
+    if (likedWorkoutsResult is AsyncError) {
+      state = AsyncError("LikedWorkoutId could not be fetched", StackTrace.current);
+    }
+    ref.read(likedWorkoutIdsProvider.notifier).state = likedWorkoutsResult.asData!.value.map((e) => e).toList();
+    // Set the user state
+    ref.read(userStateProvider.notifier).state = user.asData!.value;
+    // Get the started plans
     final planIds =
         planStatusResult.asData!.value.map((e) => e.planId).toSet().toList();
     if (planIds.isEmpty) {
-      ref.read(userStateProvider.notifier).state = user.asData!.value;
       return CoachPageViewModel(
           plans: planResult.asData!.value,
           workouts: workoutResult.asData!.value,
@@ -58,14 +70,7 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
       state =
           AsyncError("StartedPlans could not be fetched", StackTrace.current);
     }
-    final likedWorkoutsResult = await AsyncValue.guard(
-        () => workoutRepository.getWorkoutLikes());
-    if (likedWorkoutsResult is AsyncError) {
-      state = AsyncError("LikedWorkoutId could not be fetched", StackTrace.current);
-    }
-    ref.read(likedWorkoutIdsProvider.notifier).state = likedWorkoutsResult.asData!.value.map((e) => e).toList();
     
-    ref.read(userStateProvider.notifier).state = user.asData!.value;
     return CoachPageViewModel(
         plans: planResult.asData!.value.take(4).toList(),
         workouts: workoutResult.asData!.value.take(4).toList(),

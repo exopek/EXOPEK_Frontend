@@ -20,6 +20,7 @@ class ProfilEditPageUpdateUserButtonController
     
       try {
         await userRepository.updateUser(user);
+        ref.read(userStateProvider.notifier).state = user;
         state = const AsyncValue.data(null);
       } catch (e) {
         if (e is DioException) {

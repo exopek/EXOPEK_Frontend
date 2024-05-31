@@ -4,6 +4,7 @@ import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewMo
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageViewModel.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:exopek_workout_app/utils/AppVideoPlayer.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,24 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
     return '$minutesStr:$secondsStr';
   }
 
+  void _nextExercise(int exerciseState) {
+    ref.read(loopVideosControllerProvider.notifier).increment();
+    ref
+        .read(loopVideosProgressIndicatorControllerProvider.notifier)
+        .increment();
+    ref.read(timerAnimationControllerProvider.notifier).reset();
+    ref
+        .read(timerAnimationControllerProvider.notifier)
+        .increment(sortedExerciseConfig[exerciseState + 1].duration);
+
+    setState(() {
+      _animationController.reset();
+      _animationController.duration =
+          Duration(seconds: sortedExerciseConfig[exerciseState + 1].duration);
+      _animationController.forward(from: 0.0);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -65,6 +84,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
 
     timerAnimationController.reset();
     timerAnimationController.increment(sortedExerciseConfig[0].duration);
+
   }
 
   @override
@@ -77,207 +97,235 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(timerAnimationControllerProvider, (previous, next) {
+      final exerciseState = ref.watch(loopVideosControllerProvider);
+      if (next == sortedExerciseConfig[exerciseState].duration &&
+          exerciseState < sortedExerciseConfig.length - 1) {
+        _nextExercise(exerciseState);
+      }
+     });
     final exerciseState = ref.watch(loopVideosControllerProvider);
     final timerAnimationValue = ref.watch(timerAnimationControllerProvider);
     return Scaffold(
-      body: Container(
-        width: MediaQuery.sizeOf(context).width,
-        height: MediaQuery.sizeOf(context).height,
-        clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(color: Color(0xFF0C0C0C)),
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
-                width: MediaQuery.sizeOf(context).width,
-                height: 533,
-                decoration: const ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
-                  ),
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    if (exerciseState < sortedExerciseConfig.length - 1) {
-                      ref
-                          .read(loopVideosControllerProvider.notifier)
-                          .increment();
-                      ref
-                          .read(loopVideosProgressIndicatorControllerProvider
-                              .notifier)
-                          .increment();
-                      ref
-                          .read(timerAnimationControllerProvider.notifier)
-                          .reset();
-                      ref
-                          .read(timerAnimationControllerProvider.notifier)
-                          .increment(
-                              sortedExerciseConfig[exerciseState + 1].duration);
-
-                      setState(() {
-                        _animationController.reset();
-                        _animationController.duration = Duration(
-                            seconds: sortedExerciseConfig[exerciseState + 1]
-                                .duration);
-                        _animationController.forward(from: 0.0);
-                      });
-                    } else {
-                      /* AppRouter.goToMainPage(); */
-                      AppRouter.goToWorkoutSummary(WorkoutSummaryPageViewModel(
-                          workoutDetails: widget.viewModel.workoutDetails,
-                          planStatus: widget.viewModel.planStatus,
-                          planWorkoutId: widget.viewModel.planWorkoutId));
-                    }
-                  },
-                  child: AppVideoPlayer(
-                    path: sortedExerciseConfig[exerciseState].videoUrl,
-                    videoType: VideoType.network,
-                    looping: true,
-                    showControls: false,
-                    autoPlay: true,
+      backgroundColor: ThemeBase.of(context).primaryBackground,
+      body: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (exerciseState < sortedExerciseConfig.length - 1) {
+                _nextExercise(exerciseState);
+              } else {
+                AppRouter.goToWorkoutSummary(WorkoutSummaryPageViewModel(
+                    workoutDetails: widget.viewModel.workoutDetails,
+                    planStatus: widget.viewModel.planStatus,
+                    planWorkoutId: widget.viewModel.planWorkoutId));
+              }
+            },
+            child: Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height * 0.5,
+              decoration: const ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              left: 303,
-              top: 50,
-              child: Text(
-                    formatSeconds(_elapsed.inSeconds),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )
-               
-            ),
-            if (sortedExerciseConfig[exerciseState].duration != 0)
-              Positioned(
-                  left: 20,
-                  top: 550,
-                  child: Text(
-                    formatSeconds(timerAnimationValue),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 48,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )),
-            if (sortedExerciseConfig[exerciseState].duration != 0)
-              Positioned(
-                left: 20,
-                right: 20,
-                top: 617,
-                child: Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  height: 10,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFD9D9D9),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          left: 0,
-                          top: 0,
-                          child: AnimatedBuilder(
-                              animation: sizeAnimation,
-                              child: Container(
-                                height: 10,
-                                width: MediaQuery.sizeOf(context).width,
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFD9D9D9),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                              ),
-                              builder: (BuildContext context, Widget? child) {
-                                return Container(
-                                  height: 10,
-                                  width: sizeAnimation.value *
-                                      MediaQuery.sizeOf(context).width *
-                                      0.899,
-                                  decoration: ShapeDecoration(
-                                    color: const Color(0xFFCE2323),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                  ),
-                                );
-                              }))
-                    ],
-                  ),
-                ),
-              ),
-            if (sortedExerciseConfig[exerciseState].reps != 0)
-              Positioned(
-                    left: 20,
-                    top: 550,
-                    child: Text(
-                      "x${sortedExerciseConfig[exerciseState].reps} (Reps)",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 48,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height * 0.5,
+                      decoration: const ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                          ),
+                        ),
                       ),
-                    )),
-            Positioned(
-              left: 20,
-              top: 679,
+                      child: ClipRRect(
+                        child: AppVideoPlayer(
+                          path: sortedExerciseConfig[exerciseState].videoUrl,
+                          videoType: VideoType.network,
+                          looping: true,
+                          showControls: false,
+                          autoPlay: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (sortedExerciseConfig[exerciseState].isRest)
+                    Container(
+                      color: Colors.black.withOpacity(0.5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Pause",
+                              style:
+                                  ThemeBase.of(context).headlineMedium.copyWith(
+                                        fontSize: 48,
+                                        color: Colors.white,
+                                      ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Coming Next",
+                              style:
+                                  ThemeBase.of(context).headlineMedium.copyWith(
+                                        fontSize: 48,
+                                        color: Colors.white,
+                                      ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  Positioned(
+                      right: 16,
+                      top: 50,
+                      child: Text(
+                        formatSeconds(_elapsed.inSeconds),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )),
+                  Positioned(
+                    left: 16,
+                    top: 40,
+                    child: SizedBox(
+                      child: IconButton(
+                          onPressed: () => AppRouter.goToMainPage(),
+                          icon: const Icon(Icons.cancel)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
               child: Text(
                 sortedExerciseConfig[exerciseState].name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w600,
+                style: ThemeBase.of(context).headlineMedium.copyWith(
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
+              ),
+            ),
+          ),
+          if (sortedExerciseConfig[exerciseState].duration != 0)
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  formatSeconds(timerAnimationValue),
+                  style: ThemeBase.of(context).headlineMedium.copyWith(
+                        fontSize: 48,
+                        color: Colors.white,
+                      ),
                 ),
               ),
             ),
-            Positioned(
-                left: 20,
-                top: 716,
-                child: (exerciseState < sortedExerciseConfig.length - 1)
-                    ? NextExerciseCard(
-                        title: sortedExerciseConfig[exerciseState + 1].name,
-                        imageUrl: sortedExerciseConfig[exerciseState + 1]
-                            .previewImageUrl,
-                        exerciseFrequenceType:
-                            sortedExerciseConfig[exerciseState + 1]
-                                .duration
-                                .toString(),
-                      )
-                    : const NextExerciseCard(
-                        title: "Workout Completed",
-                        imageUrl: null,
-                        exerciseFrequenceType: "",
-                      )),
-            Positioned(
-              left: 10,
-              top: 40,
-              child: Container(
-                child: IconButton(
-                    onPressed: () => AppRouter.goToMainPage(),
-                    icon: Icon(Icons.cancel)),
+          if (sortedExerciseConfig[exerciseState].duration != 0)
+            Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: AnimatedBuilder(
+                    animation: sizeAnimation,
+                    child: Container(
+                      height: 10,
+                      width: MediaQuery.sizeOf(context).width,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFD9D9D9),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    builder: (BuildContext context, Widget? child) {
+                      return Container(
+                        height: 10,
+                        width: sizeAnimation.value *
+                            MediaQuery.sizeOf(context).width,
+                        decoration: ShapeDecoration(
+                          color: sortedExerciseConfig[exerciseState].isRest
+                              ? Colors.blue
+                              : ThemeBase.of(context).secondary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      );
+                    })),
+          if (sortedExerciseConfig[exerciseState].reps != 0)
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Align(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    Text(
+                      "x${sortedExerciseConfig[exerciseState].reps}",
+                      style: ThemeBase.of(context).headlineMedium.copyWith(
+                          fontSize: 48, color: Colors.white, height: 0),
+                    ),
+                    Text(
+                      "Wiederholungen",
+                      style: ThemeBase.of(context).titleSmall,
+                    ),
+                  ],
+                ),
               ),
             ),
-            Positioned(
-              left: 20,
-              top: 805,
+          (exerciseState < sortedExerciseConfig.length - 1)
+              ? Padding(
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+                  child: NextExerciseCard(
+                    title: sortedExerciseConfig[exerciseState + 1].name,
+                    imageUrl:
+                        sortedExerciseConfig[exerciseState + 1].previewImageUrl,
+                    exerciseFrequenceType:
+                        sortedExerciseConfig[exerciseState + 1]
+                            .duration
+                            .toString(),
+                    reps:
+                        sortedExerciseConfig[exerciseState + 1].reps.toString(),
+                  ),
+                )
+              : Padding(
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+                  child: NextExerciseCard(
+                    title: "Workout Beended",
+                    imageUrl: null,
+                    exerciseFrequenceType: "",
+                    reps: "",
+                  ),
+                ),
+          Spacer(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 44.0),
               child: SizedBox(
-                width: MediaQuery.sizeOf(context).width - 40,
+                width: MediaQuery.sizeOf(context).width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -287,8 +335,10 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                           height: 7,
                           decoration: ShapeDecoration(
                             color: (i == exerciseState)
-                                ? Color(0xFFCE2323)
-                                : Color(0xFFD9D9D9),
+                                ? sortedExerciseConfig[exerciseState].isRest
+                                    ? Colors.blue
+                                    : ThemeBase.of(context).secondary
+                                : const Color(0xFFD9D9D9),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -299,8 +349,8 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

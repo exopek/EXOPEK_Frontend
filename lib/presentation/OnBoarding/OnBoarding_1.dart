@@ -2,8 +2,10 @@ import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppUtil.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
@@ -26,12 +28,14 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
   final FocusNode focusNodeLastname = FocusNode();
   final FocusNode focusNodeUsername = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
+  bool marketingConfirmed = false;
+  bool privacyPolicyConfirmed = false;
 
   @override
   Widget build(BuildContext context) {
     ref.listen(registerButtonControllerProvider, (previous, next) {
       if (next is AsyncData) {
-        AppRouter.goToRegisterSucceed();
+        AppRouter.goToConfirmEmail();
       } else if (next is AsyncError) {
         next.whenOrNull(
             error: (error, stackTrace) =>
@@ -64,187 +68,170 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
     });
     final registerState = ref.watch(registerButtonControllerProvider);
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 844,
-        clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(color: Color(0xFF0C0C0C)),
-        child: Stack(
-          children: [
-            const Positioned(
-              left: 32,
-              top: 44,
+      backgroundColor: ThemeBase.of(context).primaryBackground,
+      body: Column(
+        children: [
+          SizedBox(
+            height: 100,
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 20.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
               child: Text(
-                'Wir machen Dich',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  height: 0,
-                ),
+                'Werde Teil des EXOPEK-Teams!',
+                textAlign: TextAlign.start,
+                style: ThemeBase.of(context).headlineMedium.copyWith(
+                      fontSize: 24,
+                      color: ThemeBase.of(context).primaryText,
+                    ),
               ),
             ),
-            const Positioned(
-              left: 32,
-              top: 84,
-              child: Text(
-                'zum EXOPEK-Mitglied.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  height: 0,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 32,
-              top: 494,
-              child: Container(
-                width: 26,
-                height: 26,
-                decoration: ShapeDecoration(
-                  color: const Color(0xFFD9D9D9),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 32,
-              top: 591,
-              child: Container(
-                width: 26,
-                height: 26,
-                decoration: ShapeDecoration(
-                  color: const Color(0xFFD9D9D9),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                ),
-              ),
-            ),
-            const Positioned(
-              left: 81,
-              top: 494,
-              child: SizedBox(
-                width: 265,
-                child: Text(
-                  'Sign up for emails to get updates from EXOPEK on products, offers and your Memeber benefits.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w400,
-                    height: 0,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomTextField(
+                    controller: controllerUsername,
+                    hint: "Benutzername",
+                    focusNode: focusNodeUsername,
                   ),
-                ),
-              ),
-            ),
-            const Positioned(
-              left: 77,
-              top: 591,
-              child: SizedBox(
-                width: 265,
-                child: Text(
-                  'I agree to EXOPEK’s Terms of Use and I confirm I have read EXOPEK’s Privacy Policy.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w400,
-                    height: 0,
+                  Spacer(),
+                  CustomTextField(
+                    controller: controllerPassword,
+                    hint: "Passwort",
+                    focusNode: focusNodePassword,
+                    onValidate: (p0) {
+                      if (p0.isEmpty) {
+                        return false;
+                      }
+                      if (p0.length < 10) {
+                        return false;
+                      }
+                      if (!p0.contains(RegExp(r'[0-9]'))) {
+                        return false;
+                      }
+                      return true;
+                    },
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 32,
-              right: 32,
-              top: 155,
-              child: CustomTextField(
-                  controller: controllerUsername,
-                  hint: "Username",
-                  focusNode: focusNodeUsername,
-                  ),
-            ),
-            Positioned(
-              left: 32,
-              right: 32,
-              top: 404,
-              child: CustomTextField(
-                  controller: controllerPassword,
-                  hint: "Password",
-                  focusNode: focusNodePassword,
-                  onValidate: (p0) {
-                    if (p0.isEmpty) {
-                      return false;
-                    }
-                    if (p0.length < 10) {
-                      return false;
-                    }
-                    if (!p0.contains(RegExp(r'[0-9]'))) {
-                      return false;
-                    }
-                    return true;
-                  
-                  },
-                  ),
-            ),
-            Positioned(
-                left: 32,
-                right: 32,
-                top: 321,
-                child: CustomTextField(
+                  Spacer(),
+                  CustomTextField(
                     controller: controllerEmail,
                     hint: "Email",
                     focusNode: focusNodeEmail,
-                    )
-            ),
-            Positioned(
-              left: 32,
-              right: 200,
-              top: 238,
-              child: CustomTextField(
-                  controller: controllerFirstname,
-                  hint: "Firstname",
-                  focusNode: focusNodeFirstname,
                   ),
-            ),
-            Positioned(
-                left: 200,
-                right: 32,
-                top: 238,
-                child: CustomTextField(
+                  Spacer(),
+                  CustomTextField(
+                    controller: controllerFirstname,
+                    hint: "Vorname",
+                    focusNode: focusNodeFirstname,
+                  ),
+                  Spacer(),
+                  CustomTextField(
                     controller: controllerLastname,
-                    hint: "Lastname",
+                    hint: "Nachname",
                     focusNode: focusNodeLastname,
-                    )
-            ),
-            Positioned(
-              left: 32,
-              right: 32,
-              top: 706,
-              child: CtaButton(
-                isLoading: registerState.isLoading,
-                label: 'Registrieren',
-                onPressed: () {
-                  //AppRouter.goToRegisterSucceed();
-                  ref.read(registerButtonControllerProvider.notifier).register(
-                        email: controllerEmail.text,
-                        firstname: controllerFirstname.text,
-                        lastname: controllerLastname.text,
-                        username: controllerUsername.text,
-                        password: controllerPassword.text,
-                      );
-                },
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Row(
+              children: [
+                Checkbox(
+                  checkColor: Colors.white,
+                  activeColor: ThemeBase.of(context).secondary,
+                  value: marketingConfirmed, 
+                  onChanged: (value) {
+                    setState(() {
+                      marketingConfirmed = value!;
+                    });
+                  }),
+                SizedBox(
+                  width: 300,
+                  child: Text( 
+                    'Ich möchte über Neuigkeiten und Angebote informiert werden.',
+                    style: ThemeBase.of(context).bodySmall,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 140.0),
+            child: Row(
+              children: [
+                Checkbox(
+                  checkColor: Colors.white,
+                  activeColor: ThemeBase.of(context).secondary,
+                  value: privacyPolicyConfirmed, 
+                  onChanged: (value) {
+                    setState(() {
+                      privacyPolicyConfirmed = value!;
+                    });
+                  }),
+                SizedBox(
+                  width: 300,
+                  child: RichText(
+            text: TextSpan(
+              text: 'Ich habe die ',
+              style: ThemeBase.of(context).bodySmall,
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Datenschutzbestimmung ',
+                  style: ThemeBase.of(context).bodySmall.copyWith(
+                    color: ThemeBase.of(context).secondary,
+                    decoration: TextDecoration.underline,
+                  
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      const url = 'https://exopek.de/datenschutz/';
+                      await launchURL(url);
+                    },
+                ),
+                TextSpan(
+                  text: 'gelesen und akzeptiere sie.',
+                  style: ThemeBase.of(context).bodySmall
+                ),
+              ],
+            ),
+          ),/* Text( 
+                    'Ich habe die Datenschutzbestimmung gelesen und akzeptiere sie.',
+                    style: ThemeBase.of(context).bodySmall,
+                  ), */
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                left: 16.0, right: 16.0, bottom: 44.0, top: 20.0),
+            child: CtaButton(
+              isLoading: registerState.isLoading,
+              label: 'Registrieren',
+              onPressed: () {
+                //AppRouter.goToRegisterSucceed();
+                ref.read(registerButtonControllerProvider.notifier).register(
+                      email: controllerEmail.text,
+                      firstname: controllerFirstname.text,
+                      lastname: controllerLastname.text,
+                      username: controllerUsername.text,
+                      password: controllerPassword.text,
+                      marketingConfirmed: marketingConfirmed,
+                      privacyPolicyConfirmed: privacyPolicyConfirmed,
+                    );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -12,4 +12,5 @@ abstract class IUserRepository {
   Future<bool> resetPassword(String email);
   Future<bool> checkUserIsLogedIn();
   Future<bool> logout();
+  Future<bool> confirmEmail({required String email, required String pinCode});
 }

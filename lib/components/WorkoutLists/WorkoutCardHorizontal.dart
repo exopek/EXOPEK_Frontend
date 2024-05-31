@@ -13,9 +13,10 @@ class WorkoutCardHorizontal extends ConsumerStatefulWidget {
   final WorkoutListItem workout;
   final bool hasTrained;
   final String? lastTrained;
+  final bool hasLikeOption;
 
   const WorkoutCardHorizontal(
-      {super.key, required this.workout, this.hasTrained = false, this.lastTrained});
+      {super.key, required this.workout, this.hasTrained = false, this.lastTrained, this.hasLikeOption = true});
 
   @override
   ConsumerState<WorkoutCardHorizontal> createState() =>
@@ -170,40 +171,41 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
               ],
             ),
           ),
-          Positioned(
-              top: 0,
-              right: 15,
-              child: _svgBt('SaveNew', () {
-                if (ref
-                    .watch(likedWorkoutIdsProvider)
-                    .any((element) => element.workoutId == widget.workout.id)) {
-                  final workoutLikeId = ref
+          if (widget.hasLikeOption)
+            Positioned(
+                top: 0,
+                right: 15,
+                child: _svgBt('SaveNew', () {
+                  if (ref
                       .watch(likedWorkoutIdsProvider)
-                      .firstWhere(
-                          (element) => element.workoutId == widget.workout.id)
-                      .id;
-                  if (workoutLikeId != null) {
+                      .any((element) => element.workoutId == widget.workout.id)) {
+                    final workoutLikeId = ref
+                        .watch(likedWorkoutIdsProvider)
+                        .firstWhere(
+                            (element) => element.workoutId == widget.workout.id)
+                        .id;
+                    if (workoutLikeId != null) {
+                      ref
+                          .read(asyncWorkoutLikeButtonControllerProvider.notifier)
+                          .deleteWorkoutLike(workoutLikeId: workoutLikeId);
+                    }
+                    ref.read(likedWorkoutIdsProvider.notifier).state.removeWhere(
+                        (element) => element.workoutId == widget.workout.id);
+                    setState(() {});
+                  } else {
                     ref
                         .read(asyncWorkoutLikeButtonControllerProvider.notifier)
-                        .deleteWorkoutLike(workoutLikeId: workoutLikeId);
+                        .likeWorkout(workoutId: widget.workout.id)
+                        .then((value) {
+                      ref.read(likedWorkoutIdsProvider.notifier).state.add(value);
+                      setState(() {});
+                    });
                   }
-                  ref.read(likedWorkoutIdsProvider.notifier).state.removeWhere(
-                      (element) => element.workoutId == widget.workout.id);
-                  setState(() {});
-                } else {
-                  ref
-                      .read(asyncWorkoutLikeButtonControllerProvider.notifier)
-                      .likeWorkout(workoutId: widget.workout.id)
-                      .then((value) {
-                    ref.read(likedWorkoutIdsProvider.notifier).state.add(value);
-                    setState(() {});
-                  });
-                }
-              },
-                  color: ref.watch(likedWorkoutIdsProvider).any(
-                          (element) => element.workoutId == widget.workout.id)
-                      ? Colors.white
-                      : const Color(0xFF838282))),
+                },
+                    color: ref.watch(likedWorkoutIdsProvider).any(
+                            (element) => element.workoutId == widget.workout.id)
+                        ? Colors.white
+                        : const Color(0xFF838282))),
         ],
       ),
     );

@@ -145,6 +145,7 @@ class _ProfileState extends ConsumerState<Profile> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: WorkoutCardHorizontal(
+                                    hasLikeOption: false,
                                     workout: data.workouts[index].workout,
                                     lastTrained: data.workouts[index].createdAt
                                         .toIso8601String()

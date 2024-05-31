@@ -4,19 +4,20 @@ import 'package:exopek_workout_app/components/SearchBarCustom.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
+import 'package:exopek_workout_app/dependencyInjection/workoutProvider/WorkoutProvider.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Workouts extends ConsumerStatefulWidget {
-  const Workouts({super.key});
+class LikedWorkoutsPage extends ConsumerStatefulWidget {
+  const LikedWorkoutsPage({super.key});
 
   @override
-  ConsumerState<Workouts> createState() => _WorkoutsState();
+  ConsumerState<LikedWorkoutsPage> createState() => _LikedWorkoutsPageState();
 }
 
-class _WorkoutsState extends ConsumerState<Workouts> {
+class _LikedWorkoutsPageState extends ConsumerState<LikedWorkoutsPage> {
 
   @override
   void initState() {
@@ -25,7 +26,7 @@ class _WorkoutsState extends ConsumerState<Workouts> {
 
   @override
   Widget build(BuildContext context) {
-    final result = ref.watch(workoutProvider);
+    final result = ref.watch(asyncLikedWorkoutsProvider);
     return result.when(
         data: (result) {
           return Scaffold(
@@ -33,18 +34,31 @@ class _WorkoutsState extends ConsumerState<Workouts> {
             appBar: AppBar(
               centerTitle: false,
               backgroundColor: ThemeBase.of(context).secondaryBackground,
-              title: const Text('Workouts'),
+              title: const Text('Gespeicherte Workouts'),
               ),
-            body: CustomScrollView(slivers: [
-                SliverAppBar(
-                  leading: Container(),
-                  expandedHeight: 329,
-                  floating: true,
-                  flexibleSpace: PromoHeader(
-                    workout: result.firstWhere(
-                        (element) => element.isWorkoutOfTheWeek == true),
-                  ),
+            body: result.isEmpty ? SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Du hast noch keine Workouts gespeichert.',
+                    style: ThemeBase.of(context).bodySmall),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        AppRouter.goToWorkouts();
+                      },
+                      child: Text('Zu den Workouts',
+                      style: ThemeBase.of(context).bodySmall.copyWith(
+                        color: ThemeBase.of(context).secondary,
+                      ),),
+                    ),
+                  ],
                 ),
+              ),
+            ) : CustomScrollView(slivers: [
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
@@ -53,11 +67,11 @@ class _WorkoutsState extends ConsumerState<Workouts> {
                         child: TextButton(
                           onPressed: () {
                             ref.read(selectedWorkoutIdProvider.notifier).state =
-                                result[index].id;
+                                result[index].workoutId;
                             AppRouter.goToWorkoutDetail();
                           },
                           child: WorkoutCardHorizontal(
-                            workout: result[index],
+                            workout: result[index].workout!,
                           ),
                         ),
                       );

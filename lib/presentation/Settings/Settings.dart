@@ -10,8 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
-  final User user;
-  const SettingsPage({super.key, required this.user});
+  const SettingsPage({super.key});
 
   @override
   ConsumerState<SettingsPage> createState() => _SettingsPageState();
@@ -66,6 +65,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         ));
       }
     });
+    final user = ref.watch(userStateProvider);
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
@@ -82,7 +82,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               Positioned(
                 top: 31,
                   left: 16,
-                  child: SettingsCtaButtonProfilEdit(imageUrl: widget.user.imageUrl ,userName: widget.user.firstname + " " + widget.user.lastname, onPressed: () => AppRouter.goToProfilEdit(),)),
+                  child: SettingsCtaButtonProfilEdit(imageUrl: user!.imageUrl ,userName: user.firstname + " " + user.lastname, onPressed: () => AppRouter.goToProfilEdit(),)),
               Positioned(
                 left: 16,
                 top: 140,

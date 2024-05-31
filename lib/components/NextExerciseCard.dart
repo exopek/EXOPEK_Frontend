@@ -1,38 +1,38 @@
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 
 class NextExerciseCard extends StatelessWidget {
   final String title;
   final String? imageUrl;
   final String exerciseFrequenceType;
+  final String reps;
 
   const NextExerciseCard(
       {super.key,
       required this.title,
       required this.imageUrl,
-      required this.exerciseFrequenceType});
+      required this.exerciseFrequenceType,
+      required this.reps});
+
+  String get frequenceType => exerciseFrequenceType.isEmpty
+      ? "Fertig"
+      : exerciseFrequenceType == "0"
+          ? "$reps Wiederholungen"
+          : "$exerciseFrequenceType Sekunden";
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 323,
+      width: MediaQuery.sizeOf(context).width,
       height: 77,
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(width: 0.50, color: Color(0xFF262424)),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
       child: Stack(
         children: [
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 323,
-              height: 77,
-              decoration: ShapeDecoration(
-                color: Color(0x00D9D9D9),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 0.50, color: Color(0xFF262424)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
           if (imageUrl != null)
             Positioned(
               left: 0,
@@ -46,7 +46,8 @@ class NextExerciseCard extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 0.50, color: Color(0xFF262424)),
+                    side:
+                        const BorderSide(width: 0.50, color: Color(0xFF262424)),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -61,11 +62,12 @@ class NextExerciseCard extends StatelessWidget {
                 height: 77,
                 decoration: ShapeDecoration(
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 0.50, color: Color(0xFF262424)),
+                    side:
+                        const BorderSide(width: 0.50, color: Color(0xFF262424)),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(
                     Icons.check,
                     color: Colors.greenAccent,
@@ -77,28 +79,13 @@ class NextExerciseCard extends StatelessWidget {
           Positioned(
             left: 88,
             top: 15,
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: Text(title, style: ThemeBase.of(context).titleMedium),
           ),
           Positioned(
             left: 88,
             top: 39,
-            child: Text(
-              exerciseFrequenceType,
-              style: TextStyle(
-                color: Color(0xFF838282),
-                fontSize: 14,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: Text(frequenceType,
+                style: ThemeBase.of(context).titleSmall),
           ),
         ],
       ),

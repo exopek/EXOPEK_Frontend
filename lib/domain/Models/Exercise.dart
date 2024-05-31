@@ -22,6 +22,7 @@ class ExcerciseWorkoutConfig extends Excercise {
   final int stageOrder;
   final int stageRound;
   final int stageType;
+  final bool isRest;
 
   ExcerciseWorkoutConfig(
       {required this.id,
@@ -32,7 +33,8 @@ class ExcerciseWorkoutConfig extends Excercise {
       required this.reps,
       required this.stageOrder,
       required this.stageRound,
-      required this.stageType})
+      required this.stageType,
+      required this.isRest})
       : super(
           id: id,
           name: name,
@@ -50,6 +52,7 @@ class ExcerciseWorkoutConfig extends Excercise {
     final stageOrder = json['stageOrder'] as int;
     final stageRound = json['stageRound'] as int;
     final stageType = json['stageType'] as int;
+    final isRest = json['isRest'] as bool;
 
     return ExcerciseWorkoutConfig(
       id: id,
@@ -61,6 +64,7 @@ class ExcerciseWorkoutConfig extends Excercise {
       stageOrder: stageOrder,
       stageRound: stageRound,
       stageType: stageType,
+      isRest: isRest,
     );
   }
 

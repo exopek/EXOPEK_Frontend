@@ -122,6 +122,17 @@ class UserRepository implements IUserRepository {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("jwt_token");
     return true;
+  }
+  
+  @override
+  Future<bool> confirmEmail({required String email, required String pinCode}) async {
+    Dio _dio = ref.watch(dioProvider);
+    Response res = await _dio.post("users/confirm-email", queryParameters: {"email": email, "token": pinCode});
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Failed to confirm email");
+    }
   }}
 
   
