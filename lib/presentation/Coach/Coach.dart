@@ -407,9 +407,6 @@ class _CoachState extends ConsumerState<Coach> {
                                       .headlineSmall
                                       .copyWith(
                                         height: 0,
-                                        fontSize: 20,
-                                        color:
-                                            ThemeBase.of(context).primaryText,
                                       )),
                               GestureDetector(
                                 onTap: () {
@@ -566,11 +563,11 @@ class _CoachState extends ConsumerState<Coach> {
             ),
           );
         },
-        loading: () => Align(
+        loading: () => const Align(
             alignment: Alignment.center,
             child: CircularProgressIndicator(
               strokeWidth: 0.5,
-              color: ThemeBase.of(context).secondary,
+              color: Colors.white,
             )),
         error: (error, stackTrace) => Text(error.toString()),
       ),

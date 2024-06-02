@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 
 class HashTagPill extends StatelessWidget {
@@ -14,34 +15,26 @@ class HashTagPill extends StatelessWidget {
     final textWidget = Text(
       text,
       style: TextStyle(
-        color: textColor ?? Color(0xFF838282),
+        color: textColor ?? ThemeBase.of(context).secondaryText,
         fontSize: 10,
         fontFamily: 'Inter',
         fontWeight: FontWeight.w300,
       ),
     );
-    print(textWidget.data);
-    print(textWidget.data);
     return textWidget.data != null
         ? GestureDetector(
             onTap: onTap != null ? () => onTap!(text) : null,
             child: Container(
-                //width: 68,
-                height: 21,
-                /* constraints: BoxConstraints(
-                maxWidth: textWidget.data!.length.toDouble() * 8.0,
-                minWidth: textWidget.data!.length.toDouble() *
-                    8.0, /* textWidget.textSpan!.toPlainText().length * 10.0, */
-              ), */
+                
                 decoration: ShapeDecoration(
-                  color: color ?? Color(0xFF262424),
+                  color: color ?? ThemeBase.of(context).secondaryBackground,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
                 child: Center(
                   child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
                       child: textWidget),
                 )),
           )

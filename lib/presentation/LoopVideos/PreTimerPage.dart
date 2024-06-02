@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:exopek_workout_app/components/NextExerciseCard.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 
@@ -27,12 +28,11 @@ class _PreTimerPageState extends State<PreTimerPage>
     sortedExerciseConfig = widget.viewModel.workoutDetails.sortedExercises
         as List<ExcerciseWorkoutConfig>;
     _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 10));
+        AnimationController(vsync: this, duration: const Duration(seconds: 5));
 
-    _animation = StepTween(begin: 10, end: 0).animate(_animationController)
+    _animation = StepTween(begin: 5, end: 0).animate(_animationController)
       ..addListener(() {
         setState(() {
-          // setState aufrufen, um das Widget neu zu zeichnen
         });
       });
     _animationController.forward();
@@ -60,96 +60,35 @@ class _PreTimerPageState extends State<PreTimerPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 844,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
-        child: Stack(
+      backgroundColor: ThemeBase.of(context).primaryBackground,
+      body: SafeArea(
+        child: Column(
           children: [
-            Positioned(
-              left: 10,
-              top: 40,
-              child: Container(
-                child: IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.cancel)),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Icon(Icons.cancel)),
               ),
             ),
-            Positioned(
-              left: 123,
-              top: 336,
+            Padding(
+              padding: const EdgeInsets.only(top: 200.0),
               child: Text(
                 formatSeconds(_animation.value),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 48,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
-                  height: 0,
-                ),
+                style: ThemeBase.of(context).headlineLarge.copyWith(
+                      color: Colors.white,
+                      fontSize: 48.0,
+                      fontWeight: FontWeight.w600
+                    ),
               ),
             ),
-            Positioned(
-              left: 20,
-              top: 679,
-              child: Text(
-                "Dein nächstes Workout",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Positioned(
-                left: 20,
-                top: 716,
-                child: NextExerciseCard(
-                  title: sortedExerciseConfig[0].name,
-                  imageUrl: sortedExerciseConfig[0].previewImageUrl,
-                  exerciseFrequenceType:
-                      sortedExerciseConfig[0].duration.toString(),
-                      reps: sortedExerciseConfig[0].reps.toString(),
-                )),
-            Positioned(
-              left: 65,
-              top: 285,
-              child: Text(
-                'Mach dich bereit',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
-                  height: 0,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 20,
-              top: 805,
-              child: SizedBox(
-                width: MediaQuery.sizeOf(context).width - 40,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    for (var i = 0; i < sortedExerciseConfig.length; i++)
-                      Expanded(
-                        child: Container(
-                          height: 7,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFFD9D9D9),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+            Text(
+              'Gleich geht es los!',
+              style: ThemeBase.of(context).headlineMedium.copyWith(
+                    color: Colors.white,
+                  ),  
             ),
           ],
         ),

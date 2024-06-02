@@ -24,84 +24,71 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
           }
         });
       }
-     });
+    });
     final state = ref.watch(asyncCheckValidTokenStateProvider);
     return Scaffold(
-      body: 
-         Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/startImage.jpg'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+        backgroundColor: ThemeBase.of(context).primaryBackground,
+        body: SizedBox(
+          width: MediaQuery.sizeOf(context).width,
+          height: MediaQuery.sizeOf(context).height,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/startImage.jpg'),
+                      fit: BoxFit.cover,
                     ),
-                    Positioned(
-                      left: 0,
-                      top: 65,
-                      child: Container(
-                        width: 160,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/app_launcher_icon.png'),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                        right: 32,
-                        left: 32,
-                        top: 727,
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 120,
-                                child: CtaButton(
-                                  label: 'Login',
-                                  onPressed: () {
-                                    AppRouter.goToLogin();
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                width: 50,
-                              ),
-                              Container(
-                                width: 150,
-                                child: CtaButton(
-                                  label: 'Register',
-                                  onPressed: () {
-                                    AppRouter.goToRegister();
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ],
+                  ),
                 ),
-              )
-       
-          
-
-          
-      
-    );
+              ),
+              const Positioned(
+                left: 0,
+                top: 65,
+                child: Image(
+                  image: AssetImage('assets/images/app_launcher_icon.png'),
+                  height: 100,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 16.0, right: 16.0, bottom: 50.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.53,
+                        child: CtaButton(
+                          label: 'Registrieren',
+                          onPressed: () {
+                            AppRouter.goToRegister();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.35,
+                        child: CtaButton(
+                          color: Colors.transparent,
+                          hasBorder: true,
+                          label: 'Login',
+                          onPressed: () {
+                            AppRouter.goToLogin();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

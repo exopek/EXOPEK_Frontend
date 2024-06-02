@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:exopek_workout_app/components/Shared/RatingStars.dart';
 import 'package:exopek_workout_app/domain/Models/Comment.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
@@ -51,7 +50,7 @@ class CommentRatingCard extends StatelessWidget {
                   ),
                 )
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
@@ -60,7 +59,7 @@ class CommentRatingCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -68,7 +67,7 @@ class CommentRatingCard extends StatelessWidget {
               RatingStars(
                 rating: double.tryParse(comment.rating.toString()) ?? 0,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               // vertical divider
@@ -78,15 +77,15 @@ class CommentRatingCard extends StatelessWidget {
                 color: ThemeBase.of(context).secondaryText,
               ),
               
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
-              Text('${timeAgo}',
+              Text(timeAgo,
                   style: ThemeBase.of(context).labelMedium
                     .copyWith(color: ThemeBase.of(context).secondaryText)),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Align(
@@ -96,7 +95,7 @@ class CommentRatingCard extends StatelessWidget {
               style: ThemeBase.of(context).bodySmall,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Divider(

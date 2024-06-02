@@ -41,29 +41,6 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
         },
         loading: () {},
         data: (_) {
-          // rebuild the page to show the new state
-          //ref.invalidate(asyncPlanDetailPageControllerProvider);
-          /* AsyncValue<PlanDetailsViewModel> res =
-              ref.read(asyncPlanDetailPageControllerProvider);
-
-          res.whenOrNull(
-            error: (error, stackTrace) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(error.toString())),
-              );
-            },
-            loading: () {},
-            data: (result) {
-              var planPhase = PlanPhase(
-                  planStatus: result.planStatus,
-                  workouts:
-                      result.plan.workoutMap[result.sortedCurrentPhaseTypes[0]]
-                          as List<WorkoutPlanConfig>,
-                  plan: result.plan);
-              // route to phase page
-              AppRouter.goToPlanTransition(planPhase);
-            },
-          ); */
           ref.invalidate(asyncPlansPageControllerProvider);
           ref.invalidate(asyncCoachPageControllerProvider);
           AppRouter.goToPlanTransition();
@@ -74,15 +51,6 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
     var result = ref.watch(asyncPlanDetailPageControllerProvider);
     return result.when(
         data: (result) {
-          /* if (result.planStatus.status == StatusType.ACTIVE.index) {
-            var planPhase = PlanPhase(
-                planStatus: result.planStatus,
-                workouts:
-                    result.plan.workoutMap[result.sortedCurrentPhaseTypes[0]]
-                        as List<WorkoutPlanConfig>,
-                plan: result.plan);
-            AppRouter.goToPlanPhase(planPhase);
-          } */
           var distinctWorkouts = result.plan.workouts
               .distinct((a, b) => a.name == b.name)
               .toList();
@@ -127,46 +95,15 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                             ),
                           ],
                         ),
-
-                        /* Positioned(
-                          right: 16,
-                          top: 50,
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            child: IconButton(
-                                onPressed: () => GenericBottomSheet.showOptions(
-                                        context: context,
-                                        items: [
-                                          {
-                                            'icon': Icons.share,
-                                            'title': 'Teilen',
-                                            'onTap': () {}
-                                          }
-                                        ]),
-                                icon: Icon(Icons.menu)),
-                          ),
-                        ), */
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 16.0, top: 8.0, bottom: 0.0),
                           child: Text(result.plan.name,
-                              style: ThemeBase.of(context).headlineSmall),
+                              style: ThemeBase.of(context).headlineSmall.copyWith(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600
+                              )),
                         ),
-
-                        /* Positioned(
-                          left: 16,
-                          top: 862,
-                          child: Text(
-                            'Aktuelle Phase: ${result.planStatus.currentPhase}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ), */
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
@@ -256,68 +193,9 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                   as List<WorkoutPlanConfig>,
                             ),
                           ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
-                        /* Padding(
-                          padding: const EdgeInsets.only(
-                              left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
-                          child: Text(
-                            'Phasen des Programms',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                          child: SizedBox(
-                            width: MediaQuery.sizeOf(context).width,
-                            height: 130,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                padding: const EdgeInsets.only(left: 16),
-                                itemCount: result.plan.workoutMap.length,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      GenericBottomSheet.showPhaseInfo(
-                                          context: context,
-                                          title: "Phase ${index + 1}",
-                                          workoutPlanConfig: result
-                                                  .plan.workoutMap[result
-                                                      .sortedCurrentPhaseTypes[
-                                                  index]]
-                                              as List<WorkoutPlanConfig>);
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8.0),
-                                      child: PlanOverviewCard(
-                                        statusType: result.planStatus!
-                                            .statusTypeAsType as StatusType,
-                                        round: index,
-                                        planPhase: PlanPhaseViewModel(
-                                            planStatus: result.planStatus,
-                                            workouts: result.plan.workoutMap[
-                                                result.sortedCurrentPhaseTypes[
-                                                    index]] as List<
-                                                WorkoutPlanConfig>,
-                                            plan: result.plan),
-                                        currentPhaseType:
-                                            result.planStatus!.currentPhase,
-                                        phaseType: result
-                                                .sortedCurrentPhaseTypes[index]
-                                            as int,
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ), */
                       ],
                     ),
                   ),

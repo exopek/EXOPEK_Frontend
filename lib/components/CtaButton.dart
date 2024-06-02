@@ -9,6 +9,7 @@ class CtaButton extends StatelessWidget {
   final double? fontSizeLable;
   final double? width;
   final Color? color;
+  final bool? hasBorder;
 
   const CtaButton(
       {super.key,
@@ -18,7 +19,8 @@ class CtaButton extends StatelessWidget {
       this.height = 49,
       this.width,
       this.fontSizeLable = 20,
-      this.color});
+      this.color,
+      this.hasBorder = false});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,9 @@ class CtaButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
+          side: BorderSide(
+              width: 1.0,
+              color: hasBorder! ? Colors.white : Colors.transparent),
           borderRadius: BorderRadius.circular(30),
         ),
       ),
@@ -34,7 +39,8 @@ class CtaButton extends StatelessWidget {
         style: ButtonStyle(
           overlayColor:
               MaterialStateProperty.all(Colors.white.withOpacity(0.1)),
-          backgroundColor: MaterialStateProperty.all(color ?? ThemeBase.of(context).secondary), // 0xFFD12626
+          backgroundColor: MaterialStateProperty.all(
+              color ?? ThemeBase.of(context).secondary), // 0xFFD12626
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
@@ -53,6 +59,7 @@ class CtaButton extends StatelessWidget {
             : isLoading! == true
                 ? const CircularProgressIndicator(
                     color: Colors.white,
+                    strokeWidth: 0.5,
                   )
                 : Text(
                     label,

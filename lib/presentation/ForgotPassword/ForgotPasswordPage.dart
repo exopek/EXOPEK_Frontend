@@ -55,14 +55,15 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
      });
     final state = ref.watch(asyncResetPasswordButtonControllerProvider);
     return Scaffold(
+      backgroundColor: ThemeBase.of(context).primaryBackground,
       body: Column(
         children: [
           const SizedBox(height: 100),
           const Text('Passwort vergessen?',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
-            child: const Text('Keine Sorge das passiert den Besten von uns. Trage deine Email ein und wir senden dir eine Url zum Zurücksetzten deines Passworts.',
+          const Padding(
+            padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
+            child: Text('Keine Sorge das passiert den Besten von uns. Trage deine Email ein und wir senden dir eine Url zum Zurücksetzten deines Passworts.',
             textAlign: TextAlign.center,
             style: TextStyle()),
           ),

@@ -195,20 +195,18 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                       top: 50,
                       child: Text(
                         formatSeconds(_elapsed.inSeconds),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: ThemeBase.of(context).headlineMedium.copyWith(
+                              fontSize: 24,
+                              color: Colors.white,
+                            )
                       )),
                   Positioned(
                     left: 16,
-                    top: 40,
+                    top: 55,
                     child: SizedBox(
-                      child: IconButton(
-                          onPressed: () => AppRouter.goToMainPage(),
-                          icon: const Icon(Icons.cancel)),
+                      child: GestureDetector(
+                          onTap: () => AppRouter.goToMainPage(),
+                          child: const Icon(Icons.cancel)),
                     ),
                   ),
                 ],
