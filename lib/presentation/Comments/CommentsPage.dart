@@ -1,5 +1,7 @@
 import 'package:exopek_workout_app/components/CommentCard.dart';
+import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/dependencyInjection/commentsProvider/commentsPageProvider.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,20 +23,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
       data: (data) {
         var sortedData = data.where((element) => element.comment!.isNotEmpty).toList();
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: const Color(0xFF212326),
-            centerTitle: false,
-            title: Text(
-              'Bewertungen',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w400,
-                height: 0,
-              ),
-            ),
-          ),
+          appBar: GenericAppBar.build(context, 'Bewertungen'),
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,

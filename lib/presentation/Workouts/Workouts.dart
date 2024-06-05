@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:exopek_workout_app/components/PromoHeader.dart';
 import 'package:exopek_workout_app/components/SearchBarCustom.dart';
+import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
@@ -30,11 +31,7 @@ class _WorkoutsState extends ConsumerState<Workouts> {
         data: (result) {
           return Scaffold(
             backgroundColor: ThemeBase.of(context).primaryBackground,
-            appBar: AppBar(
-              centerTitle: false,
-              backgroundColor: ThemeBase.of(context).secondaryBackground,
-              title: const Text('Workouts'),
-              ),
+            appBar: GenericAppBar.build(context, 'Workouts'),
             body: CustomScrollView(slivers: [
                 SliverAppBar(
                   leading: Container(),

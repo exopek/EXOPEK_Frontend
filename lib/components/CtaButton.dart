@@ -54,6 +54,7 @@ class CtaButton extends StatelessWidget {
                 style: ThemeBase.of(context).labelMedium.copyWith(
                       fontSize: fontSizeLable,
                       color: Colors.white,
+                      height: 0.0
                     ),
               )
             : isLoading! == true
@@ -66,6 +67,7 @@ class CtaButton extends StatelessWidget {
                     style: ThemeBase.of(context).labelMedium.copyWith(
                           fontSize: fontSizeLable,
                           color: Colors.white,
+                          height: 0.0
                         ),
                   ),
       ),

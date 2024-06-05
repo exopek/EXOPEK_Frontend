@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/components/Onboarding/OnboardingSelectionButton.dart';
+import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/TrainingFrequencyType.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
@@ -33,10 +34,7 @@ class _TrainingFrequencySelectionPageState extends State<TrainingFrequencySelect
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeBase.of(context).primaryBackground,
-      appBar: AppBar(
-        title: Text('Trainingsfrequenz auswählen'),
-        centerTitle: false,
-      ),
+      appBar: GenericAppBar.build(context, 'Trainingsfrequenz'),
       body: SafeArea(
         child: Column(
           children: [

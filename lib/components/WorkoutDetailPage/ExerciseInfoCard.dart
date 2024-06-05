@@ -1,7 +1,5 @@
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ExerciseInfoCard extends StatelessWidget {
@@ -33,7 +31,7 @@ class ExerciseInfoCard extends StatelessWidget {
           height: 50,
           decoration: ShapeDecoration(
             color: ThemeBase.of(context).primary.withOpacity(0.6),
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -50,68 +48,7 @@ class ExerciseInfoCard extends StatelessWidget {
                   ),
                 ),
         ),
-      )/* Stack(
-        children: [
-          
-          Positioned(
-            left: -10,
-            top: -10,
-            child: SvgPicture.asset(
-          'assets/images/exstbi.svg',
-          color: Colors.white,
-          width: 90,
-          height: 90,
-        ),),
-          Positioned(
-            left: 0,
-            top: 85,
-            child: SizedBox(
-              width: 105,
-              child: Text(
-                name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF838282),
-                  fontSize: 16,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w400,
-                  height: 0,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 5,
-            top: 131,
-            child: Text(
-              '${sets} Set',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xFF838282),
-                fontSize: 16,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w400,
-                height: 0,
-              ),
-            ),
-          ),
-          Positioned(
-            left: 70,
-            top: 131,
-            child: Text(
-              '${duration}s',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xFF838282),
-                fontSize: 16,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w400,
-                height: 0,
-              ),
-            ),
-          ),
-        ],
-      ), */
+      )
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 
 class CardInformationBlock extends StatelessWidget {
@@ -14,20 +15,17 @@ class CardInformationBlock extends StatelessWidget {
         children: <Widget>[
           Icon(
             icon ?? Icons.chat_bubble_rounded,
-            color: Color(0xFF838282),
+            color: ThemeBase.of(context).primaryText,
             size: 14,
           ),
-          SizedBox(
+          const SizedBox(
             width: 3,
           ),
           Text(
             value,
-            style: TextStyle(
-              color: Color(0xFF838282),
+            style: ThemeBase.of(context).bodySmall.copyWith(
+              color: ThemeBase.of(context).primaryText,
               fontSize: 10,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w400,
-              height: 0,
             ),
           ),
         ],

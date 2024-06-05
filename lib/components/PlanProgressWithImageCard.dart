@@ -161,34 +161,6 @@ class PlanProgressWithImageCard extends StatelessWidget {
                       icon: Icons.watch,
                     )
                   ),
-                  /* Positioned(
-                    left: 65.61,
-                    top: 4.68,
-                    child: CardInformationBlock(
-                      value: plan.duration.toString(),
-                    )
-                  ), */
-                  /* Positioned(
-                    left: 52.91,
-                    top: 6.02,
-                    child: Transform(
-                      transform: Matrix4.identity()
-                        ..translate(0.0, 0.0)
-                        ..rotateZ(1.57),
-                      child: Container(
-                        width: 12.05,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 0.50,
-                              strokeAlign: BorderSide.strokeAlignCenter,
-                              color: Color(0xFF838282),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ), */
                 ],
               ),
             ),
@@ -220,6 +192,7 @@ class PlanProgressWithImageCard extends StatelessWidget {
               child: Text(
                 plan.hashtagsStringWithHash.toString(),
                 style: TextStyle(
+                  overflow: TextOverflow.ellipsis,
                   color: Color(0xFF838282),
                   fontSize: 10,
                   fontFamily: 'Inter',

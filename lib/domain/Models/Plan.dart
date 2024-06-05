@@ -39,6 +39,7 @@ class PlanListItem extends Plan {
   final String hashtags;
   final int duration;
   final String videoUrl;
+  final String? description;
 
   PlanListItem(
       {required this.id,
@@ -46,7 +47,8 @@ class PlanListItem extends Plan {
       required this.previewImageUrl,
       required this.hashtags,
       required this.duration,
-      required this.videoUrl})
+      required this.videoUrl,
+      this.description})
       : super(
             id: id,
             name: name,
@@ -61,6 +63,7 @@ class PlanListItem extends Plan {
     final hashtags = json['hashtags'] as String;
     final duration = json['duration'] as int;
     final videoUrl = json['videoUrl'] as String;
+    final description = json['description'] as String?;
 
     return PlanListItem(
       id: id,
@@ -69,6 +72,7 @@ class PlanListItem extends Plan {
       hashtags: hashtags,
       duration: duration,
       videoUrl: videoUrl,
+      description: description,
     );
   }
 

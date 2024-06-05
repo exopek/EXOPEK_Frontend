@@ -115,7 +115,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> with RouteAware {
     _videoPlayerController = widget.videoType == VideoType.network
         ? VideoPlayerController.network(widget.path)
         : VideoPlayerController.asset(widget.path);
-    if (kIsWeb && widget.autoPlay) {
+    if (widget.autoPlay) {
       // Browsers generally don't allow autoplay unless it's muted.
       // Ideally this should be configurable, but for now we just automatically
       // mute on web.
@@ -166,7 +166,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> with RouteAware {
   @override
   Widget build(BuildContext context) => FittedBox(
         fit: BoxFit.cover,
-        child: Container(
+        child: SizedBox(
           height: height,
           width: width,
           child: _chewieController != null &&
@@ -176,15 +176,8 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> with RouteAware {
               ? Chewie(controller: _chewieController!)
               : (_chewieController != null &&
                       _chewieController!.videoPlayerController.value.hasError)
-                  ? Text('Error playing video')
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 20),
-                        Text('Loading'),
-                      ],
-                    ),
+                  ? const Text('Error playing video')
+                  : Container(),
         ),
       );
 }

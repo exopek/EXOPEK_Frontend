@@ -25,7 +25,7 @@ class DiscoverFilterPageController
       final planRepository = ref.read(planRepositoryProvider);
       state = const AsyncLoading();
       final result =
-          await AsyncValue.guard(() => planRepository.getPlans(query: query));
+          await AsyncValue.guard(() => planRepository.getPlans(query: {"searchTerm": query}));
       if (result is AsyncError) {
         state = AsyncError("Plans could not be fetched", StackTrace.current);
       }
@@ -36,7 +36,7 @@ class DiscoverFilterPageController
       final workoutRepository = ref.read(dioWorkoutProvider);
       state = const AsyncLoading();
       final result = await AsyncValue.guard(
-          () => workoutRepository.getWorkouts(query: query));
+          () => workoutRepository.getWorkouts(query: {"searchTerm": query}));
       if (result is AsyncError) {
         state = AsyncError("Workouts could not be fetched", StackTrace.current);
       }

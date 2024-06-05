@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:exopek_workout_app/components/PlanCardHorizontal.dart';
 import 'package:exopek_workout_app/components/PlanProgressWithImageCard.dart';
 import 'package:exopek_workout_app/components/Profil/UserInsightsCard.dart';
+import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
@@ -42,10 +43,7 @@ class _ProfileState extends ConsumerState<Profile> {
       data: (data) {
         return Scaffold(
             backgroundColor: Color(0xFF0C0C0C),
-            appBar: AppBar(
-                centerTitle: false,
-                backgroundColor: Color(0xFF212326),
-                title: Text('Profil')),
+            appBar: GenericAppBar.build(context, 'Profil'),
             body: Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,

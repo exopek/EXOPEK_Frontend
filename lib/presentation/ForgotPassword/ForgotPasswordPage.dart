@@ -59,13 +59,19 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       body: Column(
         children: [
           const SizedBox(height: 100),
-          const Text('Passwort vergessen?',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          const Padding(
-            padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
+          Text('Passwort vergessen?',
+          style: ThemeBase.of(context).headlineMedium.copyWith(
+            color: ThemeBase.of(context).primaryText,
+          )),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
             child: Text('Keine Sorge das passiert den Besten von uns. Trage deine Email ein und wir senden dir eine Url zum Zurücksetzten deines Passworts.',
             textAlign: TextAlign.center,
-            style: TextStyle()),
+            style: ThemeBase.of(context).bodySmall.copyWith(
+              color: ThemeBase.of(context).primaryText,
+              fontSize: 14,
+              height: 0,
+            )),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),

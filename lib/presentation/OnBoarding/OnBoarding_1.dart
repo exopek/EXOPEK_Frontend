@@ -208,6 +208,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                               text: 'Bitte akzeptiere die Datenschutzbestimmungen.');
                           return;
                         }
+                        if (registerState.isLoading) return;
                         ref
                             .read(registerButtonControllerProvider.notifier)
                             .register(

@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/AppRouter.dart';
@@ -41,7 +42,7 @@ class _FadeInTransitionScreenState extends State<FadeInTransitionScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 180, 15, 145),
+      backgroundColor: ThemeBase.of(context).primaryBackground,
       body: buildUi(),
     );
   }
@@ -50,25 +51,33 @@ class _FadeInTransitionScreenState extends State<FadeInTransitionScreen>
     return Column(
       children: [
         Expanded(child: buildChatUi()),
-        // buildBottomView()
       ],
     );
   }
 
   Widget buildChatUi() {
-    return Container(
-      child: Center(
-        child: FadeTransition(
-            opacity: _animation as Animation<double>,
-            child: Center(
-                child: Text(
-              'Plan Started',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30,
+    return Center(
+      child: FadeTransition(
+          opacity: _animation as Animation<double>,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 200,
+                height: 112.28,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/app_launcher_icon.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
               ),
-            ))),
-      ),
+              Text('Plan wird geladen...',
+                  style: ThemeBase.of(context).headlineMedium.copyWith(
+                        color: ThemeBase.of(context).primaryText,
+                      )),
+            ],
+          )),
     );
   }
 }

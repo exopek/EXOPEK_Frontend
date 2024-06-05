@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
@@ -5,19 +7,22 @@ import '../../domain/Models/Plan.dart';
 import '../../domain/Models/ViewModels/PlansPageViewModel.dart';
 
 class PlansPageController extends AutoDisposeAsyncNotifier<PlansPageViewModel> {
-  PlansPageController();
+  PlansPageController(
+  );
 
   @override
-  Future<PlansPageViewModel> build() async {
-    return await fetchPlansAndStatus();
+  FutureOr<PlansPageViewModel> build() async {
+    return fetchPlansAndStatus();
   }
 
   // fetch
 
-  Future<PlansPageViewModel> fetchPlansAndStatus() async {
+  Future<PlansPageViewModel> fetchPlansAndStatus(
+  ) async {
     final planRepository = ref.read(planRepositoryProvider);
+    final queryProvider = ref.read(selectedPlanQueryProvider);
     state = const AsyncLoading();
-    final planResult = await AsyncValue.guard(() => planRepository.getPlans());
+    final planResult = await AsyncValue.guard(() => planRepository.getPlans(query: queryProvider));
     if (planResult is AsyncError) {
       state = AsyncError("Plans could not be fetched", StackTrace.current);
     }

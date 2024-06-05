@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/components/CustomTextFieldButton.dart';
+import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/TrainingFrequencyType.dart';
@@ -130,11 +131,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
         ref.watch(asyncProfilEditPageUpdateUserButtonControllerProvider);
     return Scaffold(
         backgroundColor: Color(0xFF0C0C0C),
-        appBar: AppBar(
-          centerTitle: false,
-          backgroundColor: Color(0xFF212326),
-          title: Text('Profil bearbeiten'),
-        ),
+        appBar: GenericAppBar.build(context, 'Profil bearbeiten'),
         body: profilEditPageControllerProvider.when(
             data: (data) {
               /// <summary>

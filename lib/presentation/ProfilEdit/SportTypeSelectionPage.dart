@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/components/Onboarding/OnboardingSelectionButton.dart';
+import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
@@ -32,10 +33,7 @@ class _SportTypeSelectionPageState extends State<SportTypeSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeBase.of(context).primaryBackground,
-      appBar: AppBar(
-        title: Text('Sportart auswählen'),
-        centerTitle: false,
-      ),
+      appBar: GenericAppBar.build(context, 'Sportart'),
       body: SafeArea(
         child: Column(
           children: [

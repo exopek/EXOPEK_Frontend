@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/data/contracts/IPlanRepository.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
+import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/Models/Plan.dart';
@@ -26,19 +27,13 @@ class PlanRepository implements IPlanRepository {
   }
 
   @override
-  Future<List<PlanListItem>> getPlans({String? query, String? planIds}) async {
+  Future<List<PlanListItem>> getPlans({Map<String, String>? query}) async {
     Dio _dio = ref.watch(dioProvider);
     String queryString = "";
-    List<String> queryList = [];
-    if (query != null && query != "All") {
-      queryList.add("searchTerm=${query}");
+    if (query != null) {
+      queryString = "?" + getQueryString(query);
     }
-    if (planIds != null) {
-      queryList.add("planIds=${planIds}");
-    }
-    queryString = queryList.join("&");
-
-    Response res = await _dio.get("plans?${queryString}");
+    Response res = await _dio.get("plans${queryString}");
     if (res.statusCode == 200) {
       var plans = (res.data as List<dynamic>)
           .map((w) => PlanListItem.fromJson(w as Map<String, dynamic>))

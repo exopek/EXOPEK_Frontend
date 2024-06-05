@@ -59,84 +59,55 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
           previousTrainingFrequency: user.previousTrainingFrequency,
         );
         return Scaffold(
-          body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 844,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
-            child: Stack(
+          backgroundColor: ThemeBase.of(context).primaryBackground,
+          body: SafeArea(
+            child: Column(
               children: [
-                Positioned(
-                  left: 38,
-                  top: 40,
-                  child: Container(
-                      width: 84,
-                      height: 64,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(),
-                      child: Container()),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 36.0, right: 36.0, top: 50.0),
+                  child: Text('Wie oft trainierst du pro Woche?',
+                      style: ThemeBase.of(context).headlineLarge),
                 ),
-                Positioned(
-                  left: 36,
-                  top: 133,
-                  child: SizedBox(
-                    width: 327,
-                    child: Text(
-                      'Wie oft trainierst Du pro Woche?',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w700,
-                        height: 0,
-                      ),
-                    ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: selection.length,
+                    itemBuilder: ((context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            left: 36.0, right: 36.0, bottom: 16.0),
+                        child: SizedBox(
+                          height: 67,
+                          child: OnboardingSelectionButton(
+                              text: selection.keys.toList()[index].toString(),
+                              isSelected:
+                                  selection.values.toList()[index] as bool,
+                              onTap: (bool isSelected) {
+                                if (isSelected) {
+                                  setState(() {
+                                    selection.forEach((key, value) {
+                                      if (key ==
+                                          selection.keys.toList()[index]) {
+                                        selection[key] = true;
+                                        previousTrainingFrequency =
+                                            TrainingFrequencyType.values[index];
+                                      } else {
+                                        selection[key] = false;
+                                      }
+                                    });
+                                  });
+                                }
+                              }),
+                        ),
+                      );
+                    }),
                   ),
                 ),
-                Positioned(
-                    left: 36,
-                    top: 228,
-                    child: Container(
-                        height: 400,
-                        width: MediaQuery.of(context).size.width-72,
-                        child: ListView.builder(
-                          
-                          itemCount: selection.length,
-                          itemBuilder: ((context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: 314,
-                                height: 67,
-                                child: OnboardingSelectionButton(
-                                    text:
-                                        selection.keys.toList()[index].toString(),
-                                    isSelected:
-                                        selection.values.toList()[index] as bool,
-                                    onTap: (bool isSelected) {
-                                      if (isSelected) {
-                                        setState(() {
-                                          selection.forEach((key, value) {
-                                            if (key ==
-                                                selection.keys.toList()[index]) {
-                                              selection[key] = true;
-                                              previousTrainingFrequency = TrainingFrequencyType.values[index];
-
-                                            } else {
-                                              selection[key] = false;
-                                            }
-                                          });
-                                        });
-                                      }
-                                    }),
-                              ),
-                            );
-                          }),
-                        ))),
-                Positioned(
-                  left: 32,
-                  right: 32,
-                  top: 700,
+                Padding(
+                  padding: const EdgeInsets.only(left: 36.0, right: 36.0),
                   child: CtaButton(
                     label: 'Weiter',
                     onPressed: () {
@@ -146,6 +117,9 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
                     },
                   ),
                 ),
+                const SizedBox(
+                  height: 20.0,
+                ),
               ],
             ),
           ),
@@ -153,7 +127,11 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
       },
       loading: () {
         return Align(
-            alignment: Alignment.topCenter, child: CircularProgressIndicator(strokeWidth: 0.5, color: ThemeBase.of(context).secondary,));
+            alignment: Alignment.topCenter,
+            child: CircularProgressIndicator(
+              strokeWidth: 0.5,
+              color: ThemeBase.of(context).secondary,
+            ));
       },
       error: (error, stack) {
         throw Exception(error);

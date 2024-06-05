@@ -9,6 +9,7 @@ import 'package:exopek_workout_app/components/PlanProgressCard.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/dependencyInjection/plansProvider/PlansProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
+import 'package:exopek_workout_app/dependencyInjection/workoutProvider/WorkoutProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
@@ -225,11 +226,28 @@ class _CoachState extends ConsumerState<Coach> {
                                   itemBuilder: (context, index) {
                                     return TextButton(
                                       onPressed: () {
-                                        if (index == 0)
-                                          AppRouter.goToWorkouts();
-                                        if (index == 1) AppRouter.goToPlans();
-                                        if (index == 2)
-                                          AppRouter.goToLikedWorkouts();
+                                        if (index == 0) 
+                                        {
+                                          ref.read(selectedWorkoutQueryProvider.notifier).state = {
+                                              "bestRated": "true",
+                                          };
+                                          AppRouter.goToHighlightsWorkouts();
+                                        }
+                                        if (index == 1)
+                                        {
+                                          ref.read(selectedPlanQueryProvider.notifier).state = {
+                                              "isNew": "true",
+                                            };
+                                            AppRouter.goToHighlightPlans();
+                                        } 
+                                        if (index == 2) AppRouter.goToLikedWorkouts();
+                                        if (index == 3) 
+                                        {
+                                          ref.read(selectedWorkoutQueryProvider.notifier).state = {
+                                              "isNew": "true",
+                                          };
+                                          AppRouter.goToHighlightsWorkouts();
+                                        }
                                       },
                                       child: AreaSelection(
                                           label: _selectedAreas[index],
@@ -241,14 +259,14 @@ class _CoachState extends ConsumerState<Coach> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               left: 16,
                               top: 16,
                             ),
                             child: Text(
                               data.startedPlans.isEmpty
                                   ? 'Starte hier'
-                                  : 'Dein aktueller Plan',
+                                  : 'Deine aktuellen Pläne',
                               style: ThemeBase.of(context)
                                   .headlineSmall
                                   .copyWith(

@@ -59,10 +59,8 @@ final asyncPlanDetailPageControllerProvider = AsyncNotifierProvider.autoDispose<
 
 final asyncPlansPageControllerProvider =
     AsyncNotifierProvider.autoDispose<PlansPageController, PlansPageViewModel>(
-        () {
-  return PlansPageController();
-});
-
+        () => PlansPageController());
+  
 final asyncPlanPhasePageControllerProvider = AsyncNotifierProvider.autoDispose<
     PlanPhasePageController, PlanPhaseViewModel>(() {
   return PlanPhasePageController();
@@ -86,3 +84,5 @@ final asyncWorkoutSummarySaveButtonControllerProvider =
 });
 
 final selectedPlanIdProvider = StateProvider<String>((ref) => '');
+
+final selectedPlanQueryProvider = StateProvider<Map<String, String>>((ref) => {});

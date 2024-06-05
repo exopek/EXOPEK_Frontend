@@ -16,7 +16,7 @@ class OnBoarding0 extends ConsumerStatefulWidget {
 class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
   @override
   Widget build(BuildContext context) {
-    ref.listen(asyncCheckValidTokenStateProvider, (previous, next) {
+    /* ref.listen(asyncCheckValidTokenStateProvider, (previous, next) {
       if (next is AsyncData) {
         next.whenData((value) {
           if (value) {
@@ -24,8 +24,8 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
           }
         });
       }
-    });
-    final state = ref.watch(asyncCheckValidTokenStateProvider);
+    }); */
+    // final state = ref.watch(asyncCheckValidTokenStateProvider);
     return Scaffold(
         backgroundColor: ThemeBase.of(context).primaryBackground,
         body: SizedBox(
@@ -66,6 +66,8 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
                       SizedBox(
                         width: MediaQuery.sizeOf(context).width * 0.53,
                         child: CtaButton(
+                          color: Colors.transparent,
+                          hasBorder: true,
                           label: 'Registrieren',
                           onPressed: () {
                             AppRouter.goToRegister();

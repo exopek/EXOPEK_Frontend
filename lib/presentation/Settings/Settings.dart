@@ -1,5 +1,6 @@
 import 'package:exopek_workout_app/components/Settings/SettingsCtaButton.dart';
 import 'package:exopek_workout_app/components/Settings/SettingsCtaButtonProfilEdit.dart';
+import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
@@ -67,11 +68,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     });
     final user = ref.watch(userStateProvider);
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          backgroundColor: Color(0xFF212326),
-          title: Text('Einstellungen'),
-        ),
+        appBar: GenericAppBar.build(context, 'Einstellungen'),
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: 1310,

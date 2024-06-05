@@ -5,4 +5,10 @@ class PlansPageViewModel {
   List<PlanStatus> planStatuses = [];
 
   PlansPageViewModel({required this.plans, required this.planStatuses});
+
+  // create empty object
+  static PlansPageViewModel empty() {
+    return PlansPageViewModel(plans: [], planStatuses: []);
+  }
+
 }

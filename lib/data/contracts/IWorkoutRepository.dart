@@ -1,7 +1,7 @@
 import 'package:exopek_workout_app/domain/Models/workout.dart';
 
 abstract class IWorkoutRepository {
-  Future<List<dynamic>> getWorkouts({String? query});
+  Future<List<dynamic>> getWorkouts({Map<String, String>? query});
 
   Future<dynamic> getWorkout(String id);
   Future<bool> completeWorkout({required String workoutId});

@@ -3,6 +3,7 @@ import 'package:exopek_workout_app/components/GenericBottomSheet.dart';
 import 'package:exopek_workout_app/components/HashTagPill.dart';
 import 'package:exopek_workout_app/components/PlanBenefits.dart';
 import 'package:exopek_workout_app/components/PlanDetailPage/PhaseDetails.dart';
+import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/WorkoutDetailPage/ExerciseInfoCard.dart';
 import 'package:exopek_workout_app/components/WorkoutOverviewCard.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
@@ -55,6 +56,8 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
               .distinct((a, b) => a.name == b.name)
               .toList();
           return Scaffold(
+            appBar: GenericAppBar.build(context, "", hasDivider: false),
+            extendBodyBehindAppBar: true,
             body: SingleChildScrollView(
               physics: ClampingScrollPhysics(),
               child: Column(
@@ -67,42 +70,26 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Stack(
-                          children: [
-                            Container(
-                              width: MediaQuery.sizeOf(context).width,
-                              height: 370,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(result.plan
-                                      .previewImageUrl /* "https://via.placeholder.com/390x370" */),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                        Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 370,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(result.plan
+                                  .previewImageUrl /* "https://via.placeholder.com/390x370" */),
+                              fit: BoxFit.cover,
                             ),
-                            Positioned(
-                              top: 56,
-                              left: 16,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 16.0, top: 8.0, bottom: 0.0),
                           child: Text(result.plan.name,
-                              style: ThemeBase.of(context).headlineSmall.copyWith(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600
-                              )),
+                              style: ThemeBase.of(context)
+                                  .headlineSmall
+                                  .copyWith(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w600)),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
@@ -158,8 +145,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                           width: MediaQuery.sizeOf(context).width,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: distinctWorkouts
-                                .length,
+                            itemCount: distinctWorkouts.length,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(
@@ -168,7 +154,8 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                   name: distinctWorkouts[index].name,
                                   sets: "",
                                   duration: "",
-                                  imageUrl: distinctWorkouts[index].previewImageUrl,
+                                  imageUrl:
+                                      distinctWorkouts[index].previewImageUrl,
                                 ),
                               );
                             },
@@ -204,7 +191,10 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
             ),
           );
         },
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading: () => Center(child: CircularProgressIndicator(
+              strokeWidth: 0.5,
+              color: ThemeBase.of(context).primaryText
+        )),
         error: (e, s) => Center(child: Text(e.toString())));
   }
 }

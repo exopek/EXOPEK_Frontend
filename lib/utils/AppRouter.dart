@@ -10,17 +10,19 @@ import 'package:exopek_workout_app/presentation/Comments/CommentsPage.dart';
 import 'package:exopek_workout_app/presentation/Discover/Dicover.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPage.dart';
 import 'package:exopek_workout_app/presentation/ForgotPassword/ForgotPasswordPage.dart';
+import 'package:exopek_workout_app/presentation/Workouts/HighlightsWorkoutsPage.dart';
 import 'package:exopek_workout_app/presentation/LikedWorkouts/LikedWorkoutsPage.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/LoopVideos.dart';
 import 'package:exopek_workout_app/presentation/LoopVideos/PreTimerPage.dart';
 import 'package:exopek_workout_app/presentation/MainPage.dart';
 import 'package:exopek_workout_app/presentation/OnBoarding/OnBoarding_1_1.dart';
+import 'package:exopek_workout_app/presentation/Plans/PlansPage.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/ProfilEditPage.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/SportTypeSelectionPage.dart';
 import 'package:exopek_workout_app/presentation/ProfilEdit/TrainingFrequencySelectionPage.dart';
 import 'package:exopek_workout_app/presentation/Settings/Settings.dart';
 import 'package:exopek_workout_app/presentation/WorkoutDetails/WorkoutDetail.dart';
-import 'package:exopek_workout_app/presentation/Workouts.dart';
+import 'package:exopek_workout_app/presentation/Workouts/Workouts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,7 +40,7 @@ import '../presentation/OnBoarding/Onboarding_0.dart';
 import '../presentation/Plan/FadeInTransitionScreen.dart';
 import '../presentation/Plan/PlanDetailPage.dart';
 import '../presentation/Plan_Phase/PlanPhasePage.dart';
-import '../presentation/Plans/PlansPage.dart';
+import '../presentation/Plans/HighlightsPlansPage.dart';
 import '../presentation/Profil/Profile.dart';
 import '../presentation/WorkoutSummary/WorkoutSummaryPage.dart';
 
@@ -58,6 +60,10 @@ class AppRouter {
       GoRoute(
         path: "/plans",
         builder: (context, state) => const PlansPage(),
+      ),
+      GoRoute(
+        path: "/highlightPlans",
+        builder: (context, state) => const HighlightsPlansPage(),
       ),
       GoRoute(
         path: "/coach",
@@ -236,6 +242,11 @@ class AppRouter {
         path: "/likedWorkouts",
         builder: (context, state) => const LikedWorkoutsPage(),
       ),
+      GoRoute(
+          path: "/highlightWorkouts",
+          builder: (context, state) {
+            return const HighlightsWorkoutsPage();
+          }),
     ],
   );
 
@@ -257,6 +268,10 @@ class AppRouter {
 
   static void goToWorkouts() {
     router.push("/workouts");
+  }
+
+  static void goToHighlightPlans() {
+    router.push("/highlightPlans");
   }
 
   static void goToPlans() {
@@ -377,6 +392,10 @@ class AppRouter {
 
   static void goToLikedWorkouts() {
     router.push("/likedWorkouts");
+  }
+
+  static void goToHighlightsWorkouts() {
+    router.push("/highlightWorkouts");
   }
 }
 

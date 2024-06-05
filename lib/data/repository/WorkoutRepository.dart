@@ -5,7 +5,8 @@ import 'package:exopek_workout_app/data/contracts/IWorkoutRepository.dart';
 import 'package:exopek_workout_app/domain/Models/Comment.dart';
 import 'package:exopek_workout_app/domain/Models/Like.dart';
 import 'package:exopek_workout_app/domain/Models/WorkoutComplete.dart';
-import 'package:exopek_workout_app/presentation/Workouts.dart';
+import 'package:exopek_workout_app/presentation/Workouts/Workouts.dart';
+import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,14 +19,13 @@ class WorkoutRepository implements IWorkoutRepository {
   //final String _baseUrl = "http://exopek.azurewebsites.net/api/";
 
   @override
-  Future<List<WorkoutListItem>> getWorkouts({String? query}) async {
+  Future<List<WorkoutListItem>> getWorkouts({Map<String, String>? query}) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
     String queryString = "";
-    if (query == "All" || query == null) {
-      query = "";
+    if (query != null) {
+      queryString = "?" + getQueryString(query);
     }
-    queryString = query!.isNotEmpty ? "?searchTerm=${query}" : "";
     Response res = await _dio.get("workouts${queryString}");
     if (res.statusCode == 200) {
       //var workouts = Workout.fromJson(res.data);
@@ -70,7 +70,7 @@ class WorkoutRepository implements IWorkoutRepository {
   @override
   Future<List<CommentReadDto>> getWorkoutComments(String id) async {
     Dio _dio = ref.watch(dioProvider);
-    Response res = await _dio.get("workouts/comments?id=$id");
+    Response res = await _dio.get("workouts/comments/$id");
     if (res.statusCode == 200) {
       var comments = (res.data as List<dynamic>)
           .map((c) => CommentReadDto.fromJson(c as Map<String, dynamic>))

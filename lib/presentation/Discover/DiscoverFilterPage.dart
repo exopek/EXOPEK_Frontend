@@ -91,7 +91,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
             decoration: BoxDecoration(color: Color(0xFF212326)),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 Row(
@@ -107,25 +107,26 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                                   FetchType.none;
                               Navigator.of(context).pop();
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_back_ios,
                               color: Color(0xFFD9D9D9),
                             )),
                       ),
                     ),
-                    Expanded(
-                      child: Padding(
+                    Padding(
                         padding: const EdgeInsets.only(right: 52.0),
                         child: Text(
                           "Filter",
                           textAlign: TextAlign.center,
-                          style: ThemeBase.of(context).titleMedium,
+                          style: ThemeBase.of(context).titleSmall.copyWith(
+                      color: ThemeBase.of(context).primaryText,
+                    )
                         ),
                       ),
-                    ),
+                    
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 6,
                 ),
                 Padding(
@@ -169,7 +170,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                           textColor: Color(0xFFD9D9D9),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       GestureDetector(
@@ -185,22 +186,6 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                               : Color(0xFF0C0C0C),
                         ),
                       ),
-                      /* SizedBox(
-                        width: 8,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          ref.read(fetchStateProvider.notifier).state =
-                              FetchType.challenge;
-                        },
-                        child: BigHashTagPill(
-                          text: "CHALLENGES",
-                          textColor: Color(0xFFD9D9D9),
-                          color: fetchType == FetchType.challenge
-                              ? Color(0xFFC91717)
-                              : Color(0xFF0C0C0C),
-                        ),
-                      ), */
                     ],
                   ),
                 ),
@@ -212,8 +197,8 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
             discoverControllerProvider.when(
               data: (data) {
                 if (data.workouts.isEmpty && data.plans.isEmpty) {
-                  return Center(
-                    child: Text("No results found"),
+                  return const Center(
+                    child: Text("Leider nichts gefunden"),
                   );
                 } else if (data.workouts.isNotEmpty) {
                   return Expanded(
@@ -271,8 +256,8 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                     ),
                   );
                 } else {
-                  return Center(
-                    child: Text("No results found"),
+                  return const Center(
+                    child: Text("Leider nichts gefunden"),
                   );
                 }
               },

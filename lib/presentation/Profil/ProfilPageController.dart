@@ -31,7 +31,7 @@ class ProfilPageController extends AutoDisposeAsyncNotifier<ProfilPageViewModel>
     }
     if (planStatusResult is AsyncData && planStatusResult.asData!.value.isNotEmpty) {
       final planResult = await AsyncValue.guard(
-        () => planRepository.getPlans(planIds: planStatusResult.asData!.value.map((e) => e.planId).join(",")));
+        () => planRepository.getPlans(query: {"planIds": planStatusResult.asData!.value.map((e) => e.planId).join(",")}));
       if (planResult is AsyncError) {
         state = AsyncError("Plans could not be fetched", StackTrace.current);
       }

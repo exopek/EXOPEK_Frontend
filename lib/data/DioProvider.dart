@@ -25,24 +25,24 @@ final dioProvider = Provider((ref) {
     return handler.next(options); //continue
   }, onResponse: (response, handler) {
     return handler.next(response); // continue
-  }, /* onError: (DioException e, handler) {
+  }, onError: (DioException e, handler) {
     print(AppRouter.router.routeInformationProvider.value.uri.toString());
     if (e.response?.statusCode == 401) {
-      /* switch (AppRouter.router.routeInformationProvider.value.uri.toString()) {
+      switch (AppRouter.router.routeInformationProvider.value.uri.toString()) {
         case "/login":
+          break;
+        case "/onBoarding0":
           break;
         default:
           AppRouter.goToOnBoarding0();
           break;
-      } */
+      }
       
       return handler.resolve(Response(requestOptions: e.requestOptions, data: {"error": "Unauthorized"}));
     }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(e.response?.data["error"] ?? "An error occured"),
-    ));
+    
     return handler.next(e); //continue
-  } */));
+  }));
   return dio;
 });
 

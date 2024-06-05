@@ -84,6 +84,20 @@ enum DecimalType {
   commaDecimal,
 }
 
+String getQueryString(Map<String, dynamic> query) {
+  final queryParameters = <String>[];
+  query.forEach((key, value) {
+    if (value is List) {
+      for (final item in value) {
+        queryParameters.add('$key=$item');
+      }
+    } else {
+      queryParameters.add('$key=$value');
+    }
+  });
+  return queryParameters.join('&');
+}
+
 String formatNumber(
   num? value, {
   required FormatType formatType,

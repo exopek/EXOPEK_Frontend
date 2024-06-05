@@ -22,13 +22,13 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
     state = const AsyncLoading();
     // Get the plans
     final planResult =
-        await AsyncValue.guard(() => planRepository.getPlans(query: "All"));
+        await AsyncValue.guard(() => planRepository.getPlans());
     if (planResult is AsyncError) {
       state = AsyncError("Plans could not be fetched", StackTrace.current);
     }
     // Get the workouts
     final workoutResult = await AsyncValue.guard(
-        () => workoutRepository.getWorkouts(query: "All"));
+        () => workoutRepository.getWorkouts(query: {"bestRated": "true"}));
     if (workoutResult is AsyncError) {
       state = AsyncError("Workouts could not be fetched", StackTrace.current);
     }
@@ -65,7 +65,7 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
           user: user.asData!.value);
     }
     final startedPlans = await AsyncValue.guard(
-        () => planRepository.getPlans(planIds: planIds.join(",")));
+        () => planRepository.getPlans(query: {"planIds": planIds.join(",")}));
     if (startedPlans is AsyncError) {
       state =
           AsyncError("StartedPlans could not be fetched", StackTrace.current);

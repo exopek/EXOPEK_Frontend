@@ -19,6 +19,11 @@ class _OnBoardingCodeState extends ConsumerState<OnBoardingCode> {
   final TextEditingController controllerCode3 = TextEditingController();
   final TextEditingController controllerCode4 = TextEditingController();
   final TextEditingController controllerCode5 = TextEditingController();
+  final FocusNode focusNode1 = FocusNode();
+  final FocusNode focusNode2 = FocusNode();
+  final FocusNode focusNode3 = FocusNode();
+  final FocusNode focusNode4 = FocusNode();
+  final FocusNode focusNode5 = FocusNode();
 
   String get pinCode =>
       controllerCode1.text +
@@ -87,11 +92,11 @@ class _OnBoardingCodeState extends ConsumerState<OnBoardingCode> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _numberInputField(controllerCode1),
-                      _numberInputField(controllerCode2),
-                      _numberInputField(controllerCode3),
-                      _numberInputField(controllerCode4),
-                      _numberInputField(controllerCode5),
+                      _numberInputField(controllerCode1, focusNode1),
+                      _numberInputField(controllerCode2, focusNode2),
+                      _numberInputField(controllerCode3, focusNode3),
+                      _numberInputField(controllerCode4, focusNode4),
+                      _numberInputField(controllerCode5, focusNode5),
                     ],
                   ),
                 ],
@@ -138,7 +143,7 @@ class _OnBoardingCodeState extends ConsumerState<OnBoardingCode> {
     );
   }
 
-  Widget _numberInputField(TextEditingController controller) {
+  Widget _numberInputField(TextEditingController controller, FocusNode focusNode) {
     return Container(
       width: 50,
       height: 50,
@@ -148,6 +153,12 @@ class _OnBoardingCodeState extends ConsumerState<OnBoardingCode> {
       ),
       child: Center(
         child: TextField(
+          onChanged: (value) {
+            if (value.length == 1) {
+              FocusScope.of(context).nextFocus();
+            }
+          },
+          focusNode: focusNode,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           keyboardType: TextInputType.number,
           controller: controller,

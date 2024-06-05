@@ -12,7 +12,7 @@ class PlanCardHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width ?? MediaQuery.of(context).size.width * 0.8,
+      width: width ?? MediaQuery.of(context).size.width,
       height: 200,
       decoration: ShapeDecoration(
         image: DecorationImage( 
@@ -28,36 +28,36 @@ class PlanCardHorizontal extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
+            left: 0,
+            top: 0,
+            child: Container(
+              width: width ?? MediaQuery.of(context).size.width,
+              height: 80,
+              color: Colors.black.withOpacity(0.3),
+            )),
+          Positioned(
             left: 23,
-            top: 19.23,
+            top: 16.23,
             child: SizedBox(
               height: 22.86,
               child: Text(
                 planListItem.hashtagsStringWithHash.toString(),
-                style: TextStyle(
-                  color: Color(0xFF838282),
+                style: ThemeBase.of(context).bodySmall.copyWith(
+                  color: ThemeBase.of(context).secondaryText,
                   fontSize: 10,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w300,
-                  height: 0,
-                ),
+                  overflow: TextOverflow.ellipsis
+                )
               ),
             ),
           ),
           Positioned(
             left: 23,
-            top: 34,
+            top: 30,
             child: SizedBox(
               height: 36.19,
               child: Text(
                 planListItem.name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w400,
-                  height: 0,
-                ),
+                style: ThemeBase.of(context).headlineSmall,
               ),
             ),
           ),
@@ -66,14 +66,14 @@ class PlanCardHorizontal extends StatelessWidget {
             top: 62,
             child: Row(
                 children: [
-                  CardInformationBlock(value: planListItem.duration.toString() + " weeks", icon: Icons.watch,),
+                  CardInformationBlock(value: planListItem.duration.toString() + " Wochen", icon: Icons.watch,),
                 ],
               ),
           ),
           Positioned(
             right: 22,
             top: 158,
-            child: Container(
+            child: SizedBox(
               width: 140,
               child: CtaButton(
                 fontSizeLable: 12,
@@ -83,14 +83,14 @@ class PlanCardHorizontal extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
+          /* Positioned(
             left: 0,
             top: 0,
             child: Container(
-              width: width ?? MediaQuery.of(context).size.width * 0.8,
-              height: 200,
-              color: Colors.black.withOpacity(0.3),
-            ))
+              width: width ?? MediaQuery.of(context).size.width,
+              height: 80,
+              color: Colors.black.withOpacity(0.4),
+            )) */
         ],
       ),
     );
