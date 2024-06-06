@@ -1,5 +1,7 @@
 import 'package:exopek_workout_app/components/CardInformationBlock.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../domain/Models/Plan.dart';
 
@@ -12,198 +14,162 @@ class PlanProgressWithImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width,
       height: 156,
       decoration: ShapeDecoration(
-                color: Color(0x00262424),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFF262424)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                
-              ),
-      child: Stack(
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(width: 1, color: Color(0xFF262424)),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: Row(
         children: [
           // Image
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 111.56,
-              height: 156,
-              decoration: ShapeDecoration(
-                image: DecorationImage(
-                  image: NetworkImage("${plan.previewImageUrl}"),
-                  fit: BoxFit.cover,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                  ),
+          Container(
+            width: 111.56,
+            height: 156,
+            decoration: ShapeDecoration(
+              image: DecorationImage(
+                image: NetworkImage(plan.previewImageUrl),
+                fit: BoxFit.cover,
+              ),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
                 ),
               ),
             ),
           ),
+
           // Trennstrich
-          Positioned(
-            left: 111.56,
-            top: 1,
-            child: Transform(
-              transform: Matrix4.identity()
-                ..translate(0.0, 0.0)
-                ..rotateZ(1.57),
-              child: Container(
-                width: 154,
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 2,
-                      strokeAlign: BorderSide.strokeAlignCenter,
-                      color: Color(0xFFD31919),
-                    ),
+          Container(
+            width: 2,
+            height: 156,
+            color: ThemeBase.of(context).secondary,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Hashtags
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.42,
+                  child: Text(plan.hashtagsStringWithHash.toString(),
+                      overflow: TextOverflow.ellipsis,
+                      style: ThemeBase.of(context).bodySmall.copyWith(
+                          color: ThemeBase.of(context).secondaryText,
+                          fontSize: 10,
+                          overflow: TextOverflow.ellipsis)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Name
+                      Text(plan.name, style: ThemeBase.of(context).titleMedium),
+                      const SizedBox(height: 2),
+                      // Information Block
+
+                      CardInformationBlock(
+                        value: plan.duration.toString() + " wochen",
+                        icon: _svgBt('Uhr',
+                            height: 12.0,
+                            width: 12.0,
+                            color: ThemeBase.of(context).primaryText),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          if (planStatus.progressPercentage == 100)
-            Positioned(
-              left: 125.90,
-              top: 128,
-              child: Text(
-                "Plan Abgeschlossen: " + planStatus.createdAt.toString().split("T")[0],
-                style: TextStyle(
-                  color: Color(0xFF838282),
-                  fontSize: 10,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w300,
-                  height: 0,
-                )
-              )
-            ),
-          // Progress bar
-          if (planStatus.progressPercentage != 100)
-            Positioned(
-              left: 125.90,
-              top: 128,
-              child: Container(
-                height: 10,
-                width: 172,
-                child: Stack(
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 172,
+                    // Progress bar
+                    if (planStatus.progressPercentage != 100)
+                      Container(
                         height: 10,
+                        width: MediaQuery.sizeOf(context).width * 0.42,
                         decoration: ShapeDecoration(
-                          color: Color(0xFFD9D9D9),
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Color.fromARGB(255, 181, 156, 156)),
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFF262424)),
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Container(
-                        width: 172 * planStatus.progressPercentage / 100,
-                        height: 10,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFCE2323),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              child: Container(
+                                width: MediaQuery.sizeOf(context).width *
+                                    0.42 *
+                                    planStatus.progressPercentage /
+                                    100,
+                                height: 8,
+                                decoration: ShapeDecoration(
+                                  color: ThemeBase.of(context).secondary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
+
+                    // Progress text
+                    if (planStatus.progressPercentage != 100)
+                      SizedBox(
+                        child: Text(
+                            '${planStatus.progressPercentage}% Abgeschlossen',
+                            style: ThemeBase.of(context).bodySmall.copyWith(
+                                  color: ThemeBase.of(context).secondaryText,
+                                  fontSize: 10,
+                                  height: 0,
+                                )),
+                      ),
+                    if (planStatus.progressPercentage == 100)
+                      Text(
+                          "Plan Abgeschlossen: " +
+                              planStatus.createdAt.toString().split("T")[0],
+                          style: ThemeBase.of(context).bodySmall.copyWith(
+                              color: ThemeBase.of(context).secondaryText,
+                              fontSize: 10,
+                              height: 0)),
                   ],
-                ),
-              ),
+                )
+              ],
             ),
-          // Progress text
-          if (planStatus.progressPercentage != 100)
-            Positioned(
-              left: 125.90,
-              top: 108,
-              child: SizedBox(
-                child: Text(
-                  '${planStatus.progressPercentage}% Abgeschlossen',
-                  style: TextStyle(
-                    color: Color(0xFF838282),
-                    fontSize: 10,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w300,
-                    height: 0,
-                  ),
-                ),
-              ),
-            ),
-          // Information Block
-          Positioned(
-            left: 122.81,
-            top: 55,
-            child: Container(
-              width: 150.26,
-              height: 46.80,
-              child: Stack(
-                children: [
-                  
-                  Positioned(
-                    left: 3.52,
-                    top: 4.68,
-                    child: CardInformationBlock(
-                      value: plan.duration.toString() + " wochen",
-                      icon: Icons.watch,
-                    )
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Name
-          Positioned(
-            left: 125.90,
-            top: 33,
-            child: SizedBox(
-              height: 28.23,
-              child: Text(
-                plan.name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w400,
-                  height: 0,
-                ),
-              ),
-            ),
-          ),
-          // Hashtags
-          Positioned(
-            left: 125.90,
-            top: 15,
-            child: SizedBox(
-              height: 17.83,
-              child: Text(
-                plan.hashtagsStringWithHash.toString(),
-                style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                  color: Color(0xFF838282),
-                  fontSize: 10,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w300,
-                  height: 0,
-                ),
-              ),
-            ),
-          ),
+          )
         ],
       ),
     );
   }
+
+  static Widget _svgBt(String assetBasename,
+          {Color color = const Color(0xFF838282),
+          double width = 20,
+          double height = 20,
+          VoidCallback? onTap}) =>
+      GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: SvgPicture.asset(
+            'assets/svg/$assetBasename.svg',
+            color: color,
+            width: width,
+            height: height,
+          ),
+        ),
+      );
 }

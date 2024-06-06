@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/components/CustomTextFieldButton.dart';
+import 'package:exopek_workout_app/components/GenericSnackBar.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
@@ -57,72 +58,25 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
   Widget build(BuildContext context) {
     ref.listen(uploadProfilImageButtonControllerProvider, (previous, next) {
       if (next is AsyncData) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Image uploaded'),
-        ));
+        GenericSnackBar.showSuccedSnackBar(
+            context: context, text: 'Profilbild erfolgreich geändert!');
         ref.invalidate(asyncProfilEditPageControllerProvider);
       }
       if (next is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(next.error.toString()),
-        ));
+        next.whenOrNull(
+            error: (error, stackTrace) =>
+                GenericSnackBar.showErrorSnackBar(context: context, text: error.toString()));
       }
     });
     ref.listen(asyncProfilEditPageUpdateUserButtonControllerProvider,
         (previous, next) {
       if (next is AsyncData) {
         ref.invalidate(asyncProfilEditPageControllerProvider);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: ThemeBase.of(context).primaryBackground,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            
-            content: Row(
-              children: [
-                const Icon(Icons.check, color: Colors.green),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Update erfolgreich!',
-                  style: TextStyle(
-                    color: ThemeBase.of(context).primaryText,
-                    fontSize: 12,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w600,
-                    height: 0,
-                  ),),
-                ),
-              ],
-            ),
-          ));
+        GenericSnackBar.showSuccedSnackBar(context: context, text: 'Update erfolgreich!');
       } else if (next is AsyncError) {
         next.whenOrNull(
             error: (error, stackTrace) =>
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: ThemeBase.of(context).primaryBackground,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            
-            content: Row(
-              children: [
-                const Icon(Icons.error, color: Colors.red),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(error.toString(),
-                  style: TextStyle(
-                    color: ThemeBase.of(context).primaryText,
-                    fontSize: 12,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w600,
-                    height: 0,
-                  ),),
-                ),
-              ],
-            ),
-          )));
+                GenericSnackBar.showErrorSnackBar(context: context, text: error.toString())  );
       }
     });
     final profilEditPageControllerProvider =
@@ -130,7 +84,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
     final state =
         ref.watch(asyncProfilEditPageUpdateUserButtonControllerProvider);
     return Scaffold(
-        backgroundColor: Color(0xFF0C0C0C),
+        backgroundColor: ThemeBase.of(context).primaryBackground,
         appBar: GenericAppBar.build(context, 'Profil bearbeiten'),
         body: profilEditPageControllerProvider.when(
             data: (data) {
@@ -154,7 +108,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       ? "---"
                       : data.user.previousTrainingFrequency!.name;
               return SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: [
                     const SizedBox(
@@ -219,7 +173,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         );
                       }
                     }),
-                    Divider(
+                    const Divider(
                       height: 32,
                       thickness: 2,
                       color: Color(0xFF212326),
@@ -235,7 +189,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -246,7 +200,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         hint: "Benutzername",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -257,7 +211,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         hint: "Vorname",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -268,7 +222,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         hint: "Nachname",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -279,7 +233,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         hint: "Email",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -290,7 +244,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         hint: "Alter (Jahre)",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -301,7 +255,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         hint: "Größe (cm)",
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       height: 32,
                       thickness: 2,
                       color: Color(0xFF212326),
@@ -317,7 +271,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -334,7 +288,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         )
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -350,7 +304,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 64,
                     ),
                     Padding(
@@ -391,7 +345,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                         },
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 64,
                     ),
                   ],

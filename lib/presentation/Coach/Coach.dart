@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:exopek_workout_app/components/AreaSelection.dart';
-import 'package:exopek_workout_app/components/BookmarkEmpty.dart';
 import 'package:exopek_workout_app/components/CurvedHeader.dart';
-import 'package:exopek_workout_app/components/NavigationBarCustom.dart';
 import 'package:exopek_workout_app/components/PlanCardHorizontal.dart';
-import 'package:exopek_workout_app/components/PlanProgressCard.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/dependencyInjection/plansProvider/PlansProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
@@ -33,6 +30,7 @@ class Coach extends ConsumerStatefulWidget {
 class _CoachState extends ConsumerState<Coach> {
   late ScrollController _scrollController;
   late List<String> _selectedAreas;
+  late List<String> _assets;
   /* late ui.Image image; */
 
   Future<ui.Image> loadImage(String imagePath) async {
@@ -57,6 +55,12 @@ class _CoachState extends ConsumerState<Coach> {
       "Favorieten",
       "Neue Workouts"
     ];
+    _assets = [
+      "assets/images/testImage.jpeg",
+      "assets/images/startImage.jpg",
+      "assets/images/loginImage.jpg",
+      "assets/images/testImage.jpeg"
+    ];
   }
 
   @override
@@ -69,7 +73,7 @@ class _CoachState extends ConsumerState<Coach> {
     final coachControllerProvider = ref.watch(asyncCoachPageControllerProvider);
     final user = ref.watch(userStateProvider);
     return Scaffold(
-      backgroundColor: Color(0xFF0C0C0C),
+      backgroundColor: ThemeBase.of(context).primaryBackground,
       body: coachControllerProvider.when(
         data: (data) {
           return SizedBox(
@@ -77,13 +81,13 @@ class _CoachState extends ConsumerState<Coach> {
             child: Stack(
               children: [
                 SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
                     child: Column(
                       children: [
                         // Header
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: 168,
                           child: Stack(
@@ -106,7 +110,7 @@ class _CoachState extends ConsumerState<Coach> {
                                   onPressed: () {
                                     AppRouter.goToSideBar();
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.menu,
                                     color: Colors.white,
                                     size: 24,
@@ -127,7 +131,7 @@ class _CoachState extends ConsumerState<Coach> {
                                               .imageUrl!), // "https://via.placeholder.com/65x65"
                                           fit: BoxFit.cover,
                                         ),
-                                        shape: OvalBorder(
+                                        shape: const OvalBorder(
                                           side: BorderSide(
                                               width: 1,
                                               color: Color(0xFF262424)),
@@ -138,7 +142,7 @@ class _CoachState extends ConsumerState<Coach> {
                                     return Container(
                                       width: 65,
                                       height: 65,
-                                      decoration: ShapeDecoration(
+                                      decoration: const ShapeDecoration(
                                         shape: OvalBorder(
                                           side: BorderSide(
                                               width: 1,
@@ -198,7 +202,7 @@ class _CoachState extends ConsumerState<Coach> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               top: 21,
                               left: 16,
                             ),
@@ -252,7 +256,7 @@ class _CoachState extends ConsumerState<Coach> {
                                       child: AreaSelection(
                                           label: _selectedAreas[index],
                                           assetPath:
-                                              "assets/images/testImage.jpeg"),
+                                              _assets[index]),
                                     );
                                   }),
                             )),
@@ -278,9 +282,9 @@ class _CoachState extends ConsumerState<Coach> {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(left: 0, top: 12),
-                            child: Container(
-                              height: 176,
+                            padding: const EdgeInsets.only(left: 16.0, top: 12),
+                            child: SizedBox(
+                              height: 156,
                               width: MediaQuery.of(context).size.width,
                               child: ListView.builder(
                                   controller: _scrollController,
@@ -290,8 +294,8 @@ class _CoachState extends ConsumerState<Coach> {
                                       : data.startedPlans.length,
                                   itemBuilder: (context, index) {
                                     if (data.startedPlans.isEmpty) {
-                                      return TextButton(
-                                        onPressed: () {
+                                      return GestureDetector(
+                                        onTap: () {
                                           ref
                                                   .read(selectedPlanIdProvider
                                                       .notifier)
@@ -299,35 +303,38 @@ class _CoachState extends ConsumerState<Coach> {
                                               "70ed1ea3-6ebd-4b3d-8554-7432eef60ade";
                                           AppRouter.goToPlanDetail();
                                         },
-                                        style: ButtonStyle(
-                                          overlayColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.transparent),
+                                        
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(right: 16.0),
+                                          child: SizedBox(
+                                            width: MediaQuery.sizeOf(context).width *
+                                                0.8,
+                                            child: PlanProgressWithImageCard(
+                                                planStatus: PlanStatus(
+                                                    id: "",
+                                                    currentPhase: 0,
+                                                    status: 0,
+                                                    workoutIds: [],
+                                                    progressPercentage: 0,
+                                                    planId: "",
+                                                    createdAt:
+                                                        DateTime.now().toString()),
+                                                plan: PlanListItem(
+                                                  id: "",
+                                                  name: "Stability Plan",
+                                                  hashtags:
+                                                      "Full Body,Strenght,Hypertrophy,Upper Body",
+                                                  previewImageUrl:
+                                                      "https://exopekblob.blob.core.windows.net/images/Combat Force_0025_IMG_2630.jpg.jpg",
+                                                  duration: 4,
+                                                  videoUrl: "",
+                                                )),
+                                          ),
                                         ),
-                                        child: PlanProgressWithImageCard(
-                                            planStatus: new PlanStatus(
-                                                id: "",
-                                                currentPhase: 0,
-                                                status: 0,
-                                                workoutIds: [],
-                                                progressPercentage: 0,
-                                                planId: "",
-                                                createdAt:
-                                                    DateTime.now().toString()),
-                                            plan: PlanListItem(
-                                              id: "",
-                                              name: "Stability Plan",
-                                              hashtags:
-                                                  "Full Body,Strenght,Hypertrophy,Upper Body",
-                                              previewImageUrl:
-                                                  "https://exopekblob.blob.core.windows.net/images/Combat Force_0025_IMG_2630.jpg.jpg",
-                                              duration: 4,
-                                              videoUrl: "",
-                                            )),
                                       );
                                     } else {
-                                      return TextButton(
-                                          onPressed: () {
+                                      return GestureDetector(
+                                          onTap: () {
                                             ref
                                                     .read(selectedPlanIdProvider
                                                         .notifier)
@@ -336,24 +343,28 @@ class _CoachState extends ConsumerState<Coach> {
                                             AppRouter
                                                 .goToPlanPhaseWithLastRoute();
                                           },
-                                          style: ButtonStyle(
-                                            overlayColor:
-                                                MaterialStateProperty.all(
-                                                    Colors.white),
-                                          ),
-                                          child: PlanProgressWithImageCard(
-                                              planStatus: data.planStatuses
-                                                  .firstWhere((element) =>
-                                                      element.planId ==
-                                                      data.startedPlans[index]
-                                                          .id),
-                                              plan: data.startedPlans[index]));
+                                          
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(right: 16.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.8,
+                                              child: PlanProgressWithImageCard(
+                                                  planStatus: data.planStatuses
+                                                      .firstWhere((element) =>
+                                                          element.planId ==
+                                                          data.startedPlans[index]
+                                                              .id),
+                                                  plan: data.startedPlans[index]),
+                                            ),
+                                          ));
                                     }
                                   }),
                             )),
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 16.0, top: 16, right: 16),
+                              left: 16.0, top: 16.0, right: 16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -383,33 +394,33 @@ class _CoachState extends ConsumerState<Coach> {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(left: 0, top: 12),
-                            child: Container(
-                              height: 130,
+                            padding: const EdgeInsets.only(left: 16.0, top: 12),
+                            child: SizedBox(
+                              height: 105,
                               width: MediaQuery.of(context).size.width,
                               child: ListView.builder(
                                   controller: _scrollController,
                                   scrollDirection: Axis.horizontal,
                                   itemCount: data.workouts.length,
                                   itemBuilder: (context, index) {
-                                    return TextButton(
-                                      onPressed: () {
+                                    return GestureDetector(
+                                      onTap: () {
                                         ref
                                             .read(selectedWorkoutIdProvider
                                                 .notifier)
                                             .state = data.workouts[index].id;
                                         AppRouter.goToWorkoutDetail();
                                       },
-                                      style: ButtonStyle(
-                                        overlayColor: MaterialStateProperty.all(
-                                            Colors.transparent),
-                                      ),
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.8,
-                                        child: WorkoutCardHorizontal(
-                                            workout: data.workouts[index]),
+                                      
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(right: 16.0),
+                                        child: SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  0.8,
+                                          child: WorkoutCardHorizontal(
+                                              workout: data.workouts[index]),
+                                        ),
                                       ),
                                     );
                                   }),
@@ -443,17 +454,17 @@ class _CoachState extends ConsumerState<Coach> {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(left: 0, top: 12),
-                            child: Container(
-                              height: 220,
+                            padding: const EdgeInsets.only(left: 16.0, top: 12),
+                            child: SizedBox(
+                              height: 200,
                               width: MediaQuery.of(context).size.width,
                               child: ListView.builder(
                                   controller: _scrollController,
                                   scrollDirection: Axis.horizontal,
                                   itemCount: data.plans.length,
                                   itemBuilder: (context, index) {
-                                    return TextButton(
-                                      onPressed: () {
+                                    return GestureDetector(
+                                      onTap: () {
                                         if (!data.startedPlans.isEmpty &&
                                             data.startedPlans.any((element) =>
                                                 element.id ==
@@ -472,57 +483,25 @@ class _CoachState extends ConsumerState<Coach> {
                                           AppRouter.goToPlanDetail();
                                         }
                                       },
-                                      style: ButtonStyle(
-                                        overlayColor: MaterialStateProperty.all(
-                                            Colors.transparent),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(right: 16.0),
+                                        child: PlanCardHorizontal(
+                                            planListItem: data.plans[index],
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.8),
                                       ),
-                                      child: PlanCardHorizontal(
-                                          planListItem: data.plans[index],
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8),
                                     );
                                   }),
                             )),
-                        /* Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: 21,
-                                  left: 16,
-                                ),
-                                child: Text(
-                                  'Bookmarked Workouts',
-                                  style: TextStyle(
-                                    color: Color(0xFF838282),
-                                    fontSize: 16,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 16, top: 21),
-                                child: Container(
-                                  height: 220,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ListView.builder(
-                                      controller: _scrollController,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: 1,
-                                      itemBuilder: (context, index) {
-                                        return BookmarkEmpty();
-                                      }),
-                                )), */
+                            const SizedBox(height: 64),
                       ],
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0),
+                  padding: const EdgeInsets.only(bottom: 44.0),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton(

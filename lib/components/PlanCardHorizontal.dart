@@ -3,6 +3,7 @@ import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PlanCardHorizontal extends StatelessWidget {
   final PlanListItem planListItem;
@@ -15,84 +16,75 @@ class PlanCardHorizontal extends StatelessWidget {
       width: width ?? MediaQuery.of(context).size.width,
       height: 200,
       decoration: ShapeDecoration(
-        image: DecorationImage( 
-                    image: NetworkImage(planListItem.previewImageUrl),
-                    fit: BoxFit.cover,
-                  ),
-                color: Color(0x00262424),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFF262424)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+        image: DecorationImage(
+          image: NetworkImage(planListItem.previewImageUrl),
+          fit: BoxFit.cover,
+        ),
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(width: 1, color: Color(0xFF262424)),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
       child: Stack(
         children: [
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: width ?? MediaQuery.of(context).size.width,
-              height: 80,
-              color: Colors.black.withOpacity(0.3),
-            )),
-          Positioned(
-            left: 23,
-            top: 16.23,
-            child: SizedBox(
-              height: 22.86,
-              child: Text(
-                planListItem.hashtagsStringWithHash.toString(),
-                style: ThemeBase.of(context).bodySmall.copyWith(
-                  color: ThemeBase.of(context).secondaryText,
-                  fontSize: 10,
-                  overflow: TextOverflow.ellipsis
-                )
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.42,
+                child: Text(planListItem.hashtagsStringWithHash.toString(),
+                    style: ThemeBase.of(context).bodySmall.copyWith(
+                        color: ThemeBase.of(context).secondaryText,
+                        fontSize: 10,
+                        overflow: TextOverflow.ellipsis)),
               ),
-            ),
-          ),
-          Positioned(
-            left: 23,
-            top: 30,
-            child: SizedBox(
-              height: 36.19,
-              child: Text(
+              Text(
                 planListItem.name,
                 style: ThemeBase.of(context).headlineSmall,
               ),
-            ),
-          ),
-          Positioned(
-            left: 23,
-            top: 62,
-            child: Row(
-                children: [
-                  CardInformationBlock(value: planListItem.duration.toString() + " Wochen", icon: Icons.watch,),
-                ],
+              CardInformationBlock(
+                value: planListItem.duration.toString() + " Wochen",
+                icon: _svgBt('Uhr',
+                    height: 12.0,
+                    width: 12.0,
+                    color: ThemeBase.of(context).primaryText),
               ),
-          ),
-          Positioned(
-            right: 22,
-            top: 158,
-            child: SizedBox(
-              width: 140,
-              child: CtaButton(
-                fontSizeLable: 12,
-                height: 32,
-                label: 'Start Now',
-                onPressed: () {},
+              const SizedBox(
+                height: 60.0,
               ),
-            ),
+              SizedBox(
+                width: 140,
+                child: CtaButton(
+                  fontSizeLable: 12,
+                  height: 32,
+                  label: 'Starte jetzt',
+                  onPressed: () {},
+                ),
+              ),
+            ],
           ),
-          /* Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: width ?? MediaQuery.of(context).size.width,
-              height: 80,
-              color: Colors.black.withOpacity(0.4),
-            )) */
         ],
       ),
     );
   }
+
+  static Widget _svgBt(String assetBasename,
+          {Color color = Colors.white,
+          double width = 20,
+          double height = 20,
+          VoidCallback? onTap}) =>
+      GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: SvgPicture.asset(
+            'assets/svg/$assetBasename.svg',
+            color: color,
+            width: width,
+            height: height,
+          ),
+        ),
+      );
 }

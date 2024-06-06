@@ -36,4 +36,34 @@ class GenericSnackBar {
       ),
     ));
   }
+
+  static void showSuccedSnackBar({
+    required BuildContext context,
+    required String text,
+  }) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: ThemeBase.of(context).secondaryBackground,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      content: Row(
+        children: [
+          const Icon(Icons.check, color: Colors.green),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+              style: ThemeBase.of(context).bodySmall.copyWith(
+                    color: ThemeBase.of(context).primaryText,
+                    fontSize: 12,
+                    height: 0,
+                  ),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
 }

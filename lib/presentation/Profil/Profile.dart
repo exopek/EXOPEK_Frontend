@@ -42,7 +42,7 @@ class _ProfileState extends ConsumerState<Profile> {
     return profilPageControllerProvider.when(
       data: (data) {
         return Scaffold(
-            backgroundColor: Color(0xFF0C0C0C),
+            backgroundColor: ThemeBase.of(context).primaryBackground,
             appBar: GenericAppBar.build(context, 'Profil'),
             body: Container(
                 height: MediaQuery.of(context).size.height,
@@ -50,8 +50,7 @@ class _ProfileState extends ConsumerState<Profile> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 1310,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(color: Color(0xFF0C0C0C)),
+                  
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
@@ -198,7 +197,7 @@ class _ProfileState extends ConsumerState<Profile> {
           backgroundColor: ThemeBase.of(context).primaryBackground,
           body: Center(
             child: CircularProgressIndicator(
-              color: ThemeBase.of(context).secondary,
+              color: ThemeBase.of(context).primaryText,
               strokeWidth: 0.5,
             ),
           ),
