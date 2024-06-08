@@ -74,7 +74,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.42,
+                  width: MediaQuery.of(context).size.width * 0.36,
                   child: Text(
                     widget.workout.hashtagsStringWithHash as String,
                     maxLines: 1,
@@ -89,9 +89,14 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.workout.name,
-                      style: ThemeBase.of(context).titleMedium,
+                    SizedBox(
+                      width: 
+                      MediaQuery.of(context).size.width * 0.36,
+                      child: Text(
+                        widget.workout.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: ThemeBase.of(context).titleMedium,
+                      ),
                     ),
                     const SizedBox(height: 2),
                     // Information Block
@@ -148,41 +153,47 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
             ),
           ),
           if (widget.hasLikeOption)
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _svgBt('SaveNew', onTap: () {
-                  if (ref
-                      .watch(likedWorkoutIdsProvider)
-                      .any((element) => element.workoutId == widget.workout.id)) {
-                    final workoutLikeId = ref
-                        .watch(likedWorkoutIdsProvider)
-                        .firstWhere(
-                            (element) => element.workoutId == widget.workout.id)
-                        .id;
-                    if (workoutLikeId != null) {
-                      ref
-                          .read(asyncWorkoutLikeButtonControllerProvider.notifier)
-                          .deleteWorkoutLike(workoutLikeId: workoutLikeId);
-                    }
-                    ref.read(likedWorkoutIdsProvider.notifier).state.removeWhere(
-                        (element) => element.workoutId == widget.workout.id);
-                    setState(() {});
-                  } else {
-                    ref
-                        .read(asyncWorkoutLikeButtonControllerProvider.notifier)
-                        .likeWorkout(workoutId: widget.workout.id)
-                        .then((value) {
-                      ref.read(likedWorkoutIdsProvider.notifier).state.add(value);
-                      setState(() {});
-                    });
-                  }
-                },
-                    color: ref.watch(likedWorkoutIdsProvider).any(
-                            (element) => element.workoutId == widget.workout.id)
-                        ? Colors.white
-                        : const Color(0xFF838282)),
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: _svgBt('SaveNew', onTap: () {
+                      if (ref
+                          .watch(likedWorkoutIdsProvider)
+                          .any((element) => element.workoutId == widget.workout.id)) {
+                        final workoutLikeId = ref
+                            .watch(likedWorkoutIdsProvider)
+                            .firstWhere(
+                                (element) => element.workoutId == widget.workout.id)
+                            .id;
+                        if (workoutLikeId != null) {
+                          ref
+                              .read(asyncWorkoutLikeButtonControllerProvider.notifier)
+                              .deleteWorkoutLike(workoutLikeId: workoutLikeId);
+                        }
+                        ref.read(likedWorkoutIdsProvider.notifier).state.removeWhere(
+                            (element) => element.workoutId == widget.workout.id);
+                        setState(() {});
+                      } else {
+                        ref
+                            .read(asyncWorkoutLikeButtonControllerProvider.notifier)
+                            .likeWorkout(workoutId: widget.workout.id)
+                            .then((value) {
+                          ref.read(likedWorkoutIdsProvider.notifier).state.add(value);
+                          setState(() {});
+                        });
+                      }
+                    },
+                        color: ref.watch(likedWorkoutIdsProvider).any(
+                                (element) => element.workoutId == widget.workout.id)
+                            ? Colors.white
+                            : const Color(0xFF838282)),
+                  ),
+                ],
+              ),
             ),
         ],
       ),
@@ -191,8 +202,8 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
 
   static Widget _svgBt(String assetBasename,
           {Color color = const Color(0xFF838282),
-          double width = 20,
-          double height = 20,
+          double width = 26,
+          double height = 26,
           VoidCallback? onTap}) =>
       GestureDetector(
         onTap: onTap,
