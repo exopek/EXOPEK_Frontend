@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/components/HashTagPill.dart';
+import 'package:exopek_workout_app/components/PlanCardHorizontal.dart';
 import 'package:exopek_workout_app/components/PlanListCard.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
@@ -246,7 +247,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                                     .state = data.plans[index].id;
                                 AppRouter.goToPlanDetail();
                               },
-                              child: PlanListCard(
+                              child: PlanCardHorizontal(
                                 planListItem: data.plans[index],
                               ),
                             ),
