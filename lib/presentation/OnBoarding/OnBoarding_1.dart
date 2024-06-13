@@ -6,10 +6,9 @@ import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoarding1 extends ConsumerStatefulWidget {
   const OnBoarding1({super.key});
@@ -40,7 +39,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
       } else if (next is AsyncError) {
         next.whenOrNull(
             error: (error, stackTrace) =>
-                GenericSnackBar.showErrorSnackBar(context: context, text: error.toString() ?? 'Ein Fehler ist aufgetreten!'));
+                GenericSnackBar.showErrorSnackBar(context: context, text: error.toString()));
       }
     });
     final registerState = ref.watch(registerButtonControllerProvider);
@@ -59,7 +58,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Werde Teil des EXOPEK-Teams!',
+                        AppLocalizations.of(context).welcomeUserRegistrationText,
                         textAlign: TextAlign.start,
                         style: ThemeBase.of(context).headlineMedium.copyWith(
                               fontSize: 24,
@@ -75,7 +74,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                       children: [
                         CustomTextField(
                           controller: controllerUsername,
-                          hint: "Benutzername",
+                          hint: AppLocalizations.of(context).textFieldHintUsername,
                           focusNode: focusNodeUsername,
                         ),
                         const SizedBox(
@@ -83,7 +82,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                         ),
                         CustomTextField(
                           controller: controllerPassword,
-                          hint: "Passwort",
+                          hint: AppLocalizations.of(context).textFieldHintPassword,
                           focusNode: focusNodePassword,
                           onValidate: (p0) {
                             if (p0.isEmpty) {
@@ -103,7 +102,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                         ),
                         CustomTextField(
                           controller: controllerEmail,
-                          hint: "Email",
+                          hint: AppLocalizations.of(context).textFiledHintEmail,
                           focusNode: focusNodeEmail,
                         ),
                         const SizedBox(
@@ -111,7 +110,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                         ),
                         CustomTextField(
                           controller: controllerFirstname,
-                          hint: "Vorname",
+                          hint: AppLocalizations.of(context).textFieldHintFirstname,
                           focusNode: focusNodeFirstname,
                         ),
                         const SizedBox(
@@ -119,7 +118,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                         ),
                         CustomTextField(
                           controller: controllerLastname,
-                          hint: "Nachname",
+                          hint: AppLocalizations.of(context).textFieldHintLastname,
                           focusNode: focusNodeLastname,
                         ),
                         Padding(
@@ -138,7 +137,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                               SizedBox(
                                 width: 300,
                                 child: Text(
-                                  'Ich möchte über Neuigkeiten und Angebote informiert werden.',
+                                  AppLocalizations.of(context).checkBoxNews,
                                   style: ThemeBase.of(context).bodySmall,
                                 ),
                               ),
@@ -162,11 +161,11 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                                 width: 300,
                                 child: RichText(
                                   text: TextSpan(
-                                    text: 'Ich habe die ',
+                                    text: AppLocalizations.of(context).checkBoxPrivacyPolicy1,
                                     style: ThemeBase.of(context).bodySmall,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: 'Datenschutzbestimmung ',
+                                        text: AppLocalizations.of(context).checkBoxPrivacyPolicy2,
                                         style: ThemeBase.of(context)
                                             .bodySmall
                                             .copyWith(
@@ -182,7 +181,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                                           },
                                       ),
                                       TextSpan(
-                                          text: 'gelesen und akzeptiere sie.',
+                                          text: AppLocalizations.of(context).checkBoxPrivacyPolicy3,
                                           style: ThemeBase.of(context).bodySmall),
                                     ],
                                   ),
@@ -200,12 +199,13 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                         left: 16.0, right: 16.0, bottom: 16.0),
                     child: CtaButton(
                       isLoading: registerState.isLoading,
-                      label: 'Registrieren',
+                      label: AppLocalizations.of(context).rigisterButton,
                       onPressed: () {
                         if (!privacyPolicyConfirmed) {
                           GenericSnackBar.showErrorSnackBar(
                               context: context,
-                              text: 'Bitte akzeptiere die Datenschutzbestimmungen.');
+                              text: AppLocalizations.of(context)
+                                  .errorMessagePrivacyPolicy);
                           return;
                         }
                         if (registerState.isLoading) return;

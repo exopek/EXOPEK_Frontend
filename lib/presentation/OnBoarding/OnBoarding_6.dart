@@ -4,9 +4,9 @@ import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoarding6 extends ConsumerStatefulWidget {
   final UpdateUserDto userDto;
@@ -64,7 +64,7 @@ class _OnBoarding6State extends ConsumerState<OnBoarding6> {
               padding:
                   const EdgeInsets.only(left: 36.0, right: 36.0, top: 50.0),
               child: Text(
-                'Wie groß bist Du?',
+                AppLocalizations.of(context).whichHight,
                 style: ThemeBase.of(context).headlineLarge,
               ),
             ),
@@ -77,7 +77,7 @@ class _OnBoarding6State extends ConsumerState<OnBoarding6> {
                 child: CustomTextField(
                   numberKeyboard: true,
                   controller: heightController,
-                  hint: 'Körpergröße (cm)',
+                  hint: AppLocalizations.of(context).textFieldHintHight,
                   focusNode: heightFocusNode,
                 ),
               ),
@@ -86,7 +86,7 @@ class _OnBoarding6State extends ConsumerState<OnBoarding6> {
               padding: const EdgeInsets.only(left: 36.0, right: 36.0),
               child: CtaButton(
                 isLoading: state.isLoading,
-                label: 'Weiter',
+                label: AppLocalizations.of(context).nextButton,
                 onPressed: () {
                   var userDto = widget.userDto.copyWith(
                     height: double.tryParse(heightController.text),

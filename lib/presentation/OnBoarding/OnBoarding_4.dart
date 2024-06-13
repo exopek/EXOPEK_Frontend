@@ -3,9 +3,9 @@ import 'package:exopek_workout_app/domain/Models/Enums/SportType.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
-
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoarding4 extends StatefulWidget {
   final UpdateUserDto userDto;
@@ -38,7 +38,7 @@ class _OnBoarding4State extends State<OnBoarding4> {
             Padding(
               padding:
                   const EdgeInsets.only(left: 36.0, right: 36.0, top: 50.0),
-              child: Text('In welchem Sport bist Du aktiv?',
+              child: Text(AppLocalizations.of(context).whichSports,
                   style: ThemeBase.of(context).headlineLarge),
             ),
             const SizedBox(
@@ -81,7 +81,7 @@ class _OnBoarding4State extends State<OnBoarding4> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: CtaButton(
-                  label: 'Weiter',
+                  label: AppLocalizations.of(context).nextButton,
                   onPressed: () {
                     var userDto = widget.userDto.copyWith(sport: sportType);
                     AppRouter.goToOnBoarding5(userDto);

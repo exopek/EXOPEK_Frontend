@@ -2,9 +2,9 @@ import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoarding2 extends ConsumerStatefulWidget {
   const OnBoarding2({super.key});
@@ -25,20 +25,20 @@ class _OnBoarding2State extends ConsumerState<OnBoarding2> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              'Willkommen ${user!.firstname} du bist dabei!',
+              '${AppLocalizations.of(context).welcomeUserText1} ${user!.firstname} ${AppLocalizations.of(context).welcomeUserText2}',
               style: ThemeBase.of(context).headlineLarge,
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 56.0, top: 16.0),
               child: Text(
-                'Wir wollen dich optimal in deiner Reise mit EXOPEK unterstützen. Dazu stellen wir dir ein paar Fragen.',
+                AppLocalizations.of(context).welcomeUserText3,
                 style: ThemeBase.of(context).headlineSmall,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 54.0),
               child: CtaButton(
-                label: 'Weiter',
+                label: AppLocalizations.of(context).nextButton,
                 onPressed: () {
                   AppRouter.goToOnBoarding3();
                 },

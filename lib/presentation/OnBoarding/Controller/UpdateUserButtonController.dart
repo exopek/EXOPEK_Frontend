@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/data/repository/UserRepository.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateUserButtonController extends AutoDisposeAsyncNotifier<void> {
   UpdateUserButtonController();

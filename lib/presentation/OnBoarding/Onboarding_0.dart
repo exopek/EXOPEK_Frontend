@@ -1,8 +1,7 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
-import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../theme/ThemeBase.dart';
 import '../../utils/AppRouter.dart';
 
@@ -68,7 +67,7 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
                         child: CtaButton(
                           color: Colors.transparent,
                           hasBorder: true,
-                          label: 'Registrieren',
+                          label: AppLocalizations.of(context).rigisterButton,
                           onPressed: () {
                             AppRouter.goToRegister();
                           },
@@ -79,7 +78,7 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
                         child: CtaButton(
                           color: Colors.transparent,
                           hasBorder: true,
-                          label: 'Login',
+                          label: AppLocalizations.of(context).loginButton,
                           onPressed: () {
                             AppRouter.goToLogin();
                           },

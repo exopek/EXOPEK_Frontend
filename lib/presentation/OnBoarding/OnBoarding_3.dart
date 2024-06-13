@@ -6,9 +6,9 @@ import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoarding3 extends ConsumerStatefulWidget {
   const OnBoarding3({super.key});
@@ -66,7 +66,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
                 Padding(
                   padding:
                       const EdgeInsets.only(left: 36.0, right: 36.0, top: 50.0),
-                  child: Text('Wie oft trainierst du pro Woche?',
+                  child: Text(AppLocalizations.of(context).trainingPerWeek,
                       style: ThemeBase.of(context).headlineLarge),
                 ),
                 const SizedBox(
@@ -109,7 +109,7 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
                 Padding(
                   padding: const EdgeInsets.only(left: 36.0, right: 36.0),
                   child: CtaButton(
-                    label: 'Weiter',
+                    label: AppLocalizations.of(context).nextButton,
                     onPressed: () {
                       updateUserDto = updateUserDto.copyWith(
                           previousTrainingFrequency: previousTrainingFrequency);

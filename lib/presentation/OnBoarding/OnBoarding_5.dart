@@ -2,9 +2,9 @@ import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
-
 import '../../components/CtaButton.dart';
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoarding5 extends StatefulWidget {
   final UpdateUserDto userDto;
@@ -28,7 +28,7 @@ class _OnBoarding5State extends State<OnBoarding5> {
               padding:
                     const EdgeInsets.only(left: 36.0, right: 36.0, top: 50.0),
               child: Text(
-                'Wie alt bist Du?',
+                AppLocalizations.of(context).whichAge,
                 style: ThemeBase.of(context).headlineLarge,
               ),
             ),
@@ -41,7 +41,7 @@ class _OnBoarding5State extends State<OnBoarding5> {
                 child: CustomTextField(
                   numberKeyboard: true,
                   controller: ageController,
-                  hint: 'Alter',
+                  hint: AppLocalizations.of(context).textFieldHintAge,
                   focusNode: ageFocusNode,
                 ),
               ),
@@ -49,7 +49,7 @@ class _OnBoarding5State extends State<OnBoarding5> {
             Padding(
               padding: const EdgeInsets.only(left: 36.0, right: 36.0),
               child: CtaButton(
-                label: 'Weiter',
+                label: AppLocalizations.of(context).nextButton,
                 onPressed: () {
                   var userDto = widget.userDto.copyWith(
                     age: int.tryParse(ageController.text),

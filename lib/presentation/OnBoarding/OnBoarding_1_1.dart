@@ -1,10 +1,10 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
-import 'package:exopek_workout_app/domain/Models/User.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingCode extends ConsumerStatefulWidget {
   const OnBoardingCode({super.key});
@@ -84,7 +84,7 @@ class _OnBoardingCodeState extends ConsumerState<OnBoardingCode> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Fast geschafft! Gib deinen Code ein, den wir dir per Email geschickt haben.",
+                        AppLocalizations.of(context).verificationCodeText,
                         style: ThemeBase.of(context).titleLarge,
                       ),
                     ),
@@ -105,7 +105,7 @@ class _OnBoardingCodeState extends ConsumerState<OnBoardingCode> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 44.0),
-            child: CtaButton(label: "Senden", isLoading: state.isLoading,
+            child: CtaButton(label: AppLocalizations.of(context).sendCodeButton, isLoading: state.isLoading,
             onPressed: () {
               if (pinCode.length != 5) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -120,7 +120,7 @@ class _OnBoardingCodeState extends ConsumerState<OnBoardingCode> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Bitte gib einen gültigen Code ein.",
+                          AppLocalizations.of(context).errorMessageVerificationCode,
                           style: TextStyle(
                             color: ThemeBase.of(context).primaryText,
                             fontSize: 12,
