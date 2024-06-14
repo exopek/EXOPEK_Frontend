@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 
 class StartPlanButtonStateController extends AutoDisposeAsyncNotifier<void> {

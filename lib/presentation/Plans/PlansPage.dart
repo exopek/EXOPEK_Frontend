@@ -1,11 +1,6 @@
 // ignore_for_file: file_names
 import 'package:exopek_workout_app/components/PlanCardHorizontal.dart';
-import 'package:exopek_workout_app/components/PromoHeader.dart';
-import 'package:exopek_workout_app/components/SearchBarCustom.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
-import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
-import 'package:exopek_workout_app/data/AppStateProvider.dart';
-import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/plansProvider/PlansProvider.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
@@ -35,15 +30,6 @@ class _PlansPageState extends ConsumerState<PlansPage> {
             backgroundColor: ThemeBase.of(context).primaryBackground,
             appBar: GenericAppBar.build(context, 'Pläne'),
             body: CustomScrollView(slivers: [
-                /* SliverAppBar(
-                  leading: Container(),
-                  expandedHeight: 329,
-                  floating: true,
-                  flexibleSpace: PromoHeader(
-                    workout: result.firstWhere(
-                        (element) => element.isWorkoutOfTheWeek == true),
-                  ),
-                ), */
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {

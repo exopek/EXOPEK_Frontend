@@ -1,22 +1,14 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
-import 'package:exopek_workout_app/components/GenericBottomSheet.dart';
-import 'package:exopek_workout_app/components/HashTagPill.dart';
 import 'package:exopek_workout_app/components/PlanBenefits.dart';
 import 'package:exopek_workout_app/components/PlanDetailPage/PhaseDetails.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/WorkoutDetailPage/ExerciseInfoCard.dart';
-import 'package:exopek_workout_app/components/WorkoutOverviewCard.dart';
-import 'package:exopek_workout_app/data/AppStateProvider.dart';
-import 'package:exopek_workout_app/data/DioProvider.dart';
-import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../components/PlanOverviewCard.dart';
 import '../../dependencyInjection/coachProvider/coachPageControllerProvider.dart';
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Workout.dart';

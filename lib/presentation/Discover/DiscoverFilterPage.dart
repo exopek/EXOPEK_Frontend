@@ -1,24 +1,19 @@
-import 'package:exopek_workout_app/components/HashTagPill.dart';
 import 'package:exopek_workout_app/components/PlanCardHorizontal.dart';
-import 'package:exopek_workout_app/components/PlanListCard.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
-import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/presentation/Discover/DiscoverFilterPageController.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../components/BigHashTagPill.dart';
 import '../../components/SearchBarCustom.dart';
 import '../../data/AppStateProvider.dart';
 import '../../dependencyInjection/discoveryProvider/discoveryFilterPageProvider.dart';
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiscoverFilterPage extends ConsumerStatefulWidget {
-  /* final FetchType fetchType;
-  final String query; */
-  const DiscoverFilterPage(/* this.fetchType, this.query,  */ {super.key});
+  const DiscoverFilterPage({super.key});
 
   @override
   ConsumerState<DiscoverFilterPage> createState() => _DiscoverFilterPageState();
@@ -39,8 +34,6 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
     _controller = AnimationController(vsync: this);
     _focusNode = FocusNode();
     _searchController = TextEditingController();
-    /* fetchType = widget.fetchType;
-    query = widget.query; */
     _hashTagPillsName = [
       {"name": "Upper Body", "active": false},
       {"name": "Lower Body", "active": false},
@@ -117,7 +110,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                     Padding(
                         padding: const EdgeInsets.only(right: 52.0),
                         child: Text(
-                          "Filter",
+                          AppLocalizations.of(context).filterPageTitle,
                           textAlign: TextAlign.center,
                           style: ThemeBase.of(context).titleSmall.copyWith(
                       color: ThemeBase.of(context).primaryText,
@@ -134,7 +127,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                   padding: const EdgeInsets.only(left: 0.0),
                   child: SearchBarCustom(
                     xsize: 0.92,
-                    hint: "Suchen",
+                    hint: AppLocalizations.of(context).filterPageSearchBarHint,
                     controller: _searchController,
                     focusNode: _focusNode,
                     onClear: () {
@@ -164,7 +157,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                               FetchType.workout;
                         },
                         child: BigHashTagPill(
-                          text: "WORKOUTS",
+                          text: AppLocalizations.of(context).filterPageWorkoutPill.toUpperCase(),
                           color: fetchType == FetchType.workout
                               ? Color(0xFFC91717)
                               : Color(0xFF0C0C0C),
@@ -180,7 +173,7 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                               FetchType.plan;
                         },
                         child: BigHashTagPill(
-                          text: "PLÄNE",
+                          text: AppLocalizations.of(context).filterPagePlanPill.toUpperCase(),
                           textColor: Color(0xFFD9D9D9),
                           color: fetchType == FetchType.plan
                               ? Color(0xFFC91717)
@@ -198,8 +191,8 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
             discoverControllerProvider.when(
               data: (data) {
                 if (data.workouts.isEmpty && data.plans.isEmpty) {
-                  return const Center(
-                    child: Text("Leider nichts gefunden"),
+                  return Center(
+                    child: Text(AppLocalizations.of(context).filterPageNotFound),
                   );
                 } else if (data.workouts.isNotEmpty) {
                   return Expanded(
@@ -257,12 +250,15 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                     ),
                   );
                 } else {
-                  return const Center(
-                    child: Text("Leider nichts gefunden"),
+                  return Center(
+                    child: Text(AppLocalizations.of(context).filterPageNotFound),
                   );
                 }
               },
-              loading: () => CircularProgressIndicator(),
+              loading: () => const CircularProgressIndicator(
+                strokeWidth: 0.5,
+                color: Colors.white,
+              ),
               error: (error, stackTrace) => Text(error.toString()),
             ),
           if (query.isEmpty)

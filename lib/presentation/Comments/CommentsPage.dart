@@ -1,12 +1,9 @@
-import 'package:exopek_workout_app/components/CommentCard.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/dependencyInjection/commentsProvider/commentsPageProvider.dart';
-import 'package:exopek_workout_app/theme/ThemeBase.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../components/WorkoutDetailPage/CommentRatingCard.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommentsPage extends ConsumerStatefulWidget {
   const CommentsPage({super.key});
@@ -23,7 +20,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
       data: (data) {
         var sortedData = data.where((element) => element.comment!.isNotEmpty).toList();
         return Scaffold(
-          appBar: GenericAppBar.build(context, 'Bewertungen'),
+          appBar: GenericAppBar.build(context, AppLocalizations.of(context).evaluationPageTitle,),
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,

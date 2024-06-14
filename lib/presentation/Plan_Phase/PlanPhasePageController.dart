@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Plan.dart';
 import '../../domain/Models/Workout.dart';

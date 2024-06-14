@@ -1,8 +1,6 @@
 import 'package:exopek_workout_app/components/NextExerciseCard.dart';
 import 'package:exopek_workout_app/dependencyInjection/loopVideosProvider/LoopVideosProvider.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
-import 'package:exopek_workout_app/domain/Models/Plan.dart';
-import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageViewModel.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
@@ -10,8 +8,8 @@ import 'package:exopek_workout_app/utils/AppVideoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../domain/Models/Exercise.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoopVideos extends ConsumerStatefulWidget {
   final LoopVideosPageViewModel viewModel;
@@ -168,7 +166,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              "Pause",
+                              AppLocalizations.of(context).loopVideosPagePauseText1,
                               style:
                                   ThemeBase.of(context).headlineMedium.copyWith(
                                         fontSize: 48,
@@ -179,7 +177,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              "Coming Next",
+                              AppLocalizations.of(context).loopVideosPagePauseText2,
                               style:
                                   ThemeBase.of(context).headlineMedium.copyWith(
                                         fontSize: 48,
@@ -283,7 +281,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                           fontSize: 48, color: Colors.white, height: 0),
                     ),
                     Text(
-                      "Wiederholungen",
+                      AppLocalizations.of(context).loopVideosPageReps,
                       style: ThemeBase.of(context).titleSmall,
                     ),
                   ],
@@ -310,7 +308,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                   padding:
                       const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
                   child: NextExerciseCard(
-                    title: "Workout Beended",
+                    title: AppLocalizations.of(context).loopVideosPageFinish,
                     imageUrl: null,
                     exerciseFrequenceType: "",
                     reps: "",

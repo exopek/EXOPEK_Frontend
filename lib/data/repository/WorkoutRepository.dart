@@ -9,6 +9,7 @@ import 'package:exopek_workout_app/presentation/Workouts/Workouts.dart';
 import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/Models/Workout.dart';
 
@@ -43,6 +44,9 @@ class WorkoutRepository implements IWorkoutRepository {
   Future<WorkoutDetails> getWorkout(String id) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
+    // add localization de-DE to header accept-language
+    // get location from device
+    //_dio.options.headers["accept-language"] = localization+"-"+localization.toUpperCase();
     Response res = await _dio.get("workouts/byId?id=$id");
     print(res.data.runtimeType);
     if (res.statusCode == 200) {

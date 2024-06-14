@@ -1,12 +1,9 @@
-import 'dart:async';
-import 'dart:ffi';
-
-import 'package:exopek_workout_app/components/NextExerciseCard.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PreTimerPage extends StatefulWidget {
   final LoopVideosPageViewModel viewModel;
@@ -85,7 +82,7 @@ class _PreTimerPageState extends State<PreTimerPage>
               ),
             ),
             Text(
-              'Gleich geht es los!',
+              AppLocalizations.of(context).preTimerPageBody1,
               style: ThemeBase.of(context).headlineMedium.copyWith(
                     color: Colors.white,
                   ),  

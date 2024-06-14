@@ -12,10 +12,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../AppConfig.dart';
 import '../domain/Models/Workout.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final dioProvider = Provider((ref) {
   Dio dio = Dio();
   dio.options.baseUrl = AppConfig.apiBaseUrl;
+  var localisation = ref.watch(localizationProvider);
+  dio.options.headers["accept-language"] = localisation + "-" + localisation.toUpperCase();
   /* (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
       HttpClient()
         ..badCertificateCallback =

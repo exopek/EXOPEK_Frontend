@@ -102,7 +102,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                         ),
                         CustomTextField(
                           controller: controllerEmail,
-                          hint: AppLocalizations.of(context).textFiledHintEmail,
+                          hint: AppLocalizations.of(context).textFieldHintEmail,
                           focusNode: focusNodeEmail,
                         ),
                         const SizedBox(

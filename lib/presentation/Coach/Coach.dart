@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:exopek_workout_app/components/AreaSelection.dart';
 import 'package:exopek_workout_app/components/CurvedHeader.dart';
 import 'package:exopek_workout_app/components/PlanCardHorizontal.dart';
@@ -12,13 +11,12 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../components/PlanProgressWithImageCard.dart';
 import '../../data/AppStateProvider.dart';
 import '../../dependencyInjection/coachProvider/coachPageControllerProvider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Coach extends ConsumerStatefulWidget {
   const Coach({super.key});
@@ -49,12 +47,7 @@ class _CoachState extends ConsumerState<Coach> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _selectedAreas = [
-      "Beliebte Workouts",
-      "Neue Pläne",
-      "Favorieten",
-      "Neue Workouts"
-    ];
+    
     _assets = [
       "assets/images/testImage.jpeg",
       "assets/images/startImage.jpg",
@@ -72,6 +65,12 @@ class _CoachState extends ConsumerState<Coach> {
   Widget build(BuildContext context) {
     final coachControllerProvider = ref.watch(asyncCoachPageControllerProvider);
     final user = ref.watch(userStateProvider);
+    _selectedAreas = [
+      AppLocalizations.of(context).coachPageHighlights1,
+      AppLocalizations.of(context).coachPageHighlights2,
+      AppLocalizations.of(context).coachPageHighlights3,
+      AppLocalizations.of(context).coachPageHighlights4,
+    ];
     return Scaffold(
       backgroundColor: ThemeBase.of(context).primaryBackground,
       body: coachControllerProvider.when(
@@ -207,7 +206,7 @@ class _CoachState extends ConsumerState<Coach> {
                               left: 16,
                             ),
                             child: Text(
-                              'Sammlungen',
+                              AppLocalizations.of(context).coachPageHighlightsTitle,
                               style: ThemeBase.of(context)
                                   .headlineSmall
                                   .copyWith(
@@ -269,8 +268,8 @@ class _CoachState extends ConsumerState<Coach> {
                             ),
                             child: Text(
                               data.startedPlans.isEmpty
-                                  ? 'Starte hier'
-                                  : 'Deine aktuellen Pläne',
+                                  ? AppLocalizations.of(context).coachPageStartedPlansTitle1
+                                  : AppLocalizations.of(context).coachPageStartedPlansTitle2,
                               style: ThemeBase.of(context)
                                   .headlineSmall
                                   .copyWith(
@@ -368,7 +367,7 @@ class _CoachState extends ConsumerState<Coach> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Workouts',
+                              Text(AppLocalizations.of(context).coachPageWorkoutsTitle,
                                   style: ThemeBase.of(context)
                                       .headlineSmall
                                       .copyWith(
@@ -381,7 +380,7 @@ class _CoachState extends ConsumerState<Coach> {
                                 onTap: () {
                                   AppRouter.goToWorkouts();
                                 },
-                                child: Text('mehr anzeigen',
+                                child: Text(AppLocalizations.of(context).coachPageShowMoreButton,
                                     style: ThemeBase.of(context)
                                         .headlineSmall
                                         .copyWith(
@@ -431,7 +430,7 @@ class _CoachState extends ConsumerState<Coach> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Pläne',
+                              Text(AppLocalizations.of(context).coachPagePlansTitle,
                                   style: ThemeBase.of(context)
                                       .headlineSmall
                                       .copyWith(
@@ -441,7 +440,7 @@ class _CoachState extends ConsumerState<Coach> {
                                 onTap: () {
                                   AppRouter.goToPlans();
                                 },
-                                child: Text('mehr anzeigen',
+                                child: Text(AppLocalizations.of(context).coachPageShowMoreButton,
                                     style: ThemeBase.of(context)
                                         .headlineSmall
                                         .copyWith(
@@ -512,18 +511,18 @@ class _CoachState extends ConsumerState<Coach> {
                           height: 50,
                           width: 100,
                           decoration: BoxDecoration(
-                            color: Color(0xFF0C0C0C),
+                            color: const Color(0xFF0C0C0C),
                             borderRadius: BorderRadius.circular(30),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.7),
                                 spreadRadius: 1,
                                 blurRadius: 2,
-                                offset: Offset(0, 1),
+                                offset: const Offset(0, 1),
                               ),
                             ],
                             border: Border.all(
-                              color: Color(0xFF262424),
+                              color: const Color(0xFF262424),
                               width: 1,
                             ),
                           ),
@@ -532,16 +531,16 @@ class _CoachState extends ConsumerState<Coach> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 0.0),
+                                  padding: EdgeInsets.only(left: 0.0),
                                   child: Icon(
                                     Icons.filter_alt_outlined,
                                     color: Colors.white,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 4.0),
+                                  padding: EdgeInsets.only(left: 4.0),
                                   child: Text(
-                                    'Filter',
+                                    AppLocalizations.of(context).coachPageFilterButton,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,

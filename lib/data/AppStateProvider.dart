@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/domain/Models/Like.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final selectedNavigationBarIndexProvider = StateProvider<int>((ref) => 0);
@@ -22,3 +23,5 @@ final currentRouteProvider = Provider<String>((ref) {
 final likedWorkoutIdsProvider = StateProvider<List<LikeReadDto>>((ref) => []);
 
 final menuBarWidthProvider = StateProvider<double>((ref) => 0.0);
+
+final localizationProvider = StateProvider<String>((ref) => 'en-US');

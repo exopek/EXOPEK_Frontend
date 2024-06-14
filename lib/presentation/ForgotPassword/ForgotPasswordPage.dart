@@ -1,11 +1,11 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
-import 'package:exopek_workout_app/presentation/ForgotPassword/ResetButtonController.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -33,7 +33,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               const Icon(Icons.check, color: Colors.green),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Email gesendet! Bitte überprüfe dein Postfach.',
+                child: Text(AppLocalizations.of(context).succedMessageForgotPassword,
                 style: TextStyle(
                   color: ThemeBase.of(context).primaryText,
                   fontSize: 12,
@@ -59,13 +59,13 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       body: Column(
         children: [
           const SizedBox(height: 100),
-          Text('Passwort vergessen?',
+          Text(AppLocalizations.of(context).forgotPasswordTitle1,
           style: ThemeBase.of(context).headlineMedium.copyWith(
             color: ThemeBase.of(context).primaryText,
           )),
           Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
-            child: Text('Keine Sorge das passiert den Besten von uns. Trage deine Email ein und wir senden dir eine Url zum Zurücksetzten deines Passworts.',
+            child: Text(AppLocalizations.of(context).forgotPasswordTitle2,
             textAlign: TextAlign.center,
             style: ThemeBase.of(context).bodySmall.copyWith(
               color: ThemeBase.of(context).primaryText,
@@ -78,7 +78,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             child: CustomTextField(
                 focusNode: FocusNode(),
                 controller: emailController,
-                hint: 'Email',
+                hint: AppLocalizations.of(context).textFieldHintEmail,
               ),
           ),
           Padding(
@@ -87,7 +87,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               onPressed: () {
                 ref.read(asyncResetPasswordButtonControllerProvider.notifier).resetPassword(emailController.text);
               },
-              label: 'Senden',
+              label: AppLocalizations.of(context).resetPasswordButton,
               isLoading: state.isLoading,
             ),
           ),

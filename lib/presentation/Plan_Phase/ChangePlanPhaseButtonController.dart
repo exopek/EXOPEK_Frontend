@@ -1,13 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Plan.dart';
 import '../../domain/Models/Workout.dart';
 
 class ChangePlanPhaseButtonController extends AutoDisposeAsyncNotifier<void> {
-  // StateNotifier<AsyncValue<void>>
   ChangePlanPhaseButtonController();
 
   void changePhase(
@@ -19,9 +16,6 @@ class ChangePlanPhaseButtonController extends AutoDisposeAsyncNotifier<void> {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() => planRepository.updatePlanStatus(
         id: id, phase: phase, status: status, workoutIds: workoutIds));
-    /* if (state is AsyncError) {
-      state = AsyncError("Plan could not be fetched", StackTrace.current);
-    } */
   }
 
   @override

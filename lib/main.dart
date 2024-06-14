@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';

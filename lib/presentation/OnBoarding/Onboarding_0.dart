@@ -1,4 +1,5 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,6 +14,7 @@ class OnBoarding0 extends ConsumerStatefulWidget {
 }
 
 class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
+
   @override
   Widget build(BuildContext context) {
     /* ref.listen(asyncCheckValidTokenStateProvider, (previous, next) {
@@ -25,6 +27,7 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
       }
     }); */
     // final state = ref.watch(asyncCheckValidTokenStateProvider);
+    var localization = AppLocalizations.of(context).localeName;
     return Scaffold(
         backgroundColor: ThemeBase.of(context).primaryBackground,
         body: SizedBox(
@@ -69,6 +72,7 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
                           hasBorder: true,
                           label: AppLocalizations.of(context).rigisterButton,
                           onPressed: () {
+                            ref.read(localizationProvider.notifier).state = localization;
                             AppRouter.goToRegister();
                           },
                         ),
@@ -80,6 +84,7 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
                           hasBorder: true,
                           label: AppLocalizations.of(context).loginButton,
                           onPressed: () {
+                            ref.read(localizationProvider.notifier).state = localization;
                             AppRouter.goToLogin();
                           },
                         ),

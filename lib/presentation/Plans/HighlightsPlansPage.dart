@@ -1,12 +1,10 @@
 import 'package:exopek_workout_app/components/HashTagPill.dart';
-import 'package:exopek_workout_app/components/PlanListCard.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppVideoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
-import '../../utils/AppRouter.dart';
 
 class HighlightsPlansPage extends ConsumerStatefulWidget {
   const HighlightsPlansPage({super.key});
@@ -124,35 +122,7 @@ class _HighlightsPlansPageState extends ConsumerState<HighlightsPlansPage> {
                 );
               },
               ),
-          ),/* Column(
-            children: [
-              Expanded(
-                child: PageView.builder(
-                    itemCount: result.plans.length,
-                    itemBuilder: (context, index) {
-                      return /* TextButton(
-                          onPressed: () {
-                            if (result.planStatuses.any((element) =>
-                                element.planId == result.plans[index].id)) {
-                              print("active plan");
-                              ref.read(selectedPlanIdProvider.notifier).state =
-                                  result.plans[index].id;
-                              AppRouter.goToPlanPhaseWithLastRoute();
-                            } else {
-                              ref.read(selectedPlanIdProvider.notifier).state =
-                                  result.plans[index].id;
-                              AppRouter.goToPlanDetail();
-                            }
-                          },
-                          child: PlanListCard(
-                            planListItem: result.plans[index],
-                          ),
-                        ), */
-                      
-                    }),
-              ),
-            ],
-          ), */
+          ),
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),

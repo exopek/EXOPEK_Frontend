@@ -1,16 +1,12 @@
-import 'dart:math';
-
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/components/GenericSnackBar.dart';
-import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
-
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -32,7 +28,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
       if (next is AsyncError) {
         GenericSnackBar.showErrorSnackBar(
-            context: context, text: 'Benutzername oder Passwort falsch');
+            context: context, text: AppLocalizations.of(context).errorMessageLogin);
       }
     });
     final loginButtonState = ref.watch(asyncLoginButtonControllerProvider);
@@ -62,7 +58,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                       Text(
-                        'Anmedlung',
+                        AppLocalizations.of(context).loginTitle,
                         style: ThemeBase.of(context).headlineMedium.copyWith(
                               color: ThemeBase.of(context).primaryText,
                             ),
@@ -72,7 +68,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                       CustomTextField(
                         controller: usernameController,
-                        hint: 'Benutzername',
+                        hint: AppLocalizations.of(context).textFieldHintUsername,
                         focusNode: usernameFocusNode,
                       ),
                       const SizedBox(
@@ -80,14 +76,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                       CustomTextField(
                         controller: passwordController,
-                        hint: 'Passwort',
+                        hint: AppLocalizations.of(context).textFieldHintPassword,
                         focusNode: passwordFocusNode,
                       ),
                       const SizedBox(
                         height: 16.0,
                       ),
                       CtaButton(
-                        label: 'Anmelden',
+                        label: AppLocalizations.of(context).loginButton,
                         isLoading: loginButtonState.isLoading,
                         onPressed: () {
                           ref
@@ -104,7 +100,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           AppRouter.goToResetPassword();
                         },
                         child: Text(
-                          'Passwort vergessen?',
+                          AppLocalizations.of(context).forgetPassword,
                           style: ThemeBase.of(context).bodyMedium,
                         ),
                       ),

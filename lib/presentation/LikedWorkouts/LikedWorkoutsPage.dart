@@ -1,15 +1,13 @@
 // ignore_for_file: file_names
-import 'package:exopek_workout_app/components/PromoHeader.dart';
-import 'package:exopek_workout_app/components/SearchBarCustom.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
-import 'package:exopek_workout_app/data/DioProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/workoutProvider/WorkoutProvider.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LikedWorkoutsPage extends ConsumerStatefulWidget {
   const LikedWorkoutsPage({super.key});
@@ -32,7 +30,7 @@ class _LikedWorkoutsPageState extends ConsumerState<LikedWorkoutsPage> {
         data: (result) {
           return Scaffold(
             backgroundColor: ThemeBase.of(context).primaryBackground,
-            appBar: GenericAppBar.build(context, 'Gespeicherte Workouts'),
+            appBar: GenericAppBar.build(context, AppLocalizations.of(context).likedWorkoutsPageTitle),
             body: result.isEmpty ? SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -40,14 +38,14 @@ class _LikedWorkoutsPageState extends ConsumerState<LikedWorkoutsPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Du hast noch keine Workouts gespeichert.',
+                    Text(AppLocalizations.of(context).likedWorkoutsPageNoResults,
                     style: ThemeBase.of(context).bodySmall),
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
                         AppRouter.goToWorkouts();
                       },
-                      child: Text('Zu den Workouts',
+                      child: Text(AppLocalizations.of(context).likedWorkoutsdPageGoToWorkoutsButton,
                       style: ThemeBase.of(context).bodySmall.copyWith(
                         color: ThemeBase.of(context).secondary,
                       ),),

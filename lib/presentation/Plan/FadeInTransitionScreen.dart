@@ -1,8 +1,7 @@
-import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
-
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FadeInTransitionScreen extends StatefulWidget {
   FadeInTransitionScreen({
@@ -72,7 +71,7 @@ class _FadeInTransitionScreenState extends State<FadeInTransitionScreen>
                   ),
                 ),
               ),
-              Text('Plan wird geladen...',
+              Text(AppLocalizations.of(context).planStartedTransitionTitle,
                   style: ThemeBase.of(context).headlineMedium.copyWith(
                         color: ThemeBase.of(context).primaryText,
                       )),
