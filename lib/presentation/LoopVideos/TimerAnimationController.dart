@@ -21,6 +21,21 @@ class TimerAnimationLController extends StateNotifier<int> {
     });
   }
 
+  void decrement() {
+    
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
+    }
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (state == 0) {
+        return;
+      }
+      state--;
+      //state = AsyncData(state.value! - 1);
+    });
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -28,7 +43,7 @@ class TimerAnimationLController extends StateNotifier<int> {
     super.dispose();
   }
 
-  void reset() {
+  void reset(int startValue) {
     if (_timer != null && _timer!.isActive) {
       _timer!.cancel();
     }
@@ -36,7 +51,7 @@ class TimerAnimationLController extends StateNotifier<int> {
     // Indem du die Änderung des Zustands in einem Future verpackst, sorgst du dafür, dass die Änderung erst nach dem aktuellen Build-Zyklus erfolgt,
     Future(() {
       state =
-          0; // Ändere den Zustand im nächsten Mikrotask, nachdem der Widget-Baum aufgebaut wurde
+          startValue; // Ändere den Zustand im nächsten Mikrotask, nachdem der Widget-Baum aufgebaut wurde
     }); // Setze den Zustand auf 0, nachdem der Timer gestoppt wurde.
   }
 

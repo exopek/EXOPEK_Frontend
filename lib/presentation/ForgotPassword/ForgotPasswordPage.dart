@@ -15,7 +15,6 @@ class ForgotPasswordPage extends ConsumerStatefulWidget {
 }
 
 class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
-
   TextEditingController emailController = TextEditingController();
 
   @override
@@ -33,14 +32,16 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               const Icon(Icons.check, color: Colors.green),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(AppLocalizations.of(context).succedMessageForgotPassword,
-                style: TextStyle(
-                  color: ThemeBase.of(context).primaryText,
-                  fontSize: 12,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w600,
-                  height: 0,
-                ),),
+                child: Text(
+                  AppLocalizations.of(context).succedMessageForgotPassword,
+                  style: TextStyle(
+                    color: ThemeBase.of(context).primaryText,
+                    fontSize: 12,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
               ),
             ],
           ),
@@ -52,47 +53,77 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           content: Text(next.error.toString()),
         ));
       }
-     });
+    });
     final state = ref.watch(asyncResetPasswordButtonControllerProvider);
     return Scaffold(
-      backgroundColor: ThemeBase.of(context).primaryBackground,
-      body: Column(
-        children: [
-          const SizedBox(height: 100),
-          Text(AppLocalizations.of(context).forgotPasswordTitle1,
-          style: ThemeBase.of(context).headlineMedium.copyWith(
-            color: ThemeBase.of(context).primaryText,
-          )),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
-            child: Text(AppLocalizations.of(context).forgotPasswordTitle2,
-            textAlign: TextAlign.center,
-            style: ThemeBase.of(context).bodySmall.copyWith(
-              color: ThemeBase.of(context).primaryText,
-              fontSize: 14,
-              height: 0,
-            )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
-            child: CustomTextField(
-                focusNode: FocusNode(),
-                controller: emailController,
-                hint: AppLocalizations.of(context).textFieldHintEmail,
-              ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
-            child: CtaButton(
-              onPressed: () {
-                ref.read(asyncResetPasswordButtonControllerProvider.notifier).resetPassword(emailController.text);
-              },
-              label: AppLocalizations.of(context).resetPasswordButton,
-              isLoading: state.isLoading,
+        backgroundColor: ThemeBase.of(context).primaryBackground,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                const SizedBox(height: 100),
+                Text(AppLocalizations.of(context).forgotPasswordTitle1,
+                    style: ThemeBase.of(context).headlineMedium.copyWith(
+                          color: ThemeBase.of(context).primaryText,
+                        )),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
+                  child: Text(AppLocalizations.of(context).forgotPasswordTitle2,
+                      textAlign: TextAlign.center,
+                      style: ThemeBase.of(context).bodySmall.copyWith(
+                            color: ThemeBase.of(context).primaryText,
+                            fontSize: 14,
+                            height: 0,
+                          )),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
+                  child: CustomTextField(
+                    focusNode: FocusNode(),
+                    controller: emailController,
+                    hint: AppLocalizations.of(context).textFieldHintEmail,
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 24.0),
+                  child: CtaButton(
+                    onPressed: () {
+                      ref
+                          .read(asyncResetPasswordButtonControllerProvider
+                              .notifier)
+                          .resetPassword(emailController.text);
+                    },
+                    label: AppLocalizations.of(context).resetPasswordButton,
+                    isLoading: state.isLoading,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      )
-    );
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0 ,bottom: 44.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.arrow_back),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      AppLocalizations.of(context).loginPageBackButton,
+                      style: ThemeBase.of(context).bodyMedium,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }

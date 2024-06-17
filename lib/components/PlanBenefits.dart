@@ -1,5 +1,6 @@
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlanBenefits extends StatelessWidget {
   final List<String> benefits;
@@ -12,7 +13,7 @@ class PlanBenefits extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Das ist für dich drin',
+            AppLocalizations.of(context).planBenefitsTitle,
             style: ThemeBase.of(context).headlineSmall,
           ),
         ),

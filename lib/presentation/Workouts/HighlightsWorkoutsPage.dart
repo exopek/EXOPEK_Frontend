@@ -7,6 +7,7 @@ import 'package:exopek_workout_app/utils/AppVideoPlayer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HighlightsWorkoutsPage extends ConsumerStatefulWidget {
   const HighlightsWorkoutsPage({super.key});
@@ -23,7 +24,7 @@ class _HighlightsWorkoutsPageState extends ConsumerState<HighlightsWorkoutsPage>
     return provider.when(
       data: (result) {
         return Scaffold(
-          appBar: GenericAppBar.build(context, selectedWorkoutQuery.keys.contains('isNew') ? 'Die neuesten Workouts' : 'Best bewertete Workouts'),
+          appBar: GenericAppBar.build(context, selectedWorkoutQuery.keys.contains('isNew') ? AppLocalizations.of(context).workoutHighlightsNewTitle : AppLocalizations.of(context).workoutHighlightsBestRatedTitle),
           backgroundColor: ThemeBase.of(context).primaryBackground,
           extendBodyBehindAppBar: true,
           body: SizedBox(
@@ -52,44 +53,6 @@ class _HighlightsWorkoutsPageState extends ConsumerState<HighlightsWorkoutsPage>
                             ),
                       ),
                     ),
-                    /* Positioned(
-                      child: Container(
-                        width: MediaQuery.sizeOf(context).width,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          
-                          border: Border(
-                            bottom: BorderSide(
-                              color: ThemeBase.of(context).secondaryText,
-                              width: 1,
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 16.0, right: 8.0, bottom: 8.0, top: 8.0),
-                                child: Icon(Icons.arrow_back_ios),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Best bewertete Workouts',
-                              style: ThemeBase.of(context).titleSmall.copyWith(
-                                color: ThemeBase.of(context).primaryText,
-                              ),),
-                            ),
-                            
-                          ],
-                        )
-                        
-                      ),
-                    ), */
                     Positioned(
                 left: 0,
                 bottom: 0,

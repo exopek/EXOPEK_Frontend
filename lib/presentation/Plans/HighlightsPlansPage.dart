@@ -5,6 +5,7 @@ import 'package:exopek_workout_app/utils/AppVideoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HighlightsPlansPage extends ConsumerStatefulWidget {
   const HighlightsPlansPage({super.key});
@@ -28,7 +29,7 @@ class _HighlightsPlansPageState extends ConsumerState<HighlightsPlansPage> {
         return Scaffold(
           backgroundColor: ThemeBase.of(context).primaryBackground,
           extendBodyBehindAppBar: true,
-          appBar: GenericAppBar.build(context, 'Die neuesten Pläne'),
+          appBar: GenericAppBar.build(context, AppLocalizations.of(context).planHighlightsPageTitle),
           body: SizedBox(
             height: MediaQuery.sizeOf(context).height,
             width: MediaQuery.sizeOf(context).width,

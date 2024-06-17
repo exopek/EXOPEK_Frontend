@@ -224,8 +224,10 @@ class AppRouter {
             final extra = state.extra as Map<String, dynamic>?;
             final Function(SportType) onSportTypeSelected =
                 extra?['onSportTypeSelected'] as Function(SportType);
+            final Map<dynamic, dynamic> selection = extra?['selection'] as Map<dynamic, dynamic>;
             return SportTypeSelectionPage(
               onSportTypeSelected: onSportTypeSelected,
+              selection: selection,
             );
           }),
       GoRoute(
@@ -234,8 +236,10 @@ class AppRouter {
             final extra = state.extra as Map<String, dynamic>?;
             final Function(TrainingFrequencyType) onTrainingFrequencySelected =
                 extra?['onTrainingFrequencyTypeSelected'] as Function(TrainingFrequencyType);
+            final Map<dynamic, dynamic> selection = extra?['selection'] as Map<dynamic, dynamic>;
             return TrainingFrequencySelectionPage(
               onTrainingFrequencyTypeSelected: onTrainingFrequencySelected,
+              selection: selection,
             );
           }),
       GoRoute(
@@ -382,12 +386,12 @@ class AppRouter {
     router.go("/onBoarding0");
   }
 
-  static void goToSportTypeSelection(Function(SportType) onSportTypeSelected) {
-    router.push("/sportTypeSelection", extra: {'onSportTypeSelected': onSportTypeSelected});
+  static void goToSportTypeSelection(Function(SportType) onSportTypeSelected, Map<dynamic, dynamic> selection) {
+    router.push("/sportTypeSelection", extra: {'onSportTypeSelected': onSportTypeSelected, 'selection': selection});
   }
 
-  static void goToTrainingFrequencySelection(Function(TrainingFrequencyType) onTrainingFrequencySelected) {
-    router.push("/trainingFrequencySelection", extra: {'onTrainingFrequencyTypeSelected': onTrainingFrequencySelected});
+  static void goToTrainingFrequencySelection(Function(TrainingFrequencyType) onTrainingFrequencySelected, Map<dynamic, dynamic> selection) {
+    router.push("/trainingFrequencySelection", extra: {'onTrainingFrequencyTypeSelected': onTrainingFrequencySelected, 'selection': selection});
   }
 
   static void goToLikedWorkouts() {

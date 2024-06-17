@@ -11,7 +11,9 @@ class CustomTextField extends StatefulWidget {
       this.onTap,
       this.onValidate,
       this.icon,
-      this.numberKeyboard});
+      this.numberKeyboard,
+      this.obscureText = false,
+      this.errorText = ''});
 
   final TextEditingController? controller;
   final String hint;
@@ -22,6 +24,8 @@ class CustomTextField extends StatefulWidget {
   final bool Function(String)? onValidate;
   final IconData? icon;
   final bool? numberKeyboard;
+  final bool obscureText;
+  final String errorText;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -29,10 +33,12 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   late bool _hasError;
+  late bool _obscureText;
 
   @override
   void initState() {
     _hasError = false;
+    _obscureText = widget.obscureText;
     super.initState();
   }
 
@@ -48,6 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 : TextInputType.text,
             controller: widget.controller,
             focusNode: widget.focusNode,
+            obscureText: _obscureText,
             onTap: () {
               if (widget.onTap != null) widget.onTap!();
             },
@@ -102,7 +109,36 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   : null,
               suffixIcon: widget.controller!.text.isNotEmpty &&
                       widget.focusNode!.hasFocus
-                  ? Padding(
+                  ? widget.obscureText ? Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                        child: Container(
+                          decoration: const ShapeDecoration(
+                            color: Colors.transparent,
+                            shape: CircleBorder(
+                              side: BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 64, 64, 64),
+                              ),
+                            ),
+                          ),
+                          child: _obscureText ? const Icon(
+                            Icons.visibility_off,
+                            color: Color.fromARGB(255, 64, 64, 64),
+                            size: 16,
+                          ) : const Icon(
+                            Icons.visibility,
+                            color: Color.fromARGB(255, 64, 64, 64),
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ) : Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: GestureDetector(
                         onTap: () {
@@ -112,7 +148,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           });
                         },
                         child: Container(
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.transparent,
                             shape: CircleBorder(
                               side: BorderSide(
@@ -164,7 +200,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               left: 16,
               bottom: 0,
               child: Text(
-                'Password min 10 characters and 1 number',
+                widget.errorText,
                 style: TextStyle(
                     color: Colors.red,
                     fontSize: 12,

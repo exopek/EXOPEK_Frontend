@@ -11,9 +11,9 @@ import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../components/WorkoutDetailPage/CommentRatingCard.dart';
 import '../../components/WorkoutDetailPage/ExerciseInfoCard.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WorkoutDetail extends ConsumerStatefulWidget {
   final PlanStatus? planStatus;
@@ -68,7 +68,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0, bottom: 8),
                         child: Text(
-                          'Level: ${result.workout.difficultyType.name.toUpperCase()}',
+                          '${AppLocalizations.of(context).workoutDetailsPageHeadlineLevel} ${result.workout.difficultyType.name.toUpperCase()}',
                           style: ThemeBase.of(context).headlineSmall.copyWith(
                               color: ThemeBase.of(context).secondary,
                               fontSize: 16),
@@ -102,7 +102,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                         padding: const EdgeInsets.only(
                             left: 16.0, right: 16, bottom: 8, top: 8),
                         child: CtaButton(
-                            label: 'Starten',
+                            label: AppLocalizations.of(context). workoutDetailsPageStartWorkoutButton,
                             onPressed: () => AppRouter.goToPreTimer(
                                 LoopVideosPageViewModel(
                                     workoutDetails: result.workout,
@@ -117,7 +117,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Bewertungen',
+                                AppLocalizations.of(context).workoutDetailsPageHeadlineRatings,
                                 style: ThemeBase.of(context).headlineSmall,
                               ),
                             ],
@@ -189,7 +189,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                           padding: const EdgeInsets.only(
                               left: 16.0, right: 16, bottom: 8, top: 8),
                           child: CtaButton(
-                              label: 'Alle Bewertungen',
+                              label: AppLocalizations.of(context).workoutDetailsPageAllRatingsButton,
                               color: ThemeBase.of(context).accent4,
                               onPressed: () {
                                 ref
@@ -202,7 +202,7 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                         padding: const EdgeInsets.only(
                             left: 16.0, top: 8, bottom: 16),
                         child: Text(
-                          'Übungen',
+                          AppLocalizations.of(context).workoutDetailsPageHeadlineExercises,
                           style: ThemeBase.of(context).headlineSmall,
                         ),
                       ),

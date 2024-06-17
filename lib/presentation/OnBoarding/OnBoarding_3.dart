@@ -35,10 +35,15 @@ class _OnBoarding3State extends ConsumerState<OnBoarding3> {
       roles: [],
       sport: SportType.None,
     );
+    previousTrainingFrequency = TrainingFrequencyType.None;
+  }
+
+  @override
+  void didChangeDependencies() {
     selection = TrainingFrequencyType.values
         .asMap()
-        .map((key, value) => MapEntry(value.name.toString(), false));
-    previousTrainingFrequency = TrainingFrequencyType.None;
+        .map((key, value) => MapEntry(value.name(context), false));
+    super.didChangeDependencies();
   }
 
   @override

@@ -1,3 +1,6 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+
 enum TrainingFrequencyType {
   None,
   Irregular,
@@ -7,20 +10,21 @@ enum TrainingFrequencyType {
 }
 
 extension TrainingFrequencyTypeExtension on TrainingFrequencyType {
-  String get name {
+  String name(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     switch (this) {
       case TrainingFrequencyType.None:
-        return 'Keine Angabe';
+        return localizations.trainingFrequencyNone;
       case TrainingFrequencyType.Irregular:
-        return '0 - 1 Unregelmäßig';
+        return localizations.trainingFrequencyIrregular;
       case TrainingFrequencyType.Regular:
-        return '2 - 3 Regelmäßig';
+        return localizations.trainingFrequencyRegular;
       case TrainingFrequencyType.Athlet:
-        return '4 - 5 Athlet';
+        return localizations.trainingFrequencyAthlete;
       case TrainingFrequencyType.ProfiAthlet:
-        return '6 - 7 Profi Athlet';
+        return localizations.trainingFrequencyProAthlete;
       default:
-        return 'Keine Angabe';
+        return localizations.trainingFrequencyNone;
     }
   }
 }

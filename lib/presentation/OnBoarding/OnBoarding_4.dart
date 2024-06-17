@@ -22,10 +22,15 @@ class _OnBoarding4State extends State<OnBoarding4> {
   @override
   void initState() {
     super.initState();
+    sportType = SportType.None;
+  }
+
+  @override
+  void didChangeDependencies() {
     selection = SportType.values
         .asMap()
-        .map((key, value) => MapEntry(value.name.toString(), false));
-    sportType = SportType.None;
+        .map((key, value) => MapEntry(value.name(context), false));
+    super.didChangeDependencies();
   }
 
   @override

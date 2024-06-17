@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../domain/Models/Plan.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlanProgressWithImageCard extends StatelessWidget {
   final PlanListItem plan;
@@ -71,12 +72,18 @@ class PlanProgressWithImageCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Name
-                      Text(plan.name, style: ThemeBase.of(context).titleMedium),
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.42,
+                        child: Text(
+                          plan.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: ThemeBase.of(context).titleMedium),
+                      ),
                       const SizedBox(height: 2),
                       // Information Block
 
                       CardInformationBlock(
-                        value: plan.duration.toString() + " wochen",
+                        value: plan.duration.toString() + " ${AppLocalizations.of(context).planProgressCardDuration}",
                         icon: _svgBt('Uhr',
                             height: 12.0,
                             width: 12.0,
@@ -128,7 +135,7 @@ class PlanProgressWithImageCard extends StatelessWidget {
                     if (planStatus.progressPercentage != 100)
                       SizedBox(
                         child: Text(
-                            '${planStatus.progressPercentage}% Abgeschlossen',
+                            '${planStatus.progressPercentage}% ${AppLocalizations.of(context).planProgressCardFinished}',
                             style: ThemeBase.of(context).bodySmall.copyWith(
                                   color: ThemeBase.of(context).secondaryText,
                                   fontSize: 10,

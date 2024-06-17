@@ -15,6 +15,7 @@ import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilEditPage extends ConsumerStatefulWidget {
   const ProfilEditPage({super.key});
@@ -59,24 +60,27 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
     ref.listen(uploadProfilImageButtonControllerProvider, (previous, next) {
       if (next is AsyncData) {
         GenericSnackBar.showSuccedSnackBar(
-            context: context, text: 'Profilbild erfolgreich geändert!');
+            context: context,
+            text: AppLocalizations.of(context).editProfilPageImageUploadSucced);
         ref.invalidate(asyncProfilEditPageControllerProvider);
       }
       if (next is AsyncError) {
         next.whenOrNull(
-            error: (error, stackTrace) =>
-                GenericSnackBar.showErrorSnackBar(context: context, text: error.toString()));
+            error: (error, stackTrace) => GenericSnackBar.showErrorSnackBar(
+                context: context, text: error.toString()));
       }
     });
     ref.listen(asyncProfilEditPageUpdateUserButtonControllerProvider,
         (previous, next) {
       if (next is AsyncData) {
         ref.invalidate(asyncProfilEditPageControllerProvider);
-        GenericSnackBar.showSuccedSnackBar(context: context, text: 'Update erfolgreich!');
+        GenericSnackBar.showSuccedSnackBar(
+            context: context,
+            text: AppLocalizations.of(context).editProfilPageUpdateSucced);
       } else if (next is AsyncError) {
         next.whenOrNull(
-            error: (error, stackTrace) =>
-                GenericSnackBar.showErrorSnackBar(context: context, text: error.toString())  );
+            error: (error, stackTrace) => GenericSnackBar.showErrorSnackBar(
+                context: context, text: error.toString()));
       }
     });
     final profilEditPageControllerProvider =
@@ -85,7 +89,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
         ref.watch(asyncProfilEditPageUpdateUserButtonControllerProvider);
     return Scaffold(
         backgroundColor: ThemeBase.of(context).primaryBackground,
-        appBar: GenericAppBar.build(context, 'Profil bearbeiten'),
+        appBar: GenericAppBar.build(
+            context, AppLocalizations.of(context).editProfilPageTitle),
         body: profilEditPageControllerProvider.when(
             data: (data) {
               /// <summary>
@@ -100,13 +105,9 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
               heightController.text = data.user.height == null
                   ? "---"
                   : data.user.height.toString();
-              sportController.text = data.user.sport == SportType.None
-                  ? "---"
-                  : data.user.sport.name;
+              sportController.text = data.user.sport.name(context);
               trainingFrequencyController.text =
-                  data.user.previousTrainingFrequency == TrainingFrequencyType.None
-                      ? "---"
-                      : data.user.previousTrainingFrequency!.name;
+                  data.user.previousTrainingFrequency!.name(context);
               return SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 child: Column(
@@ -183,7 +184,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Profil",
+                          AppLocalizations.of(context)
+                              .editProfilPageProfilSectionTitle,
                           textAlign: TextAlign.left,
                           style: ThemeBase.of(context).headlineSmall,
                         ),
@@ -197,7 +199,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       child: CustomTextField(
                         controller: usernameController,
                         focusNode: usernameFocusNode,
-                        hint: "Benutzername",
+                        hint:
+                            AppLocalizations.of(context).textFieldHintUsername,
                       ),
                     ),
                     const SizedBox(
@@ -208,7 +211,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       child: CustomTextField(
                         controller: firstnameController,
                         focusNode: firstnameFocusNode,
-                        hint: "Vorname",
+                        hint:
+                            AppLocalizations.of(context).textFieldHintFirstname,
                       ),
                     ),
                     const SizedBox(
@@ -219,7 +223,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       child: CustomTextField(
                         controller: lastnameController,
                         focusNode: lastnameFocusNode,
-                        hint: "Nachname",
+                        hint:
+                            AppLocalizations.of(context).textFieldHintLastname,
                       ),
                     ),
                     const SizedBox(
@@ -230,7 +235,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       child: CustomTextField(
                         controller: emailController,
                         focusNode: emailFocusNode,
-                        hint: "Email",
+                        hint: AppLocalizations.of(context).textFieldHintEmail,
                       ),
                     ),
                     const SizedBox(
@@ -241,7 +246,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       child: CustomTextField(
                         controller: ageController,
                         focusNode: ageFocusNode,
-                        hint: "Alter (Jahre)",
+                        hint: AppLocalizations.of(context).textFieldHintAge,
                       ),
                     ),
                     const SizedBox(
@@ -252,7 +257,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       child: CustomTextField(
                         controller: heightController,
                         focusNode: heightFocusNode,
-                        hint: "Größe (cm)",
+                        hint: AppLocalizations.of(context).textFieldHintHight,
                       ),
                     ),
                     const Divider(
@@ -265,7 +270,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Trainingsprofil",
+                          AppLocalizations.of(context)
+                              .editProfilPageTrainingProfilSectionTitle,
                           textAlign: TextAlign.left,
                           style: ThemeBase.of(context).headlineSmall,
                         ),
@@ -277,16 +283,19 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: CustomTextFieldButton(
-                        controller: trainingFrequencyController,
-                        hint: "Wie oft trainierts du pro Woche?",
-                        suffixIcon: Icons.chevron_right,
-                        onTap: () => AppRouter.goToTrainingFrequencySelection(
-                          (trainingFrequencyType) {
-                            trainingFrequencyController.text =
-                                trainingFrequencyType.name;
-                          },
-                        )
-                      ),
+                          controller: trainingFrequencyController,
+                          hint: AppLocalizations.of(context)
+                              .textFieldHintTrainingFrequency,
+                          suffixIcon: Icons.chevron_right,
+                          onTap: () => AppRouter.goToTrainingFrequencySelection(
+                                  (trainingFrequencyType) {
+                                trainingFrequencyController.text =
+                                    trainingFrequencyType.name(context);
+                              },
+                                  TrainingFrequencyType.values.asMap().map(
+                                      (key, value) => MapEntry(
+                                          value.name(context).toString(),
+                                          false)))),
                     ),
                     const SizedBox(
                       height: 16,
@@ -295,13 +304,15 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: CustomTextFieldButton(
                         controller: sportController,
-                        hint: "Deine Sportart?",
+                        hint: AppLocalizations.of(context)
+                            .textFieldHintSelectedSports,
                         suffixIcon: Icons.chevron_right,
                         onTap: () => AppRouter.goToSportTypeSelection(
-                          (sportType) {
-                            sportController.text = sportType.name;
-                          },
-                        ),
+                            (sportType) {
+                          sportController.text = sportType.name(context);
+                        },
+                            SportType.values.asMap().map((key, value) =>
+                                MapEntry(value.name(context), false))),
                       ),
                     ),
                     const SizedBox(
@@ -311,7 +322,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: CtaButton(
                         isLoading: state.isLoading,
-                        label: "Speichern",
+                        label: AppLocalizations.of(context)
+                            .editProfilPageSaveButton,
                         onPressed: () {
                           ref
                               .read(
@@ -328,18 +340,15 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                                 imageUrl: data.user.imageUrl,
                                 age: int.parse(ageController.text),
                                 height: double.parse(heightController.text),
-                                sport: sportController.text == "---"
-                                    ? SportType.None
-                                    : SportType.values.firstWhere((element) =>
-                                        element.name ==
-                                        sportController
-                                            .text), 
-                                previousTrainingFrequency: trainingFrequencyController.text == "---"
-                                    ? TrainingFrequencyType.None
-                                    : TrainingFrequencyType.values.firstWhere((element) =>
-                                        element.name ==
-                                        trainingFrequencyController
-                                            .text),
+                                sport: SportType.values.firstWhere((element) =>
+                                    element.name(context) ==
+                                    sportController.text),
+                                previousTrainingFrequency:
+                                    TrainingFrequencyType.values
+                                            .firstWhere((element) =>
+                                                element.name(context) ==
+                                                trainingFrequencyController
+                                                    .text),
                                 trainingFrequency: data.user.trainingFrequency,
                               ));
                         },

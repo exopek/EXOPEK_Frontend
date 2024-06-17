@@ -4,24 +4,25 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommentRatingCard extends StatelessWidget {
   final Comment comment;
   const CommentRatingCard({super.key, required this.comment});
 
-  String get timeAgo {
+  String _timeAgo(BuildContext context) {
     final now = DateTime.now();
-    DateFormat format = DateFormat('MM/dd/yy HH:mm:ss'); // MM.dd.yyyy HH:mm:ss für lokal backend laufend , MM/dd/yy HH:mm:ss für heroku
+    DateFormat format = DateFormat('MM.dd.yy HH:mm:ss'); // MM.dd.yyyy HH:mm:ss für lokal backend laufend , MM/dd/yy HH:mm:ss für heroku
     final createdAtDate = format.parseUTC(comment.createdAt!);
     final difference = now.difference(createdAtDate);
     if (difference.inDays > 0) {
-      return 'vor ${difference.inDays} Tagen';
+      return AppLocalizations.of(context).commentRatingCardBefore + ' ' + difference.inDays.toString() + ' ' + AppLocalizations.of(context).commentRatingCardDays;
     } else if (difference.inHours > 0) {
-      return 'vor ${difference.inHours} Stunden';
+      return AppLocalizations.of(context).commentRatingCardBefore + ' ' + difference.inHours.toString() + ' ' + AppLocalizations.of(context).commentRatingCardHours;
     } else if (difference.inMinutes > 0) {
-      return 'vor ${difference.inMinutes} Minuten';
+      return AppLocalizations.of(context).commentRatingCardBefore + ' ' + difference.inMinutes.toString() + ' ' + AppLocalizations.of(context).commentRatingCardMinutes;
     } else {
-      return 'jetzt';
+      return AppLocalizations.of(context).commentRatingCardNow;
     }
   }
 
@@ -80,7 +81,7 @@ class CommentRatingCard extends StatelessWidget {
               const SizedBox(
                 width: 8,
               ),
-              Text(timeAgo,
+              Text(_timeAgo(context),
                   style: ThemeBase.of(context).labelMedium
                     .copyWith(color: ThemeBase.of(context).secondaryText)),
             ],

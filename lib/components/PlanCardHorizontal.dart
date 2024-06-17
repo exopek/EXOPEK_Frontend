@@ -4,6 +4,7 @@ import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlanCardHorizontal extends StatelessWidget {
   final PlanListItem planListItem;
@@ -43,7 +44,7 @@ class PlanCardHorizontal extends StatelessWidget {
                 style: ThemeBase.of(context).headlineSmall,
               ),
               CardInformationBlock(
-                value: planListItem.duration.toString() + " Wochen",
+                value: planListItem.duration.toString() + " ${AppLocalizations.of(context).planCardHorizontalDuration}",
                 icon: _svgBt('Uhr',
                     height: 12.0,
                     width: 12.0,
@@ -57,7 +58,7 @@ class PlanCardHorizontal extends StatelessWidget {
                 child: CtaButton(
                   fontSizeLable: 12,
                   height: 32,
-                  label: 'Starte jetzt',
+                  label: AppLocalizations.of(context).planCardHorizontalButton,
                   onPressed: () {},
                 ),
               ),

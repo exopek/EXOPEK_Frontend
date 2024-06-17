@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -25,20 +26,20 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       builder: (BuildContext context) {
         var state = ref.watch(asyncDeleteUserControllerProvider);
         return AlertDialog(
-          title: Text("Konto löschen"),
-          content: Text("Möchtest du dein Konto wirklich löschen?"),
+          title: Text(AppLocalizations.of(context).settingsPageDialogTitle),
+          content: Text(AppLocalizations.of(context).settingsPageDialogContent),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Abbrechen"),
+              child: Text(AppLocalizations.of(context).settingsPageDialogCancelButton),
             ),
             TextButton(
               onPressed: () async {
                 ref.read(asyncDeleteUserControllerProvider.notifier).deleteUser();
               },
-              child: state.isLoading ? CircularProgressIndicator() : Text("Löschen"),
+              child: state.isLoading ? CircularProgressIndicator() : Text(AppLocalizations.of(context).settingsPageDialogDeleteButton),
             ),
           ],
         );
@@ -68,7 +69,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     });
     final user = ref.watch(userStateProvider);
     return Scaffold(
-        appBar: GenericAppBar.build(context, 'Einstellungen'),
+        appBar: GenericAppBar.build(context, AppLocalizations.of(context).settingsPageTitle),
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: 1310,
@@ -79,12 +80,12 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               Positioned(
                 top: 31,
                   left: 16,
-                  child: SettingsCtaButtonProfilEdit(imageUrl: user!.imageUrl ,userName: user.firstname + " " + user.lastname, onPressed: () => AppRouter.goToProfilEdit(),)),
+                  child: SettingsCtaButtonProfilEdit(imageUrl: user!.imageUrl ,userName: user.username, onPressed: () => AppRouter.goToProfilEdit(),)),
               Positioned(
                 left: 16,
                 top: 140,
                 child: Text(
-                  'System',
+                  AppLocalizations.of(context).settingsPageSubTitle1,
                   style: TextStyle(
                     color: Color(0xFF838282),
                     fontSize: 18,
@@ -98,7 +99,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   left: 16,
                   top: 171,
                   child: SettingsCtaButton(
-                      title: "AGB",
+                      title: AppLocalizations.of(context).settingsPageAGB,
                       icon: Icon(Icons.chevron_right),
                       onPressed: () =>
                           launchUrlString("https://exopek.de/agb/"))),
@@ -106,7 +107,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   left: 16,
                   top: 216,
                   child: SettingsCtaButton(
-                      title: "Impressum",
+                      title: AppLocalizations.of(context).settingsPageImprint,
                       icon: Icon(Icons.chevron_right),
                       onPressed: () =>
                           launchUrlString("https://exopek.de/impressum/"))),
@@ -114,7 +115,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   left: 16,
                   top: 261,
                   child: SettingsCtaButton(
-                    title: "Datenschutzbestimmung",
+                    title: AppLocalizations.of(context).settingsPagePrivacyPolicy,
                     icon: Icon(Icons.chevron_right),
                     onPressed: () =>
                         launchUrlString("https://exopek.de/datenschutz/"),
@@ -122,12 +123,12 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               Positioned(
                   left: 16,
                   top: 306,
-                  child: SettingsCtaButton(title: "Version: ${version}")),
+                  child: SettingsCtaButton(title: "${AppLocalizations.of(context).settingsPageVersion} ${version}")),
               Positioned(
                 left: 16,
                 top: 382,
                 child: Text(
-                  'Konto',
+                  AppLocalizations.of(context).settingsPageSubTitle2,
                   style: TextStyle(
                     color: Color(0xFF838282),
                     fontSize: 18,
@@ -144,7 +145,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     onPressed: () {
                       _showDialog();
                     },
-                      title: "Konto löschen", icon: Icon(Icons.chevron_right))),
+                      title: AppLocalizations.of(context).settingsPageDeleteAccount, icon: Icon(Icons.chevron_right))),
               Positioned(
                   left: 16,
                   top: 458,
@@ -155,7 +156,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         AppRouter.goToLoginAndRemoveLastRoute();
                       }
                     },
-                    title: "Abmelden",
+                    title: AppLocalizations.of(context).settingsPageLogout,
                     icon: Icon(
                       Icons.chevron_right,
                       color: Colors.red,

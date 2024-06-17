@@ -9,6 +9,7 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Workouts extends ConsumerStatefulWidget {
   const Workouts({super.key});
@@ -31,7 +32,7 @@ class _WorkoutsState extends ConsumerState<Workouts> {
         data: (result) {
           return Scaffold(
             backgroundColor: ThemeBase.of(context).primaryBackground,
-            appBar: GenericAppBar.build(context, 'Workouts'),
+            appBar: GenericAppBar.build(context, AppLocalizations.of(context).workoutsPageTitle),
             body: CustomScrollView(slivers: [
                 SliverAppBar(
                   leading: Container(),

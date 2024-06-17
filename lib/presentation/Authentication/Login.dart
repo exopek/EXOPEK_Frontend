@@ -39,14 +39,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           child: SizedBox(
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height,
-            child: Stack(
-              children: [
+            child: 
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 16.0, right: 16.0, top: 100.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
+                      Column(
+                        children: [
+                          Container(
                         width: 200,
                         height: 112.28,
                         decoration: const BoxDecoration(
@@ -68,7 +70,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                       CustomTextField(
                         controller: usernameController,
-                        hint: AppLocalizations.of(context).textFieldHintUsername,
+                        hint: AppLocalizations.of(context).textFieldHintUsernameOrEmail,
                         focusNode: usernameFocusNode,
                       ),
                       const SizedBox(
@@ -78,6 +80,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         controller: passwordController,
                         hint: AppLocalizations.of(context).textFieldHintPassword,
                         focusNode: passwordFocusNode,
+                        obscureText: true,
                       ),
                       const SizedBox(
                         height: 16.0,
@@ -104,11 +107,32 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           style: ThemeBase.of(context).bodyMedium,
                         ),
                       ),
+                        ],
+                      ),
+                      
+                      GestureDetector(
+                        onTap: () {
+                          AppRouter.goToOnBoarding0();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 44.0),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.arrow_back),
+                              const SizedBox(width: 4,),
+                              Text(
+                                AppLocalizations.of(context).loginPageBackButton,
+                                style: ThemeBase.of(context).bodyMedium,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
-              ],
-            ),
+              
+            
           ),
         ));
   }

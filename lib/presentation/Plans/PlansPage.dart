@@ -6,6 +6,7 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlansPage extends ConsumerStatefulWidget {
   const PlansPage({super.key});
@@ -28,7 +29,7 @@ class _PlansPageState extends ConsumerState<PlansPage> {
         data: (result) {
           return Scaffold(
             backgroundColor: ThemeBase.of(context).primaryBackground,
-            appBar: GenericAppBar.build(context, 'Pläne'),
+            appBar: GenericAppBar.build(context, AppLocalizations.of(context).plansPageTitle),
             body: CustomScrollView(slivers: [
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
@@ -39,7 +40,6 @@ class _PlansPageState extends ConsumerState<PlansPage> {
                           onPressed: () {
                             if (result.planStatuses.any((element) =>
                                 element.planId == result.plans[index].id)) {
-                              print("active plan");
                               ref.read(selectedPlanIdProvider.notifier).state =
                                   result.plans[index].id;
                               AppRouter.goToPlanPhaseWithLastRoute();

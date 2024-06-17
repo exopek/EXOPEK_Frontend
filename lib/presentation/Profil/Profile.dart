@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:exopek_workout_app/components/PlanCardHorizontal.dart';
 import 'package:exopek_workout_app/components/PlanProgressWithImageCard.dart';
 import 'package:exopek_workout_app/components/Profil/UserInsightsCard.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
@@ -11,6 +8,7 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({super.key});
@@ -43,7 +41,7 @@ class _ProfileState extends ConsumerState<Profile> {
       data: (data) {
         return Scaffold(
             backgroundColor: ThemeBase.of(context).primaryBackground,
-            appBar: GenericAppBar.build(context, 'Profil'),
+            appBar: GenericAppBar.build(context, AppLocalizations.of(context).profilPageTitle),
             body: Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -86,7 +84,7 @@ class _ProfileState extends ConsumerState<Profile> {
                       }),
                       const SizedBox(height: 16),
                       Text(
-                        data.user.firstname + ' ' + data.user.lastname,
+                        data.user.username,
                         style: ThemeBase.of(context).bodyLarge,
                       ),
                       const SizedBox(height: 2.5),
@@ -103,13 +101,13 @@ class _ProfileState extends ConsumerState<Profile> {
                           children: [
                             Expanded(
                                 child: UserInsightsCard(
-                                    insightName: 'Workouts',
+                                    insightName: AppLocalizations.of(context).profilPageInsightsCardTitle1,
                                     insightValue:
                                         data.workouts.length.toString())),
                             SizedBox(width: 10),
                             Expanded(
                                 child: UserInsightsCard(
-                                    insightName: 'Pläne',
+                                    insightName: AppLocalizations.of(context).profilPageInsightsCardTitle2,
                                     insightValue:
                                         data.plans.length.toString())),
                           ],
@@ -122,7 +120,7 @@ class _ProfileState extends ConsumerState<Profile> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 16.0),
                             child: Text(
-                              'Letzten Workouts',
+                              AppLocalizations.of(context).profilPageFinishedWorkoutsTitle,
                               style: ThemeBase.of(context).headlineSmall,
                             ),
                           ),
@@ -159,7 +157,7 @@ class _ProfileState extends ConsumerState<Profile> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 16.0),
                             child: Text(
-                              'Abgeschlossene Pläne',
+                              AppLocalizations.of(context).profilPageFinishedPlansTitle,
                               style: ThemeBase.of(context).headlineSmall,
                             ),
                           ),

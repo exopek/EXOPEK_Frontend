@@ -44,10 +44,10 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
     ref
         .read(loopVideosProgressIndicatorControllerProvider.notifier)
         .increment();
-    ref.read(timerAnimationControllerProvider.notifier).reset();
+    ref.read(timerAnimationControllerProvider.notifier).reset(sortedExerciseConfig[exerciseState + 1].duration);
     ref
         .read(timerAnimationControllerProvider.notifier)
-        .increment(sortedExerciseConfig[exerciseState + 1].duration);
+        .decrement();
 
     setState(() {
       _animationController.reset();
@@ -80,8 +80,9 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
     final timerAnimationController =
         ref.read(timerAnimationControllerProvider.notifier);
 
-    timerAnimationController.reset();
-    timerAnimationController.increment(sortedExerciseConfig[0].duration);
+    timerAnimationController.reset(sortedExerciseConfig[0].duration);
+
+    timerAnimationController.decrement();
 
   }
 
@@ -97,7 +98,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
   Widget build(BuildContext context) {
     ref.listen(timerAnimationControllerProvider, (previous, next) {
       final exerciseState = ref.watch(loopVideosControllerProvider);
-      if (next == sortedExerciseConfig[exerciseState].duration &&
+      if (next == 0 &&
           exerciseState < sortedExerciseConfig.length - 1) {
         _nextExercise(exerciseState);
       }
@@ -112,6 +113,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
             onTap: () {
               if (exerciseState < sortedExerciseConfig.length - 1) {
                 _nextExercise(exerciseState);
+                
               } else {
                 AppRouter.goToWorkoutSummary(WorkoutSummaryPageViewModel(
                     workoutDetails: widget.viewModel.workoutDetails,
@@ -302,6 +304,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                             .toString(),
                     reps:
                         sortedExerciseConfig[exerciseState + 1].reps.toString(),
+                    isRest: sortedExerciseConfig[exerciseState + 1].isRest,
                   ),
                 )
               : Padding(
@@ -312,9 +315,10 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                     imageUrl: null,
                     exerciseFrequenceType: "",
                     reps: "",
+                    isRest: false,
                   ),
                 ),
-          Spacer(),
+          const Spacer(),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(

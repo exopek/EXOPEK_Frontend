@@ -4,6 +4,7 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardSideMenu extends ConsumerStatefulWidget {
   final double dashBoardWidth;
@@ -84,7 +85,7 @@ class _DashboardSideMenuState extends ConsumerState<DashboardSideMenu> {
                         top: 117,
                         child: SizedBox(
                           child: Text(
-                            user!.firstname + ' ' + user.lastname,
+                            user!.username,
                             style: ThemeBase.of(context).titleMedium.copyWith(
                                 color: ThemeBase.of(context).primaryText,
                                 fontSize: 16),
@@ -161,7 +162,7 @@ class _DashboardSideMenuState extends ConsumerState<DashboardSideMenu> {
                                 width: 10,
                               ),
                               Text(
-                                'Profile',
+                                AppLocalizations.of(context).sideMenuProfil,
                                 style: ThemeBase.of(context)
                                     .titleMedium
                                     .copyWith(height: 0, fontSize: 16),
@@ -187,7 +188,7 @@ class _DashboardSideMenuState extends ConsumerState<DashboardSideMenu> {
                                 width: 10,
                               ),
                               Text(
-                                'Einstellungen',
+                                AppLocalizations.of(context).sideMenuSettings,
                                 style: ThemeBase.of(context)
                                     .titleMedium
                                     .copyWith(height: 0, fontSize: 16),

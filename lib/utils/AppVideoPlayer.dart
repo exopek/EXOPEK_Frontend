@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:video_player/video_player.dart';
 
 import '/utils/AppUtil.dart' show routeObserver;
@@ -53,10 +56,12 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> with RouteAware {
   ChewieController? _chewieController;
   bool _loggedError = false;
   bool _subscribedRoute = false;
+  late BaseCacheManager _cacheManager;
 
   @override
   void initState() {
     super.initState();
+    _cacheManager = DefaultCacheManager();
     initializePlayer();
   }
 
@@ -112,9 +117,18 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> with RouteAware {
       kDefaultAspectRatio;
 
   Future initializePlayer() async {
-    _videoPlayerController = widget.videoType == VideoType.network
+    var fileInfo = await _cacheManager.getFileFromCache(widget.path);
+    if (fileInfo == null) {
+      unawaited(_cacheManager.downloadFile(widget.path));
+      _videoPlayerController = widget.videoType == VideoType.network
         ? VideoPlayerController.network(widget.path)
         : VideoPlayerController.asset(widget.path);
+    } else {
+      print('[Play Video form Cache]');
+      _videoPlayerController = 
+        VideoPlayerController.file(fileInfo.file);
+    }
+    
     if (widget.autoPlay) {
       // Browsers generally don't allow autoplay unless it's muted.
       // Ideally this should be configurable, but for now we just automatically

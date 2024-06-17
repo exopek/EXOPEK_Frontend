@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../dependencyInjection/coachProvider/coachPageControllerProvider.dart';
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Workout.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlanDetailPage extends ConsumerStatefulWidget {
   PlanDetailPage({super.key}) {}
@@ -106,7 +107,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                 isLoading: state.isLoading,
                                 label: result.planStatus.statusTypeAsType !=
                                         StatusType.ACTIVE
-                                    ? 'Starten'
+                                    ? AppLocalizations.of(context).planDetailsPageStartPlanButton
                                     : 'Active Plan',
                                 onPressed: () {
                                   if (result.planStatus.statusTypeAsType ==
@@ -128,7 +129,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                           padding: const EdgeInsets.only(
                               left: 16.0, top: 8, bottom: 16),
                           child: Text(
-                            'Workouts',
+                            AppLocalizations.of(context).planDetailsPageTitleWorkouts,
                             style: ThemeBase.of(context).headlineSmall,
                           ),
                         ),
@@ -157,7 +158,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                           padding: const EdgeInsets.only(
                               left: 16.0, top: 8, bottom: 0),
                           child: Text(
-                            'Programm Details',
+                            AppLocalizations.of(context).planDetailsPageTitleDetails,
                             style: ThemeBase.of(context).headlineSmall,
                           ),
                         ),
@@ -166,7 +167,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                             padding: const EdgeInsets.only(
                                 left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
                             child: PhaseDetails(
-                              title: 'Phase ${i + 1}',
+                              title: '${AppLocalizations.of(context).planDetailsPageSubTitleDetails} ${i + 1}',
                               workoutPlanConfig: result.plan.workoutMap[
                                       result.sortedCurrentPhaseTypes[i]]
                                   as List<WorkoutPlanConfig>,

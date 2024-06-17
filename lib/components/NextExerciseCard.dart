@@ -6,13 +6,15 @@ class NextExerciseCard extends StatelessWidget {
   final String? imageUrl;
   final String exerciseFrequenceType;
   final String reps;
+  final bool isRest;
 
   const NextExerciseCard(
       {super.key,
       required this.title,
       required this.imageUrl,
       required this.exerciseFrequenceType,
-      required this.reps});
+      required this.reps,
+      required this.isRest});
 
   String get frequenceType => exerciseFrequenceType.isEmpty
       ? "Fertig"
@@ -79,7 +81,7 @@ class NextExerciseCard extends StatelessWidget {
           Positioned(
             left: 88,
             top: 15,
-            child: Text(title, style: ThemeBase.of(context).titleMedium),
+            child: Text(isRest ? 'Pause' : title, style: ThemeBase.of(context).titleMedium),
           ),
           Positioned(
             left: 88,

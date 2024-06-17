@@ -7,8 +7,8 @@ import 'package:exopek_workout_app/domain/Models/ViewModels/WorkoutSummaryPageVi
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WorkoutSummaryPage extends ConsumerStatefulWidget {
   final WorkoutSummaryPageViewModel viewModel;
@@ -60,13 +60,13 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Glückwunsch!',
+                        AppLocalizations.of(context).workoutSummaryPageCongrats1,
                         style: ThemeBase.of(context).headlineMedium.copyWith(
                               color: ThemeBase.of(context).primaryText,
                             ),
                       ),
                       Text(
-                        'Workout abgeschlossen!',
+                        AppLocalizations.of(context).workoutSummaryPageCongrats2,
                         style: ThemeBase.of(context).headlineSmall,
                       ),
                     ],
@@ -78,7 +78,7 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Wie bewertest du das Workout?',
+                      AppLocalizations.of(context).workoutSummaryPageHeadlineRating,
                       style: ThemeBase.of(context).headlineSmall.copyWith(
                             color: ThemeBase.of(context).secondaryText,
                           )
@@ -175,7 +175,7 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Wie fühlst du dich?',
+                      AppLocalizations.of(context).workoutSummaryPageHeadlineComment,
                       style: ThemeBase.of(context).headlineSmall.copyWith(
                             color: ThemeBase.of(context).secondaryText,
                           ),
@@ -190,6 +190,9 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                     controller: _notesController,
                     maxLength: 140,
                     maxLines: 4,
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
                     style: ThemeBase.of(context).headlineSmall.copyWith(
                             color: ThemeBase.of(context).primaryText,
                             fontSize: 16.0
@@ -197,7 +200,7 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(left: 16, top: 2.0, right: 16.0, bottom: 2.0),
                       border: InputBorder.none,
-                      hintText: 'Schreibe etwas...',
+                      hintText: AppLocalizations.of(context).workoutSummaryPageTextFieldHint,
                       hintStyle: ThemeBase.of(context).headlineSmall.copyWith(
                             color: ThemeBase.of(context).secondaryText,
                             fontSize: 16.0
@@ -212,13 +215,13 @@ class _WorkoutSummaryPageState extends ConsumerState<WorkoutSummaryPage> {
                     padding:
                         const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 50.0),
                     child: CtaButton(
-                        label: 'Beenden und Speichern',
+                        label: AppLocalizations.of(context).workoutSummaryPageSaveButton,
                         isLoading: state is AsyncLoading,
                         onPressed: () {
                           if (_notesController.text.isNotEmpty && _rating == 0) {
                             GenericSnackBar.showErrorSnackBar(
                                 context: context,
-                                text: 'Bitte bewerte das Workout bevor du es speicherst.',
+                                text: AppLocalizations.of(context).workoutSummaryPageErrorMessageRating,
                                 );
                             return;
                           }

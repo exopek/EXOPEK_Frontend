@@ -29,7 +29,6 @@ final dioProvider = Provider((ref) {
   }, onResponse: (response, handler) {
     return handler.next(response); // continue
   }, onError: (DioException e, handler) {
-    print(AppRouter.router.routeInformationProvider.value.uri.toString());
     if (e.response?.statusCode == 401) {
       switch (AppRouter.router.routeInformationProvider.value.uri.toString()) {
         case "/login":

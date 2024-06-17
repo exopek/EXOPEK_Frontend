@@ -10,6 +10,7 @@ import '../../dependencyInjection/coachProvider/coachPageControllerProvider.dart
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
 import '../../domain/Models/Workout.dart';
 import '../../utils/AppRouter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlanPhasePage extends ConsumerStatefulWidget {
   const PlanPhasePage({super.key});
@@ -68,14 +69,14 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                             items: [
                               {
                                 'icon': Icons.stop_circle_outlined,
-                                'title': 'Plan Stoppen',
+                                'title': AppLocalizations.of(context).planPhasePageStopPlanButton,
                                 'onTap': () => ref
                                     .read(planPhaseStopButtonProvider.notifier)
                                     .stopPlan(data.planStatus!.id)
                               },
                               {
                                 'icon': Icons.change_circle_outlined,
-                                'title': 'Phase Abschließen',
+                                'title': AppLocalizations.of(context).planPhasePageNextPhaseButton,
                                 'onTap': () => ref.read(planPhaseChangeButtonProvider.notifier).changePhase(
                                     id: data.planStatus!.id,
                                     phase: data
@@ -151,7 +152,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Abgeschlossene Workouts: ${data.completedWorkoutsCounter} von ${data.workouts.length}',
+                        '${AppLocalizations.of(context).planPhasePageFinishedWorkoutsTitle1} ${data.completedWorkoutsCounter} ${AppLocalizations.of(context).planPhasePageFinishedWorkoutsTitle2} ${data.workouts.length}',
                         style: ThemeBase.of(context).bodySmall.copyWith(
                               color: ThemeBase.of(context).secondaryText,
                               fontSize: 10,

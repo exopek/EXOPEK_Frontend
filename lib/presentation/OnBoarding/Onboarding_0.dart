@@ -14,7 +14,6 @@ class OnBoarding0 extends ConsumerStatefulWidget {
 }
 
 class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
-
   @override
   Widget build(BuildContext context) {
     /* ref.listen(asyncCheckValidTokenStateProvider, (previous, next) {
@@ -30,67 +29,63 @@ class _OnBoarding_0State extends ConsumerState<OnBoarding0> {
     var localization = AppLocalizations.of(context).localeName;
     return Scaffold(
         backgroundColor: ThemeBase.of(context).primaryBackground,
-        body: SizedBox(
-          width: MediaQuery.sizeOf(context).width,
-          height: MediaQuery.sizeOf(context).height,
-          child: Stack(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/startImage.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  height: MediaQuery.sizeOf(context).height,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/startImage.jpg'),
-                      fit: BoxFit.cover,
-                    ),
+              const Padding(
+                padding: EdgeInsets.only(top: 60.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Image(
+                    image: AssetImage('assets/images/app_launcher_icon.png'),
+                    height: 100,
                   ),
-                ),
-              ),
-              const Positioned(
-                left: 0,
-                top: 65,
-                child: Image(
-                  image: AssetImage('assets/images/app_launcher_icon.png'),
-                  height: 100,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 16.0, right: 16.0, bottom: 50.0),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.53,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
                         child: CtaButton(
                           color: Colors.transparent,
                           hasBorder: true,
                           label: AppLocalizations.of(context).rigisterButton,
                           onPressed: () {
-                            ref.read(localizationProvider.notifier).state = localization;
+                            ref.read(localizationProvider.notifier).state =
+                                localization;
                             AppRouter.goToRegister();
                           },
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.35,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
                         child: CtaButton(
                           color: Colors.transparent,
                           hasBorder: true,
                           label: AppLocalizations.of(context).loginButton,
                           onPressed: () {
-                            ref.read(localizationProvider.notifier).state = localization;
+                            ref.read(localizationProvider.notifier).state =
+                                localization;
                             AppRouter.goToLogin();
                           },
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

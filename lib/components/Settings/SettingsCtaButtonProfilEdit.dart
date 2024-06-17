@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsCtaButtonProfilEdit extends StatelessWidget {
   final String userName;
@@ -76,7 +77,7 @@ class SettingsCtaButtonProfilEdit extends StatelessWidget {
               left: 100,
               top: 42,
               child: Text(
-                'Profil bearbeiten',
+                AppLocalizations.of(context).profilEditCtaButtonTitle,
                 style: TextStyle(
                   color: Color(0xFF838282),
                   fontSize: 10,
