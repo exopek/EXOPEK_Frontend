@@ -67,9 +67,9 @@ class _WorkoutsState extends ConsumerState<Workouts> {
             
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator(
+        loading: () => Center(child: CircularProgressIndicator(
           strokeWidth: 0.5,
-          color: Colors.white,
+          color: ThemeBase.of(context).primaryText,
         )),
         error: (e, s) => Center(child: Text(e.toString())));
   }

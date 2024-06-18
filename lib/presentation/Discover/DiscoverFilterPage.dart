@@ -255,9 +255,11 @@ class _DiscoverFilterPageState extends ConsumerState<DiscoverFilterPage>
                   );
                 }
               },
-              loading: () => const CircularProgressIndicator(
-                strokeWidth: 0.5,
-                color: Colors.white,
+              loading: () => Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 0.5,
+                  color: ThemeBase.of(context).primaryText,
+                ),
               ),
               error: (error, stackTrace) => Text(error.toString()),
             ),

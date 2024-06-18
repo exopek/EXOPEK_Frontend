@@ -14,6 +14,7 @@ class UpdateUserButtonController extends AutoDisposeAsyncNotifier<void> {
     final Dio _dio = ref.read(dioProvider);
     state = const AsyncLoading();
     try {
+      //print(DateTime.tryParse(user.birthDate!)!.toIso8601String());
       await userRepository.updateUser(user);
     } catch (e) {
       if (e is DioException) {

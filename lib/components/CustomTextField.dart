@@ -13,7 +13,8 @@ class CustomTextField extends StatefulWidget {
       this.icon,
       this.numberKeyboard,
       this.obscureText = false,
-      this.errorText = ''});
+      this.errorText = '',
+      this.enabled = true});
 
   final TextEditingController? controller;
   final String hint;
@@ -26,6 +27,7 @@ class CustomTextField extends StatefulWidget {
   final bool? numberKeyboard;
   final bool obscureText;
   final String errorText;
+  final bool enabled;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -49,6 +51,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: Stack(
         children: [
           TextField(
+            enabled: widget.enabled,
             keyboardType: widget.numberKeyboard != null && widget.numberKeyboard!
                 ? TextInputType.number
                 : TextInputType.text,

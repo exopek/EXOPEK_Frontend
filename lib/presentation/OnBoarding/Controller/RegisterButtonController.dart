@@ -18,7 +18,7 @@ class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
       required String lastname,
       required String firstname,
       bool? marketingConfirmed,
-      bool? privacyPolicyConfirmed
+      bool? privacyPolicyConfirmed,
       }) async {
     final UserRepository userRepository = ref.read(userRepositoryProvider);
     final Dio _dio = ref.read(dioProvider);
@@ -32,7 +32,8 @@ class RegisterButtonController extends AutoDisposeAsyncNotifier<void> {
           firstname: firstname,
           roles: ["user"],
           marketingConfirmed: marketingConfirmed,
-          privacyPolicyConfirmed: privacyPolicyConfirmed));
+          privacyPolicyConfirmed: privacyPolicyConfirmed
+          ));
     } catch (e) {
       if (e is DioException) {
         if (e.response != null && e.response!.data != null) {

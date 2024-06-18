@@ -1,9 +1,8 @@
 import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/components/CustomTextField.dart';
 import 'package:exopek_workout_app/components/CustomTextFieldButton.dart';
+import 'package:exopek_workout_app/components/GenericDialog.dart';
 import 'package:exopek_workout_app/components/GenericSnackBar.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
@@ -16,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ProfilEditPage extends ConsumerStatefulWidget {
   const ProfilEditPage({super.key});
@@ -44,7 +45,22 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
   final ImagePicker _picker = ImagePicker();
 
   Future<XFile?> getImageFromGallery(User user) async {
-    final XFile? image = await _picker.pickImage(
+    Map<Permission, PermissionStatus> statues = await [
+      Permission.camera,
+      Permission.storage,
+      Permission.photos
+    ].request();
+    PermissionStatus? statusCamera = statues[Permission.camera];
+    PermissionStatus? statusStorage = statues[Permission.storage];
+    PermissionStatus? statusPhotos = statues[Permission.photos];
+    bool isGranted = statusCamera == PermissionStatus.granted &&
+        statusStorage == PermissionStatus.granted &&
+        statusPhotos == PermissionStatus.granted;
+    if (!isGranted) {
+      GenericDialog.showPermissionDialog(context, 'Zugriff', 'Bitte erlaube den Zugriff auf die Bildergallerie', openAppSettings);
+      Navigator.pop(context);
+    } else {
+      final XFile? image = await _picker.pickImage(
         source: ImageSource.gallery,
         imageQuality: 50,
         maxWidth: 800,
@@ -52,6 +68,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
     if (image != null) {
       return image;
     }
+    }
+    
     return null;
   }
 
@@ -101,7 +119,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
               lastnameController.text = data.user.lastname;
               emailController.text = data.user.email;
               ageController.text =
-                  data.user.age == null ? "---" : data.user.age.toString();
+                  data.user.birthDate == null ? "---" : 
+                  DateFormat.yMMMMd(AppLocalizations.of(context).localeName).format(DateTime.parse(data.user.birthDate!).toLocal());
               heightController.text = data.user.height == null
                   ? "---"
                   : data.user.height.toString();
@@ -129,6 +148,8 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                           ),
                           child: TextButton(
                               onPressed: () async {
+                                // ask for permission
+                                
                                 var image =
                                     await getImageFromGallery(data.user);
                                 if (image != null) {
@@ -157,6 +178,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                           ),
                           child: TextButton(
                             onPressed: () async {
+                              //var permission = await Permissions
                               var image = await getImageFromGallery(data.user);
                               if (image != null) {
                                 ref
@@ -244,9 +266,10 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: CustomTextField(
+                        enabled: false,
                         controller: ageController,
                         focusNode: ageFocusNode,
-                        hint: AppLocalizations.of(context).textFieldHintAge,
+                        hint: AppLocalizations.of(context).textFieldHintBirthDate,
                       ),
                     ),
                     const SizedBox(
@@ -363,7 +386,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
             },
             loading: () => Center(
                   child: CircularProgressIndicator(
-                    color: ThemeBase.of(context).secondary,
+                    color: ThemeBase.of(context).primaryText,
                     strokeWidth: 0.5,
                   ),
                 ),

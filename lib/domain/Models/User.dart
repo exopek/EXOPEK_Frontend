@@ -26,6 +26,7 @@ sealed class User {
     this.trainingFrequency,
     this.marketingConfirmed,
     this.privacyPolicyConfirmed,
+    this.birthDate,
   });
 
   final String? id;
@@ -44,6 +45,7 @@ sealed class User {
   final TrainingFrequencyType? trainingFrequency;
   final bool? marketingConfirmed;
   final bool? privacyPolicyConfirmed;
+  final String? birthDate;
 
   //get trainingFrequencyType => TrainingFrequencyType.values[trainingFrequency ?? 0];
 
@@ -116,6 +118,7 @@ class ReadUserDto extends User {
   SportType sport;
   TrainingFrequencyType? previousTrainingFrequency;
   TrainingFrequencyType? trainingFrequency;
+  String? birthDate;
   ReadUserDto({
     required String id,
     required String firstname,
@@ -129,7 +132,8 @@ class ReadUserDto extends User {
     required this.sport,
     this.previousTrainingFrequency,
     this.trainingFrequency,
-    List<String>? roles,})
+    List<String>? roles,
+    this.birthDate,})
       : super(
           id: id,
           firstname: firstname,
@@ -145,6 +149,7 @@ class ReadUserDto extends User {
           sport: sport,
           previousTrainingFrequency: previousTrainingFrequency,
           trainingFrequency: trainingFrequency,
+          birthDate: birthDate
         );
     factory ReadUserDto.fromJson(Map<String, dynamic> json) => ReadUserDto(
         id: json["id"] as String,
@@ -159,6 +164,7 @@ class ReadUserDto extends User {
         sport: SportType.values[json["sportType"] as int],
         previousTrainingFrequency: TrainingFrequencyType.values[json["previousTrainingFrequency"] as int],
         trainingFrequency: TrainingFrequencyType.values[json["trainingFrequency"] as int],
+        birthDate: json["birthDate"] as String?,
       );   
 }
 
@@ -171,6 +177,7 @@ class UpdateUserDto extends User {
   TrainingFrequencyType? previousTrainingFrequency;
   TrainingFrequencyType? trainingFrequency = TrainingFrequencyType.None;
   String? imageUrl;
+  String? birthDate;
 
   UpdateUserDto({
     required String? id,
@@ -187,7 +194,8 @@ class UpdateUserDto extends User {
     required this.sport,
     this.previousTrainingFrequency,
     this.trainingFrequency,
-    this.imageUrl})
+    this.imageUrl,
+    this.birthDate,})
       : super(
           id: id,
           firstname: firstname,
@@ -198,6 +206,12 @@ class UpdateUserDto extends User {
           roles: roles,
           imageUrl: imageUrl,
           sport: sport,
+          height: height,
+          weight: weight,
+          age: age,
+          previousTrainingFrequency: previousTrainingFrequency,
+          trainingFrequency: trainingFrequency,
+          birthDate: birthDate
         );
 
   Map<String, dynamic> toJson() => {
@@ -215,6 +229,7 @@ class UpdateUserDto extends User {
         "previousTrainingFrequency": previousTrainingFrequency!.index,
         "trainingFrequency": trainingFrequency!.index,
         "imageUrl": imageUrl,
+        "birthDate": DateTime.parse(birthDate!).toUtc().toIso8601String(),
       };
 
   UpdateUserDto copyWith({  
@@ -233,6 +248,7 @@ class UpdateUserDto extends User {
     TrainingFrequencyType? previousTrainingFrequency,
     TrainingFrequencyType? trainingFrequency,
     String? imageUrl,
+    String? birthDate,
   }) {
     return UpdateUserDto(
       id: id ?? this.id,
@@ -250,6 +266,7 @@ class UpdateUserDto extends User {
       previousTrainingFrequency: previousTrainingFrequency ?? this.previousTrainingFrequency,
       trainingFrequency: trainingFrequency ?? this.trainingFrequency,
       imageUrl: imageUrl ?? this.imageUrl,
+      birthDate: birthDate ?? this.birthDate,
     );
   }
         

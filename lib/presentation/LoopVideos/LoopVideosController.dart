@@ -7,6 +7,10 @@ class LoopVideosController extends StateNotifier<int> {
     state++;
   }
 
+  void decrement() {
+    state--;
+  }
+
   void reset() {
     Future(() {
       state =

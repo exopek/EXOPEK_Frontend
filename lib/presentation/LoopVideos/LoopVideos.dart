@@ -1,3 +1,5 @@
+import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/components/GenericDialog.dart';
 import 'package:exopek_workout_app/components/NextExerciseCard.dart';
 import 'package:exopek_workout_app/dependencyInjection/loopVideosProvider/LoopVideosProvider.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
@@ -30,6 +32,8 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
   late Animation<double> sizeAnimation;
   Duration _elapsed = Duration.zero;
   late final Ticker _ticker;
+  final PageController _pageController = PageController();
+  double _previousPage = 0.0;
 
   String formatSeconds(int seconds) {
     final minutes = (seconds / 60).floor();
@@ -40,14 +44,14 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
   }
 
   void _nextExercise(int exerciseState) {
+    // Set state for next exercise
     ref.read(loopVideosControllerProvider.notifier).increment();
-    ref
-        .read(loopVideosProgressIndicatorControllerProvider.notifier)
-        .increment();
-    ref.read(timerAnimationControllerProvider.notifier).reset(sortedExerciseConfig[exerciseState + 1].duration);
+    // Reset timer
     ref
         .read(timerAnimationControllerProvider.notifier)
-        .decrement();
+        .reset(sortedExerciseConfig[exerciseState + 1].duration);
+    // Decrement timer
+    ref.read(timerAnimationControllerProvider.notifier).decrement();
 
     setState(() {
       _animationController.reset();
@@ -57,10 +61,38 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
     });
   }
 
+  void _previousExercise(int exerciseState) {
+    // Set state for previous exercise
+    ref.read(loopVideosControllerProvider.notifier).decrement();
+    // Reset timer
+    ref
+        .read(timerAnimationControllerProvider.notifier)
+        .reset(sortedExerciseConfig[exerciseState - 1].duration);
+    // Decrement timer
+    ref.read(timerAnimationControllerProvider.notifier).decrement();
+
+    setState(() {
+      _animationController.reset();
+      _animationController.duration =
+          Duration(seconds: sortedExerciseConfig[exerciseState - 1].duration);
+      _animationController.forward(from: 0.0);
+    });
+  }
+
+  void _onPageChanged(int page) {
+    final exerciseState = ref.watch(loopVideosControllerProvider);
+    if (page > _previousPage) {
+      _nextExercise(exerciseState);
+    } else {
+      _previousExercise(exerciseState);
+    }
+    _previousPage = page.toDouble();
+  }
+
   @override
   void initState() {
     super.initState();
-    _ticker = this.createTicker((elapsed) {
+    _ticker = createTicker((elapsed) {
       setState(() {
         _elapsed = elapsed;
       });
@@ -83,7 +115,6 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
     timerAnimationController.reset(sortedExerciseConfig[0].duration);
 
     timerAnimationController.decrement();
-
   }
 
   @override
@@ -91,6 +122,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
     _animationController.stop();
     _animationController.dispose();
     _ticker.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -98,11 +130,12 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
   Widget build(BuildContext context) {
     ref.listen(timerAnimationControllerProvider, (previous, next) {
       final exerciseState = ref.watch(loopVideosControllerProvider);
-      if (next == 0 &&
-          exerciseState < sortedExerciseConfig.length - 1) {
-        _nextExercise(exerciseState);
+      if (next == 0 && exerciseState < sortedExerciseConfig.length - 1) {
+        _pageController.nextPage(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut);
       }
-     });
+    });
     final exerciseState = ref.watch(loopVideosControllerProvider);
     final timerAnimationValue = ref.watch(timerAnimationControllerProvider);
     return Scaffold(
@@ -112,32 +145,25 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
           GestureDetector(
             onTap: () {
               if (exerciseState < sortedExerciseConfig.length - 1) {
-                _nextExercise(exerciseState);
-                
-              } else {
-                AppRouter.goToWorkoutSummary(WorkoutSummaryPageViewModel(
-                    workoutDetails: widget.viewModel.workoutDetails,
-                    planStatus: widget.viewModel.planStatus,
-                    planWorkoutId: widget.viewModel.planWorkoutId));
+                _pageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut);
               }
             },
-            child: Container(
-              width: MediaQuery.sizeOf(context).width,
+            child: SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.5,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  ),
-                ),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
+              width: MediaQuery.sizeOf(context).width,
+              child: PageView.builder(
+                  controller: _pageController,
+                  pageSnapping: true,
+                  physics:
+                      const PageScrollPhysics(parent: ClampingScrollPhysics()),
+                  itemCount: sortedExerciseConfig.length,
+                  onPageChanged: (value) {
+                    _onPageChanged(value);
+                  },
+                  itemBuilder: (context, index) {
+                    return Container(
                       width: MediaQuery.sizeOf(context).width,
                       height: MediaQuery.sizeOf(context).height * 0.5,
                       decoration: const ShapeDecoration(
@@ -148,69 +174,95 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                           ),
                         ),
                       ),
-                      child: ClipRRect(
-                        child: AppVideoPlayer(
-                          path: sortedExerciseConfig[exerciseState].videoUrl,
-                          videoType: VideoType.network,
-                          looping: true,
-                          showControls: false,
-                          autoPlay: true,
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (sortedExerciseConfig[exerciseState].isRest)
-                    Container(
-                      color: Colors.black.withOpacity(0.5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Stack(
                         children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              AppLocalizations.of(context).loopVideosPagePauseText1,
-                              style:
-                                  ThemeBase.of(context).headlineMedium.copyWith(
-                                        fontSize: 48,
-                                        color: Colors.white,
-                                      ),
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            child: Container(
+                              width: MediaQuery.sizeOf(context).width,
+                              height: MediaQuery.sizeOf(context).height * 0.5,
+                              decoration: const ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
+                                  ),
+                                ),
+                              ),
+                              child: ClipRRect(
+                                child: AppVideoPlayer(
+                                  path: sortedExerciseConfig[index].videoUrl,
+                                  videoType: VideoType.network,
+                                  looping: true,
+                                  showControls: false,
+                                  autoPlay: true,
+                                ),
+                              ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              AppLocalizations.of(context).loopVideosPagePauseText2,
-                              style:
-                                  ThemeBase.of(context).headlineMedium.copyWith(
-                                        fontSize: 48,
+                          if (sortedExerciseConfig[index].isRest)
+                            Container(
+                              color: Colors.black.withOpacity(0.5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      AppLocalizations.of(context)
+                                          .loopVideosPagePauseText1,
+                                      style: ThemeBase.of(context)
+                                          .headlineMedium
+                                          .copyWith(
+                                            fontSize: 48,
+                                            color: Colors.white,
+                                          ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      AppLocalizations.of(context)
+                                          .loopVideosPagePauseText2,
+                                      style: ThemeBase.of(context)
+                                          .headlineMedium
+                                          .copyWith(
+                                            fontSize: 48,
+                                            color: Colors.white,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          Positioned(
+                              right: 16,
+                              top: 50,
+                              child: Text(formatSeconds(_elapsed.inSeconds),
+                                  style: ThemeBase.of(context)
+                                      .headlineMedium
+                                      .copyWith(
+                                        fontSize: 24,
                                         color: Colors.white,
-                                      ),
+                                      ))),
+                          Positioned(
+                            left: 16,
+                            top: 55,
+                            child: SizedBox(
+                              child: GestureDetector(
+                                  onTap: () =>
+                                      GenericDialog.showCloseWorkoutDialog(
+                                          context,
+                                          'Workout Beenden',
+                                          'Aufgeben ist keine Option!'),
+                                  child: const Icon(Icons.cancel)),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  Positioned(
-                      right: 16,
-                      top: 50,
-                      child: Text(
-                        formatSeconds(_elapsed.inSeconds),
-                        style: ThemeBase.of(context).headlineMedium.copyWith(
-                              fontSize: 24,
-                              color: Colors.white,
-                            )
-                      )),
-                  Positioned(
-                    left: 16,
-                    top: 55,
-                    child: SizedBox(
-                      child: GestureDetector(
-                          onTap: () => AppRouter.goToMainPage(),
-                          child: const Icon(Icons.cancel)),
-                    ),
-                  ),
-                ],
-              ),
+                    );
+                  }),
             ),
           ),
           Padding(
@@ -318,6 +370,25 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                     isRest: false,
                   ),
                 ),
+          if (exerciseState == sortedExerciseConfig.length - 1)
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+              child: Align(
+                alignment: Alignment.center,
+                child: CtaButton(
+                  label: 'Workout beenden',
+                  color: Colors.transparent,
+                  hasBorder: true,
+                  onPressed: () {
+                    AppRouter.goToWorkoutSummary(WorkoutSummaryPageViewModel(
+                        workoutDetails: widget.viewModel.workoutDetails,
+                        planStatus: widget.viewModel.planStatus,
+                        planWorkoutId: widget.viewModel.planWorkoutId));
+                  },
+                ),
+              ),
+            ),
           const Spacer(),
           Align(
             alignment: Alignment.bottomCenter,

@@ -80,7 +80,7 @@ class _LikedWorkoutsPageState extends ConsumerState<LikedWorkoutsPage> {
         },
         loading: () => Center(child: CircularProgressIndicator(
           strokeWidth: 0.5,
-          color: ThemeBase.of(context).secondary,
+          color: ThemeBase.of(context).primaryText,
         )),
         error: (e, s) => Center(child: Text(e.toString())));
   }

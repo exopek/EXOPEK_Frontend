@@ -13,12 +13,10 @@ class UserRepository implements IUserRepository {
   UserRepository(this.ref);
 
   final Ref ref;
-  //final String _baseUrl = "http://exopek.azurewebsites.net/api/";
 
   @override
   Future<ReadUserDto> getUser() async {
     Dio _dio = ref.watch(dioProvider);
-    //_dio.options.baseUrl = _baseUrl;
     Response res = await _dio.get("users");
     if (res.statusCode == 200) {
       var user = ReadUserDto.fromJson(res.data as Map<String, dynamic>);
@@ -45,7 +43,6 @@ class UserRepository implements IUserRepository {
   @override
   Future<bool> createUser(CreateUserDto user) async {
     Dio _dio = ref.watch(dioProvider);
-    //_dio.options.baseUrl = _baseUrl;
     Response res = await _dio.post("users/register", data: user.toJson());
     if (res.statusCode == 200) {
       return true;

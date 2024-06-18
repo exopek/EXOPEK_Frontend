@@ -126,7 +126,10 @@ class _HighlightsPlansPageState extends ConsumerState<HighlightsPlansPage> {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => Center(child: CircularProgressIndicator(
+        color: ThemeBase.of(context).primaryText,
+        strokeWidth: 0.5,
+      )),
       error: (error, stackTrace) => Center(
         child: Text(error.toString()),
       ),
