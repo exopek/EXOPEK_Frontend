@@ -6,6 +6,7 @@ import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal
 import 'package:exopek_workout_app/dependencyInjection/plansProvider/PlansProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/workoutProvider/WorkoutProvider.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
@@ -410,6 +411,12 @@ class _CoachState extends ConsumerState<Coach> {
                                               .read(selectedWorkoutIdProvider
                                                   .notifier)
                                               .state = data.workouts[index].id;
+                                              Map<String, String> querys = {
+                                        "id": data.workouts[index].id.toString(),
+                                        "difficultyType":
+                                            DifficultyType.beginner.index.toString()
+                                      };
+                                      ref.read(selectedWorkoutQueryProvider.notifier).state = querys;
                                           AppRouter.goToWorkoutDetail();
                                         },
                                         

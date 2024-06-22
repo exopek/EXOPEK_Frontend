@@ -1,5 +1,7 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
+import 'package:exopek_workout_app/dependencyInjection/workoutProvider/WorkoutProvider.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
@@ -68,6 +70,12 @@ class _PromoHeaderState extends ConsumerState<PromoHeader> {
               onPressed: () {
                 ref.read(selectedWorkoutIdProvider.notifier).state =
                     widget.workout.id;
+                    Map<String, String> querys = {
+                                        "id": widget.workout.id.toString(),
+                                        "difficultyType":
+                                            DifficultyType.beginner.index.toString()
+                                      };
+                                      ref.read(selectedWorkoutQueryProvider.notifier).state = querys;
                 AppRouter.goToWorkoutDetail();
               },
             ),

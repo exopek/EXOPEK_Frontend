@@ -5,6 +5,8 @@ import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/data/DioProvider.dart';
+import 'package:exopek_workout_app/dependencyInjection/workoutProvider/WorkoutProvider.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +54,12 @@ class _WorkoutsState extends ConsumerState<Workouts> {
                           onPressed: () {
                             ref.read(selectedWorkoutIdProvider.notifier).state =
                                 result[index].id;
+                                Map<String, String> querys = {
+                                        "id": result[index].id.toString(),
+                                        "difficultyType":
+                                            DifficultyType.beginner.index.toString()
+                                      };
+                                      ref.read(selectedWorkoutQueryProvider.notifier).state = querys;
                             AppRouter.goToWorkoutDetail();
                           },
                           child: WorkoutCardHorizontal(
