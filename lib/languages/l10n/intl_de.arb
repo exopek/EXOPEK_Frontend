@@ -75,7 +75,7 @@
   "planDetailsPageTitleDetails": "Programm Details",
   "planDetailsPageSubTitleDetails": "Phase",
   "planPhasePageStopPlanButton": "Plan Beenden",
-  "planPhasePageNextPhaseButton": "Zur nächsten Phase",
+  "planPhasePageNextPhaseButton": "Phase abschließen",
   "planPhasePageFinishedWorkoutsTitle1": "Abgeschlossene Workouts:",
   "planPhasePageFinishedWorkoutsTitle2": "von",
   "planHighlightsPageTitle": "Die neuesten Pläne",
@@ -173,5 +173,8 @@
   "userRegistrationLastname": "Bitte gebe deinen Nachnamen an!",
   "userRegistrationEmail": "Bitte gebe deine Email an!",
   "userRegistrationPasswordNotValid": "Mindestens 10 Zeichen und eine Zahl",
-  "userRegistrationPasswordMismatch": "Passwörter stimmen nicht überein" 
+  "userRegistrationPasswordMismatch": "Passwörter stimmen nicht überein",
+  "difficultyTypeBeginner": "Anfänger",
+  "difficultyTypeIntermediate": "Fortgeschritten",
+  "difficultyTypeAdvanced": "Profi"
 }

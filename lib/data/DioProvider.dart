@@ -58,12 +58,12 @@ final workoutProvider =
   return data;
 });
 
-final workoutSingleProvider =
+/* final workoutSingleProvider =
     FutureProvider.autoDispose<WorkoutDetails>((ref) async {
   final id = ref.read(selectedWorkoutIdProvider);
   final data = await ref.watch(dioWorkoutProvider).getWorkout(id);
   return data;
-});
+}); */
 
 final asyncWorkoutLikeButtonControllerProvider =
     AsyncNotifierProvider.autoDispose<WorkoutLikeButtonController, void>(

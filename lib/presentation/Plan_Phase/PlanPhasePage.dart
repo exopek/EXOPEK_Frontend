@@ -1,6 +1,7 @@
 import 'package:exopek_workout_app/components/GenericSnackBar.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/WorkoutLists/WorkoutCardHorizontal.dart';
+import 'package:exopek_workout_app/dependencyInjection/workoutProvider/WorkoutProvider.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -194,6 +195,12 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                                 ref
                                     .read(selectedWorkoutIdProvider.notifier)
                                     .state = data.workouts[index].id;
+                                Map<String, String> querys = {
+                                        "id": data.workouts[index].id.toString(),
+                                        "difficultyType":
+                                            data.planStatus!.difficultyType!.index.toString()
+                                      };
+                                      ref.read(selectedWorkoutQueryProvider.notifier).state = querys;
                                 AppRouter.goToWorkoutDetail(
                                     planStatus: data.planStatus,
                                     planWorkoutId:

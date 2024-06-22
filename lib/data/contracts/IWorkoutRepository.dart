@@ -3,7 +3,7 @@ import 'package:exopek_workout_app/domain/Models/workout.dart';
 abstract class IWorkoutRepository {
   Future<List<dynamic>> getWorkouts({Map<String, String>? query});
 
-  Future<dynamic> getWorkout(String id);
+  Future<dynamic> getWorkout({Map<String, String>? query});
   Future<bool> completeWorkout({required String workoutId});
   Future<List<dynamic>> getWorkoutComments(String id);
   Future<dynamic> addWorkoutComment({required String workoutId, required String comment, required int rating});

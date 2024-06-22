@@ -41,13 +41,17 @@ class WorkoutRepository implements IWorkoutRepository {
   }
 
   @override
-  Future<WorkoutDetails> getWorkout(String id) async {
+  Future<WorkoutDetails> getWorkout({Map<String, String>? query}) async {
     Dio _dio = ref.watch(dioProvider);
     //_dio.options.baseUrl = _baseUrl;
     // add localization de-DE to header accept-language
     // get location from device
     //_dio.options.headers["accept-language"] = localization+"-"+localization.toUpperCase();
-    Response res = await _dio.get("workouts/byId?id=$id");
+    String queryString = "";
+    if (query != null) {
+      queryString = "?" + getQueryString(query);
+    } 
+    Response res = await _dio.get("workouts/byId${queryString}");
     print(res.data.runtimeType);
     if (res.statusCode == 200) {
       var workout = WorkoutDetails.fromJson(res.data as Map<String, dynamic>);

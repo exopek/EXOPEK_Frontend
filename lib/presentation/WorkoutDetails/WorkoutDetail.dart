@@ -1,9 +1,11 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/components/GenericDropdownMenu.dart';
 import 'package:exopek_workout_app/components/HashTagPill.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/Shared/RatingStars.dart';
 import 'package:exopek_workout_app/data/AppStateProvider.dart';
 import 'package:exopek_workout_app/dependencyInjection/workoutProvider/WorkoutProvider.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/ViewModels/LoopVideosPageViewModel.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
@@ -27,8 +29,8 @@ class WorkoutDetail extends ConsumerStatefulWidget {
 class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
   @override
   Widget build(BuildContext context) {
-    final result = ref.watch(asyncWorkoutDetailPageControllerProvider);
-    return result.when(
+    final pageProvider = ref.watch(asyncWorkoutDetailPageControllerProvider);
+    return pageProvider.when(
         data: (result) {
           var distinctExercises = result.workout.exercises
               .distinct((a, b) => a.name == b.name)
@@ -58,17 +60,47 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 16.0, bottom: 8, top: 8),
-                        child: Text(
-                          result.workout.name,
-                          style: ThemeBase.of(context).headlineSmall.copyWith(
-                              fontSize: 24, fontWeight: FontWeight.w600),
+                            left: 16.0, bottom: 8, top: 8, right: 16),
+                        child: Stack(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  result.workout.name,
+                                  style: ThemeBase.of(context)
+                                      .headlineSmall
+                                      .copyWith(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600),
+                                ),
+                                GenericDropdownMenu(
+                                    value: result.workout.difficultyType
+                                        .name(context),
+                                    items: result.workout.difficultyTypes!
+                                        .asMap()
+                                        .values
+                                        .map((e) => e.name(context))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      //ref.read(asyncWorkoutDetailPageControllerProvider.notifier).fetch(difficultyType: DifficultyType.values.firstWhere((element) => element.name(context) == value));
+                                      Map<String, String> querys = {
+                                        "id": result.workout.id.toString(),
+                                        "difficultyType":
+                                            DifficultyType.values.firstWhere((element) => element.name(context) == value).index.toString()
+                                      };
+                                      ref.read(selectedWorkoutQueryProvider.notifier).state = querys;
+                                      ref.read(asyncWorkoutDetailPageControllerProvider.notifier).fetch();
+                                    })
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0, bottom: 8),
                         child: Text(
-                          '${AppLocalizations.of(context).workoutDetailsPageHeadlineLevel} ${result.workout.difficultyType.name.toUpperCase()}',
+                          '${AppLocalizations.of(context).workoutDetailsPageHeadlineLevel}: ${result.workout.difficultyType.name(context)}',
                           style: ThemeBase.of(context).headlineSmall.copyWith(
                               color: ThemeBase.of(context).secondary,
                               fontSize: 16),
@@ -102,7 +134,8 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                         padding: const EdgeInsets.only(
                             left: 16.0, right: 16, bottom: 8, top: 8),
                         child: CtaButton(
-                            label: AppLocalizations.of(context). workoutDetailsPageStartWorkoutButton,
+                            label: AppLocalizations.of(context)
+                                .workoutDetailsPageStartWorkoutButton,
                             onPressed: () => AppRouter.goToPreTimer(
                                 LoopVideosPageViewModel(
                                     workoutDetails: result.workout,
@@ -117,7 +150,8 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                AppLocalizations.of(context).workoutDetailsPageHeadlineRatings,
+                                AppLocalizations.of(context)
+                                    .workoutDetailsPageHeadlineRatings,
                                 style: ThemeBase.of(context).headlineSmall,
                               ),
                             ],
@@ -189,7 +223,8 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                           padding: const EdgeInsets.only(
                               left: 16.0, right: 16, bottom: 8, top: 8),
                           child: CtaButton(
-                              label: AppLocalizations.of(context).workoutDetailsPageAllRatingsButton,
+                              label: AppLocalizations.of(context)
+                                  .workoutDetailsPageAllRatingsButton,
                               color: ThemeBase.of(context).accent4,
                               onPressed: () {
                                 ref
@@ -202,7 +237,8 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                         padding: const EdgeInsets.only(
                             left: 16.0, top: 8, bottom: 16),
                         child: Text(
-                          AppLocalizations.of(context).workoutDetailsPageHeadlineExercises,
+                          AppLocalizations.of(context)
+                              .workoutDetailsPageHeadlineExercises,
                           style: ThemeBase.of(context).headlineSmall,
                         ),
                       ),

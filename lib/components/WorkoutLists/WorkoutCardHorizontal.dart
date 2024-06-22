@@ -6,7 +6,6 @@ import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive/hive.dart';
 
 class WorkoutCardHorizontal extends ConsumerStatefulWidget {
   final WorkoutListItem workout;
@@ -58,7 +57,15 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                 ),
               ),
               child: widget.hasTrained
-                  ? const Icon(Icons.check, color: Colors.white, size: 30)
+                  ? Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent.withOpacity(0.5),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.check, color: Colors.white, size: 30)),
+                  )
                   : null,
             ),
           ),
@@ -138,7 +145,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                               )),
                               
                         if (widget.lastTrained != null)
-                          Text('Letztes Training: ${widget.lastTrained}',
+                          Text('${widget.lastTrained}',
                               style: const TextStyle(
                                 color: Color(0xFF838282),
                                 fontSize: 10,

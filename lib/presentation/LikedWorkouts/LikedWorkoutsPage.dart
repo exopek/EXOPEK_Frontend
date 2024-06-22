@@ -53,7 +53,9 @@ class _LikedWorkoutsPageState extends ConsumerState<LikedWorkoutsPage> {
                   ],
                 ),
               ),
-            ) : CustomScrollView(slivers: [
+            ) : CustomScrollView(
+              physics: const ClampingScrollPhysics(),
+              slivers: [
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {

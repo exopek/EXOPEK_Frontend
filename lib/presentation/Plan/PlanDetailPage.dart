@@ -1,8 +1,10 @@
 import 'package:exopek_workout_app/components/CtaButton.dart';
+import 'package:exopek_workout_app/components/GenericDropdownMenu.dart';
 import 'package:exopek_workout_app/components/PlanBenefits.dart';
 import 'package:exopek_workout_app/components/PlanDetailPage/PhaseDetails.dart';
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/components/WorkoutDetailPage/ExerciseInfoCard.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/Plan.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
@@ -76,13 +78,38 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 16.0, top: 8.0, bottom: 0.0),
-                          child: Text(result.plan.name,
-                              style: ThemeBase.of(context)
-                                  .headlineSmall
-                                  .copyWith(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w600)),
+                              left: 16.0, top: 8.0, bottom: 0.0, right: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(result.plan.name,
+                                  style: ThemeBase.of(context)
+                                      .headlineSmall
+                                      .copyWith(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600)),
+                              GenericDropdownMenu(
+                                  value:
+                                      result.plan.difficultyType.name(context),
+                                  items: result.plan.difficultyTypes!
+                                      .asMap()
+                                      .values
+                                      .map((e) => e.name(context))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    ref
+                                        .read(
+                                            asyncPlanDetailPageControllerProvider
+                                                .notifier)
+                                        .fetchPlanAndStatus(
+                                            difficultyType: DifficultyType
+                                                .values
+                                                .firstWhere((element) =>
+                                                    element.name(context) ==
+                                                    value));
+                                  })
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
@@ -107,7 +134,8 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                 isLoading: state.isLoading,
                                 label: result.planStatus.statusTypeAsType !=
                                         StatusType.ACTIVE
-                                    ? AppLocalizations.of(context).planDetailsPageStartPlanButton
+                                    ? AppLocalizations.of(context)
+                                        .planDetailsPageStartPlanButton
                                     : 'Active Plan',
                                 onPressed: () {
                                   if (result.planStatus.statusTypeAsType ==
@@ -115,7 +143,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                                   if (state.isLoading) return;
                                   ref
                                       .read(planStartProvider.notifier)
-                                      .startPlan();
+                                      .startPlan(difficultyType: result.plan.difficultyType);
                                 }),
                           ),
                         Padding(
@@ -129,7 +157,8 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                           padding: const EdgeInsets.only(
                               left: 16.0, top: 8, bottom: 16),
                           child: Text(
-                            AppLocalizations.of(context).planDetailsPageTitleWorkouts,
+                            AppLocalizations.of(context)
+                                .planDetailsPageTitleWorkouts,
                             style: ThemeBase.of(context).headlineSmall,
                           ),
                         ),
@@ -158,7 +187,8 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                           padding: const EdgeInsets.only(
                               left: 16.0, top: 8, bottom: 0),
                           child: Text(
-                            AppLocalizations.of(context).planDetailsPageTitleDetails,
+                            AppLocalizations.of(context)
+                                .planDetailsPageTitleDetails,
                             style: ThemeBase.of(context).headlineSmall,
                           ),
                         ),
@@ -167,7 +197,8 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                             padding: const EdgeInsets.only(
                                 left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
                             child: PhaseDetails(
-                              title: '${AppLocalizations.of(context).planDetailsPageSubTitleDetails} ${i + 1}',
+                              title:
+                                  '${AppLocalizations.of(context).planDetailsPageSubTitleDetails} ${i + 1}',
                               workoutPlanConfig: result.plan.workoutMap[
                                       result.sortedCurrentPhaseTypes[i]]
                                   as List<WorkoutPlanConfig>,
@@ -184,10 +215,9 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
             ),
           );
         },
-        loading: () => Center(child: CircularProgressIndicator(
-              strokeWidth: 0.5,
-              color: ThemeBase.of(context).primaryText
-        )),
+        loading: () => Center(
+            child: CircularProgressIndicator(
+                strokeWidth: 0.5, color: ThemeBase.of(context).primaryText)),
         error: (e, s) => Center(child: Text(e.toString())));
   }
 }

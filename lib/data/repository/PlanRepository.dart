@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/data/contracts/IPlanRepository.dart';
+import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,11 +14,13 @@ class PlanRepository implements IPlanRepository {
   final Ref ref;
 
   @override
-  Future<PlanDetails> getPlan(String id) async {
+  Future<PlanDetails> getPlan(String id ,{Map<String, String>? query}) async {
     Dio _dio = ref.watch(dioProvider);
-
-    Response res = await _dio.get("plans/${id}");
-    print(res.data.runtimeType);
+    String queryString = "";
+    if (query != null) {
+      queryString = "?" + getQueryString(query);
+    } 
+    Response res = await _dio.get("plans/${id}${queryString}");
     if (res.statusCode == 200) {
       var plan = PlanDetails.fromJson(res.data as Map<String, dynamic>);
       return plan;
@@ -72,11 +75,12 @@ class PlanRepository implements IPlanRepository {
   }
 
   @override
-  Future<bool> startPlan(String planId, String userId) async {
+  Future<bool> startPlan(String planId, DifficultyType difficultyType) async {
     Dio _dio = ref.watch(dioProvider);
 
     Response res = await _dio.post("plans/status", data: {
       "planId": planId,
+      "difficultyType": difficultyType.index,
     });
 
     if (res.statusCode == 200) {

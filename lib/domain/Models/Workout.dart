@@ -110,6 +110,7 @@ class WorkoutDetails extends Workout {
   final List<int> currentStageTypes;
   final String description;
   final DifficultyType difficultyType;
+  final List<DifficultyType>? difficultyTypes;
 
   WorkoutDetails({
     required this.id,
@@ -122,6 +123,7 @@ class WorkoutDetails extends Workout {
     required this.currentStageTypes,
     required this.description,
     required this.difficultyType,
+    this.difficultyTypes,
   }) : super(
             id: id,
             name: name,
@@ -138,6 +140,7 @@ class WorkoutDetails extends Workout {
     final exercises = json['exercises'] as List<dynamic>?;
     final description = json['description'] as String;
     final difficultyType = json['difficulty'] as int;
+    final difficultyTypes = json['possibleDifficultyTypes'];
 
     // hier kann eigentlich direkt auf exercises gemappt werden
     // exercisesList ist überflüssig
@@ -171,7 +174,10 @@ class WorkoutDetails extends Workout {
         exerciseMap: exerciseMap,
         currentStageTypes: currentStageTypes,
         description: description,
-        difficultyType: DifficultyType.values[difficultyType]);
+        difficultyType: DifficultyType.values[difficultyType],
+        difficultyTypes: difficultyTypes is List ? difficultyTypes?.map((e) => DifficultyType.values[e as int]).toList() : [] 
+        );
+        
   }
 
   get sortedExercises => exercises

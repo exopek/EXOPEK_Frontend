@@ -1,3 +1,4 @@
+import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:flutter/material.dart';
 
@@ -91,6 +92,8 @@ class PlanDetails extends Plan {
   final Map<int, List<WorkoutPlanConfig>> workoutMap;
   final List<int> currentPhaseTypes;
   final List<String> uiPlanPromises;
+  final List<DifficultyType>? difficultyTypes;
+  final DifficultyType difficultyType;
 
   PlanDetails(
       {required this.id,
@@ -102,7 +105,9 @@ class PlanDetails extends Plan {
       required this.workoutMap,
       required this.currentPhaseTypes,
       required this.uiPlanPromises,
-      required this.description})
+      required this.description,
+      required this.difficultyType,
+      this.difficultyTypes})
       : super(
             id: id,
             name: name,
@@ -121,6 +126,8 @@ class PlanDetails extends Plan {
     final workouts = (json['workouts'] as List<dynamic>)
         .map((e) => WorkoutPlanConfig.fromJson(e as Map<String, dynamic>))
         .toList();
+    final difficultyTypes = (json['possibleDifficultyTypes']);
+    final difficultyType = json['difficulty'] as int;
 
     final currentPhaseTypes =
         workouts.map((e) => e.phaseType).toSet().toList() as List<int>;
@@ -145,6 +152,12 @@ class PlanDetails extends Plan {
       workoutMap: workoutsMap,
       currentPhaseTypes: currentPhaseTypes,
       uiPlanPromises: uiPlanPromises.map((e) => e as String).toList(),
+      difficultyType: DifficultyType.values[difficultyType],
+      difficultyTypes: difficultyTypes is List
+          ? difficultyTypes
+              .map((e) => DifficultyType.values[e as int])
+              .toList()
+          : [],
     );
   }
 
@@ -188,6 +201,7 @@ class PlanStatus {
   final int progressPercentage;
   final String planId;
   final String createdAt;
+  final DifficultyType? difficultyType;
 
   PlanStatus(
       {required this.id,
@@ -196,7 +210,8 @@ class PlanStatus {
       required this.workoutIds,
       required this.progressPercentage,
       required this.planId,
-      required this.createdAt});
+      required this.createdAt,
+      this.difficultyType});
 
   // FromReadDto
   factory PlanStatus.fromJson(Map<String, dynamic> json) {
@@ -207,6 +222,7 @@ class PlanStatus {
     final progressPercentage = json['progressPercentage'] as int;
     final planId = json['planId'] as String;
     final createdAt = json['createdAt'] as String;
+    final difficultyType = json['difficultyType'] as int;
 
     return PlanStatus(
       id: id,
@@ -216,6 +232,7 @@ class PlanStatus {
       progressPercentage: progressPercentage,
       planId: planId,
       createdAt: createdAt,
+      difficultyType: DifficultyType.values[difficultyType],
     );
   }
 
@@ -228,6 +245,7 @@ class PlanStatus {
       progressPercentage: 0,
       planId: '',
       createdAt: DateTime.now().toString(),
+      difficultyType: DifficultyType.beginner,
     );
   }
 
