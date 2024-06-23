@@ -67,7 +67,7 @@ class _LikedWorkoutsPageState extends ConsumerState<LikedWorkoutsPage> {
                             ref.read(selectedWorkoutIdProvider.notifier).state =
                                 result[index].workoutId;
                                 Map<String, String> querys = {
-                                        "id": result[index].id.toString(),
+                                        "id": result[index].workoutId.toString(),
                                         "difficultyType":
                                             DifficultyType.beginner.index.toString()
                                       };
