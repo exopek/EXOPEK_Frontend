@@ -21,7 +21,6 @@ class PlanPhasePage extends ConsumerStatefulWidget {
 }
 
 class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
-
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
@@ -65,7 +64,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
             groupedWorkouts[workout.order] = [];
           }
           groupedWorkouts[workout.order]!.add(workout);
-        } 
+        }
         return Scaffold(
             backgroundColor: ThemeBase.of(context).primaryBackground,
             appBar: GenericAppBar.build(
@@ -78,14 +77,16 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                             items: [
                               {
                                 'icon': Icons.stop_circle_outlined,
-                                'title': AppLocalizations.of(context).planPhasePageStopPlanButton,
+                                'title': AppLocalizations.of(context)
+                                    .planPhasePageStopPlanButton,
                                 'onTap': () => ref
                                     .read(planPhaseStopButtonProvider.notifier)
                                     .stopPlan(data.planStatus!.id)
                               },
                               {
                                 'icon': Icons.change_circle_outlined,
-                                'title': AppLocalizations.of(context).planPhasePageNextPhaseButton,
+                                'title': AppLocalizations.of(context)
+                                    .planPhasePageNextPhaseButton,
                                 'onTap': () => ref.read(planPhaseChangeButtonProvider.notifier).changePhase(
                                     id: data.planStatus!.id,
                                     phase: data
@@ -161,13 +162,12 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '${AppLocalizations.of(context).planPhasePageFinishedWorkoutsTitle1} ${data.completedWorkoutsCounter} ${AppLocalizations.of(context).planPhasePageFinishedWorkoutsTitle2} ${data.workouts.length}',
-                        style: ThemeBase.of(context).bodySmall.copyWith(
-                              color: ThemeBase.of(context).secondaryText,
-                              fontSize: 10,
-                              height: 0,
-                            )
-                      ),
+                          '${AppLocalizations.of(context).planPhasePageFinishedWorkoutsTitle1} ${data.completedWorkoutsCounter} ${AppLocalizations.of(context).planPhasePageFinishedWorkoutsTitle2} ${data.workouts.length}',
+                          style: ThemeBase.of(context).bodySmall.copyWith(
+                                color: ThemeBase.of(context).secondaryText,
+                                fontSize: 10,
+                                height: 0,
+                              )),
                     ),
                   ),
                   Padding(
@@ -193,39 +193,59 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                         left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
                     child: Column(
                       children: groupedWorkouts.entries.map((entry) {
-          return Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: ThemeBase.of(context).accent4, style: BorderStyle.solid),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: const EdgeInsets.only(bottom: 16.0),
-            child: Column(
-              children: entry.value.map((workout) {
-                return Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Handle onTap
-                    },
-                    child: WorkoutCardHorizontal(
-                      hasTrained: false, // Update this based on your logic
-                      workout: WorkoutListItem(
-                        id: workout.id,
-                        name: workout.name,
-                        previewImageUrl: workout.previewImageUrl,
-                        hashtags: workout.hashtags,
-                        likes: workout.likes,
-                        comments: workout.comments,
-                        duration: 20,
-                        isWorkoutOfTheWeek: false,
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          );
-        }).toList(),/* [
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: ThemeBase.of(context).accent4,
+                                style: BorderStyle.solid),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          margin: const EdgeInsets.only(bottom: 16.0),
+                          child: Column(
+                            children: entry.value.map((workout) {
+                              return Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(
+                                            selectedWorkoutIdProvider.notifier)
+                                        .state = workout.id;
+                                    Map<String, String> querys = {
+                                      "id": workout.id.toString(),
+                                      "difficultyType": data
+                                          .planStatus!.difficultyType!.index
+                                          .toString()
+                                    };
+                                    ref
+                                        .read(selectedWorkoutQueryProvider
+                                            .notifier)
+                                        .state = querys;
+                                    AppRouter.goToWorkoutDetail(
+                                        planStatus: data.planStatus,
+                                        planWorkoutId: workout.planWorkoutId);
+                                  },
+                                  child: WorkoutCardHorizontal(
+                                    hasTrained: data.planStatus!.workoutIds
+                                        .contains(workout
+                                            .planWorkoutId), // Update this based on your logic
+                                    workout: WorkoutListItem(
+                                      id: workout.id,
+                                      name: workout.name,
+                                      previewImageUrl: workout.previewImageUrl,
+                                      hashtags: workout.hashtags,
+                                      likes: workout.likes,
+                                      comments: workout.comments,
+                                      duration: 20,
+                                      isWorkoutOfTheWeek: false,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      }).toList(), /* [
                         for (var index = 0;
                             index < data.workouts.length;
                             index++)
