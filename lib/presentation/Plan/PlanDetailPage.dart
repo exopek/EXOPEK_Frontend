@@ -199,7 +199,7 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
                             child: PhaseDetails(
                               title:
                                   '${AppLocalizations.of(context).planDetailsPageSubTitleDetails} ${i + 1}',
-                              workoutPlanConfig: result.plan.workoutMap[
+                              workoutPlanConfig: result.plan.sortedWorkoutMapByOrder[
                                       result.sortedCurrentPhaseTypes[i]]
                                   as List<WorkoutPlanConfig>,
                             ),

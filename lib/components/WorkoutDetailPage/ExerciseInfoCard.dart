@@ -41,6 +41,8 @@ class ExerciseInfoCard extends StatelessWidget {
           child: Text(
                   name,
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                   style: ThemeBase.of(context).titleSmall.copyWith(
                     color: ThemeBase.of(context).secondaryText,
                     fontSize: 16,

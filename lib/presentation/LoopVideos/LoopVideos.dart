@@ -130,7 +130,7 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
   Widget build(BuildContext context) {
     ref.listen(timerAnimationControllerProvider, (previous, next) {
       final exerciseState = ref.watch(loopVideosControllerProvider);
-      if (next == 0 && exerciseState < sortedExerciseConfig.length - 1) {
+      if (next == 0 && exerciseState < sortedExerciseConfig.length - 1 && sortedExerciseConfig[exerciseState].duration > 0) {
         _pageController.nextPage(
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut);

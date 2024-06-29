@@ -24,6 +24,8 @@ class _WorkoutsState extends ConsumerState<Workouts> {
 
   @override
   void initState() {
+    // listener for SliverAppBar height
+
     super.initState();
   }
 
@@ -36,15 +38,17 @@ class _WorkoutsState extends ConsumerState<Workouts> {
             backgroundColor: ThemeBase.of(context).primaryBackground,
             appBar: GenericAppBar.build(context, AppLocalizations.of(context).workoutsPageTitle),
             body: CustomScrollView(slivers: [
-                SliverAppBar(
+                /* SliverAppBar(
                   leading: Container(),
                   expandedHeight: 329,
+                  collapsedHeight: 200,
+                  
                   floating: true,
                   flexibleSpace: PromoHeader(
                     workout: result.firstWhere(
                         (element) => element.isWorkoutOfTheWeek == true),
                   ),
-                ),
+                ), */
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {

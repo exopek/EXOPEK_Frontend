@@ -33,13 +33,10 @@ class NextExerciseCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      child: Stack(
+      child: Row(
         children: [
           if (imageUrl != null)
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
+            Container(
                 width: 77,
                 height: 77,
                 decoration: ShapeDecoration(
@@ -54,12 +51,9 @@ class NextExerciseCard extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            
           if (imageUrl == null)
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
+            Container(
                 width: 77,
                 height: 77,
                 decoration: ShapeDecoration(
@@ -77,18 +71,26 @@ class NextExerciseCard extends StatelessWidget {
                   ),
                 ),
               ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 220,
+                  child: Text(isRest ? 'Pause' : title, style: ThemeBase.of(context).titleMedium.copyWith(
+                    height: 0
+                  ),
+                  overflow: TextOverflow.ellipsis,),
+                ),
+                Text(frequenceType, style: ThemeBase.of(context).titleSmall.copyWith(
+                  height: 0
+                )),
+              ],
             ),
-          Positioned(
-            left: 88,
-            top: 15,
-            child: Text(isRest ? 'Pause' : title, style: ThemeBase.of(context).titleMedium),
-          ),
-          Positioned(
-            left: 88,
-            top: 39,
-            child: Text(frequenceType,
-                style: ThemeBase.of(context).titleSmall),
-          ),
+          )  
+          
         ],
       ),
     );

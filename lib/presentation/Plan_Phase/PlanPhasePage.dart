@@ -58,6 +58,14 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
     final planPhase = ref.watch(asyncPlanPhasePageControllerProvider);
     return planPhase.when(
       data: (data) {
+        data.workouts.sort((a, b) => a.order.compareTo(b.order));
+        Map<int, List<WorkoutPlanConfig>> groupedWorkouts = {};
+        for (var workout in data.workouts) {
+          if (!groupedWorkouts.containsKey(workout.order)) {
+            groupedWorkouts[workout.order] = [];
+          }
+          groupedWorkouts[workout.order]!.add(workout);
+        } 
         return Scaffold(
             backgroundColor: ThemeBase.of(context).primaryBackground,
             appBar: GenericAppBar.build(
@@ -184,7 +192,40 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                     padding: const EdgeInsets.only(
                         left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
                     child: Column(
-                      children: [
+                      children: groupedWorkouts.entries.map((entry) {
+          return Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: ThemeBase.of(context).accent4, style: BorderStyle.solid),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.only(bottom: 16.0),
+            child: Column(
+              children: entry.value.map((workout) {
+                return Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      // Handle onTap
+                    },
+                    child: WorkoutCardHorizontal(
+                      hasTrained: false, // Update this based on your logic
+                      workout: WorkoutListItem(
+                        id: workout.id,
+                        name: workout.name,
+                        previewImageUrl: workout.previewImageUrl,
+                        hashtags: workout.hashtags,
+                        likes: workout.likes,
+                        comments: workout.comments,
+                        duration: 20,
+                        isWorkoutOfTheWeek: false,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          );
+        }).toList(),/* [
                         for (var index = 0;
                             index < data.workouts.length;
                             index++)
@@ -224,7 +265,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                               ),
                             ),
                           )
-                      ],
+                      ], */
                     ),
                   ),
                 ],

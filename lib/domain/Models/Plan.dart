@@ -166,6 +166,14 @@ class PlanDetails extends Plan {
   get sortedWorkouts =>
       workouts..sort((a, b) => a.phaseType.compareTo(b.phaseType));
 
+  get sortedWorkoutMapByOrder {
+    final sortedMap = <int, List<WorkoutPlanConfig>>{};
+    workoutMap.forEach((key, value) {
+      sortedMap[key] = value..sort((a, b) => a.order.compareTo(b.order));
+    });
+    return sortedMap;
+  }
+
   List<int> get sortedCurrentPhaseTypes =>
       currentPhaseTypes..sort((a, b) => a.compareTo(b));
 
