@@ -57,7 +57,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
         statusStorage == PermissionStatus.granted &&
         statusPhotos == PermissionStatus.granted;
     if (!isGranted) {
-      GenericDialog.showPermissionDialog(context, 'Zugriff', 'Bitte erlaube den Zugriff auf die Bildergallerie', openAppSettings);
+      GenericDialog.showPermissionDialog(context, AppLocalizations.of(context).galleryPermissionTitle, AppLocalizations.of(context).gallerypermissionContent, openAppSettings);
     } else {
       final XFile? image = await _picker.pickImage(
         source: ImageSource.gallery,

@@ -1,5 +1,6 @@
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NextExerciseCard extends StatelessWidget {
   final String title;
@@ -16,11 +17,11 @@ class NextExerciseCard extends StatelessWidget {
       required this.reps,
       required this.isRest});
 
-  String get frequenceType => exerciseFrequenceType.isEmpty
-      ? "Fertig"
+  String frequenceType(BuildContext context) => exerciseFrequenceType.isEmpty
+      ? AppLocalizations.of(context).nextExerciseCardWorkoutStateFinish
       : exerciseFrequenceType == "0"
-          ? "$reps Wiederholungen"
-          : "$exerciseFrequenceType Sekunden";
+          ? "$reps ${AppLocalizations.of(context).nextExerciseCardFrequencyTypeReps}"
+          : "$exerciseFrequenceType ${AppLocalizations.of(context).nextExerciseCardFrequencyTypeTime}";
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +80,12 @@ class NextExerciseCard extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 220,
-                  child: Text(isRest ? 'Pause' : title, style: ThemeBase.of(context).titleMedium.copyWith(
+                  child: Text(isRest ? AppLocalizations.of(context).nextExerciseCardWorkoutStatePause : title, style: ThemeBase.of(context).titleMedium.copyWith(
                     height: 0
                   ),
                   overflow: TextOverflow.ellipsis,),
                 ),
-                Text(frequenceType, style: ThemeBase.of(context).titleSmall.copyWith(
+                Text(frequenceType(context), style: ThemeBase.of(context).titleSmall.copyWith(
                   height: 0
                 )),
               ],

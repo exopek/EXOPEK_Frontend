@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 
+import '../../domain/Models/Enums/PhaseType.dart';
 import '../../domain/Models/Plan.dart';
 import '../../domain/Models/Workout.dart';
 

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:exopek_workout_app/utils/AppRouter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GenericDialog {
   static void showPermissionDialog(BuildContext context, String title,
@@ -18,13 +19,13 @@ class GenericDialog {
                 onPressed: () {
                   onOkPressed();
                 },
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context).dialogSubmitButton),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context).dialogCancelButton),
               ),
             ],
           );
@@ -37,13 +38,13 @@ class GenericDialog {
                 onPressed: () {
                   onOkPressed();
                 },
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context).dialogSubmitButton),
               ),
               CupertinoDialogAction(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context).dialogCancelButton),
               ),
             ],
           );
@@ -66,13 +67,13 @@ class GenericDialog {
                   onPressed: () {
                     AppRouter.goToMainPage();
                   },
-                  child: const Text('OK'),
+                  child: Text(AppLocalizations.of(context).dialogSubmitButton),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context).dialogCancelButton),
                 ),
               ],
             );
@@ -85,13 +86,13 @@ class GenericDialog {
                   onPressed: () {
                     AppRouter.goToMainPage();
                   },
-                  child: const Text('OK'),
+                  child: Text(AppLocalizations.of(context).dialogSubmitButton),
                 ),
                 CupertinoDialogAction(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context).dialogCancelButton),
                 ),
               ],
             );

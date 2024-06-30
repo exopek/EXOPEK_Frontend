@@ -2,17 +2,6 @@ import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/Exercise.dart';
 import 'package:flutter/foundation.dart';
 
-enum PhaseType {
-  phase1,
-  phase2,
-  phase3,
-  phase4,
-  phase5,
-  phase6,
-  phase7,
-  phase8,
-}
-
 sealed class Workout {
   final String id;
   final String name;

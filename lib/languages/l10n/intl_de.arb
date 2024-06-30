@@ -176,5 +176,15 @@
   "userRegistrationPasswordMismatch": "Passwörter stimmen nicht überein",
   "difficultyTypeBeginner": "Anfänger",
   "difficultyTypeIntermediate": "Fortgeschritten",
-  "difficultyTypeAdvanced": "Profi"
+  "difficultyTypeAdvanced": "Profi",
+  "dialogCancelButton": "Abbrechen",
+  "dialogSubmitButton": "Ok",
+  "galleryPermissionTitle": "Zugriff",
+  "gallerypermissionContent": "Bitte erlaube den Zugriff auf die Bildergallerie",
+  "cancelWorkoutTitle": "Workout Beenden",
+  "cancelWorkoutContent": "Aufgeben ist keine Option!",
+  "nextExerciseCardFrequencyTypeReps": "Wiederholungen",
+  "nextExerciseCardFrequencyTypeTime": "Sekunden",
+  "nextExerciseCardWorkoutStatePause": "Pause",
+  "nextExerciseCardWorkoutStateFinish": "Fertig"
 }

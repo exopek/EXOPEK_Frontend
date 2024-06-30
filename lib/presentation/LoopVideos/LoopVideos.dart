@@ -254,8 +254,8 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                                   onTap: () =>
                                       GenericDialog.showCloseWorkoutDialog(
                                           context,
-                                          'Workout Beenden',
-                                          'Aufgeben ist keine Option!'),
+                                          AppLocalizations.of(context).cancelWorkoutTitle,
+                                          AppLocalizations.of(context).cancelWorkoutContent),
                                   child: const Icon(Icons.cancel)),
                             ),
                           ),

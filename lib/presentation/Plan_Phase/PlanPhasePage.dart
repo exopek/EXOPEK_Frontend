@@ -119,7 +119,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        data.planStatus!.phaseTypeAsString,
+                        data.planStatus!.phaseTypeAsType.name,
                         style: ThemeBase.of(context).headlineMedium.copyWith(
                               color: ThemeBase.of(context).primaryText,
                             ),

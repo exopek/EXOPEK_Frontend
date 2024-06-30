@@ -5,6 +5,7 @@ import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:exopek_workout_app/utils/AppUtil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../domain/Models/Enums/PhaseType.dart';
 import '../../domain/Models/Plan.dart';
 import '../DioProvider.dart';
 

@@ -2,6 +2,8 @@ import 'package:exopek_workout_app/domain/Models/Enums/DifficultyType.dart';
 import 'package:exopek_workout_app/domain/Models/Workout.dart';
 import 'package:flutter/material.dart';
 
+import 'Enums/PhaseType.dart';
+
 enum StatusType {
   NONE,
   ACTIVE,
@@ -271,6 +273,8 @@ class PlanStatus {
         return PhaseType.phase1;
     }
   }
+
+  
 
   String get phaseTypeAsString {
     switch (currentPhase) {

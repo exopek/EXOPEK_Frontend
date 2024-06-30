@@ -173,5 +173,18 @@
   "userRegistrationLastname": "¡Por favor, introduce tu apellido!",
   "userRegistrationEmail": "¡Por favor, introduce tu correo electrónico!",
   "userRegistrationPasswordNotValid": "Al menos 10 caracteres y un número",
-  "userRegistrationPasswordMismatch": "Las contraseñas no coinciden"
+  "userRegistrationPasswordMismatch": "Las contraseñas no coinciden",
+  "difficultyTypeBeginner": "Principiante",
+  "difficultyTypeIntermediate": "Intermedio",
+  "difficultyTypeAdvanced": "Avanzado",
+  "dialogCancelButton": "Cancelar",
+  "dialogSubmitButton": "Ok",
+  "galleryPermissionTitle": "Acceso",
+  "gallerypermissionContent": "Por favor, permite el acceso a la galería de imágenes",
+  "cancelWorkoutTitle": "Terminar entrenamiento",
+  "cancelWorkoutContent": "¡Rendirse no es una opción!",
+  "nextExerciseCardFrequencyTypeReps": "Repeticiones",
+  "nextExerciseCardFrequencyTypeTime": "Segundos",
+  "nextExerciseCardWorkoutStatePause": "Pausa",
+  "nextExerciseCardWorkoutStateFinish": "Terminado"
 }
