@@ -323,11 +323,11 @@ class _CoachState extends ConsumerState<Coach> {
                                                           DateTime.now().toString()),
                                                   plan: PlanListItem(
                                                     id: "",
-                                                    name: "Stability Plan",
+                                                    name: "EXOPEK Starter",
                                                     hashtags:
                                                         "Full Body,Strenght,Hypertrophy,Upper Body",
                                                     previewImageUrl:
-                                                        "https://exopekblob.blob.core.windows.net/images/Combat Force_0025_IMG_2630.jpg.jpg",
+                                                        "https://exopekblob.blob.core.windows.net/basic/FacePull.jpg",
                                                     duration: 4,
                                                     videoUrl: "",
                                                   )),

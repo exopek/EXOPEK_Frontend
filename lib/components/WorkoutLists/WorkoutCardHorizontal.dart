@@ -170,32 +170,35 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                     child: _svgBt('SaveNew', onTap: () {
                       if (ref
                           .watch(likedWorkoutIdsProvider)
-                          .any((element) => element.workoutId == widget.workout.id)) {
+                          .any((element) => element == widget.workout.id)) {
                         final workoutLikeId = ref
                             .watch(likedWorkoutIdsProvider)
                             .firstWhere(
-                                (element) => element.workoutId == widget.workout.id)
-                            .id;
+                                (element) => element == widget.workout.id)
+                            ;
                         if (workoutLikeId != null) {
                           ref
                               .read(asyncWorkoutLikeButtonControllerProvider.notifier)
                               .deleteWorkoutLike(workoutLikeId: workoutLikeId);
+                          ref.read(likedWorkoutIdsProvider.notifier).state.removeWhere(
+                            (element) => element == widget.workout.id);
                         }
-                        ref.read(likedWorkoutIdsProvider.notifier).state.removeWhere(
-                            (element) => element.workoutId == widget.workout.id);
+                        
                         setState(() {});
                       } else {
                         ref
                             .read(asyncWorkoutLikeButtonControllerProvider.notifier)
-                            .likeWorkout(workoutId: widget.workout.id)
-                            .then((value) {
+                            .likeWorkout(workoutId: widget.workout.id);
+                        ref.read(likedWorkoutIdsProvider.notifier).state.add(widget.workout.id);
+                            /* .then((value) {
                           ref.read(likedWorkoutIdsProvider.notifier).state.add(value);
                           setState(() {});
-                        });
+                        }); */
+                        setState(() {  });
                       }
                     },
                         color: ref.watch(likedWorkoutIdsProvider).any(
-                                (element) => element.workoutId == widget.workout.id)
+                                (element) => element == widget.workout.id)
                             ? Colors.white
                             : const Color(0xFF838282)),
                   ),

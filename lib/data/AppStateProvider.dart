@@ -20,8 +20,8 @@ final currentRouteProvider = Provider<String>((ref) {
   }
 });
 
-final likedWorkoutIdsProvider = StateProvider<List<LikeReadDto>>((ref) => []);
+final likedWorkoutIdsProvider = StateProvider<List<String?>>((ref) => []);
 
 final menuBarWidthProvider = StateProvider<double>((ref) => 0.0);
 
-final localizationProvider = StateProvider<String>((ref) => 'en-US');
+final localizationProvider = StateProvider<String>((ref) => 'en-EN');

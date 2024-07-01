@@ -50,7 +50,7 @@ class CoachPageController extends AutoDisposeAsyncNotifier<CoachPageViewModel> {
     if (likedWorkoutsResult is AsyncError) {
       state = AsyncError("LikedWorkoutId could not be fetched", StackTrace.current);
     }
-    ref.read(likedWorkoutIdsProvider.notifier).state = likedWorkoutsResult.asData!.value.map((e) => e).toList();
+    ref.read(likedWorkoutIdsProvider.notifier).state = likedWorkoutsResult.asData!.value.map((e) => e.workoutId).toList();
     // Set the user state
     ref.read(userStateProvider.notifier).state = user.asData!.value;
     // Get the started plans

@@ -8,7 +8,7 @@ class WorkoutLikeButtonController
     extends AutoDisposeAsyncNotifier<void> {
   WorkoutLikeButtonController();
 
-  Future<LikeReadDto> likeWorkout({required String workoutId}) async {
+  Future<void> likeWorkout({required String workoutId}) async {
     
     state = const AsyncLoading();
     final result = await AsyncValue.guard(
@@ -16,8 +16,6 @@ class WorkoutLikeButtonController
     if (result is AsyncError) {
       state = AsyncError(result.error.toString(), StackTrace.current);
     }
-    
-    return result.asData!.value;
   }
 
   Future<bool> deleteWorkoutLike({required String workoutLikeId}) async {
