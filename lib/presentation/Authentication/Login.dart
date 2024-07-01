@@ -4,6 +4,7 @@ import 'package:exopek_workout_app/components/GenericSnackBar.dart';
 import 'package:exopek_workout_app/dependencyInjection/userProvider/UserProvider.dart';
 import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../utils/AppRouter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -68,20 +69,27 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       const SizedBox(
                         height: 16.0,
                       ),
-                      CustomTextField(
-                        controller: usernameController,
-                        hint: AppLocalizations.of(context).textFieldHintUsernameOrEmail,
-                        focusNode: usernameFocusNode,
+                      AutofillGroup(
+                        child: Column(
+                          children: [CustomTextField(
+                            autofillHints: [AutofillHints.username],
+                          controller: usernameController,
+                          hint: AppLocalizations.of(context).textFieldHintUsernameOrEmail,
+                          focusNode: usernameFocusNode,
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        CustomTextField(
+                          autofillHints: [AutofillHints.password],
+                          controller: passwordController,
+                          hint: AppLocalizations.of(context).textFieldHintPassword,
+                          focusNode: passwordFocusNode,
+                          obscureText: true,
+                        ),],
+                        ),
                       ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
-                      CustomTextField(
-                        controller: passwordController,
-                        hint: AppLocalizations.of(context).textFieldHintPassword,
-                        focusNode: passwordFocusNode,
-                        obscureText: true,
-                      ),
+                      
                       const SizedBox(
                         height: 16.0,
                       ),
@@ -89,6 +97,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         label: AppLocalizations.of(context).loginButton,
                         isLoading: loginButtonState.isLoading,
                         onPressed: () {
+                          TextInput.finishAutofillContext();
                           ref
                               .read(asyncLoginButtonControllerProvider.notifier)
                               .login(usernameController.text,

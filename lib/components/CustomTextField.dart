@@ -14,7 +14,9 @@ class CustomTextField extends StatefulWidget {
       this.numberKeyboard,
       this.obscureText = false,
       this.errorText = '',
-      this.enabled = true});
+      this.enabled = true,
+      this.autofillHints
+      });
 
   final TextEditingController? controller;
   final String hint;
@@ -28,6 +30,7 @@ class CustomTextField extends StatefulWidget {
   final bool obscureText;
   final String errorText;
   final bool enabled;
+  final Iterable<String>? autofillHints;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -51,6 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: Stack(
         children: [
           TextField(
+            autofillHints: widget.autofillHints,
             enabled: widget.enabled,
             keyboardType: widget.numberKeyboard != null && widget.numberKeyboard!
                 ? TextInputType.number

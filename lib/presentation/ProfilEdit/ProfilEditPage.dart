@@ -45,7 +45,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
   final ImagePicker _picker = ImagePicker();
 
   Future<XFile?> getImageFromGallery(User user) async {
-    Map<Permission, PermissionStatus> statues = await [
+    /* Map<Permission, PermissionStatus> statues = await [
       Permission.camera,
       Permission.storage,
       Permission.photos
@@ -55,10 +55,10 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
     PermissionStatus? statusPhotos = statues[Permission.photos];
     bool isGranted = statusCamera == PermissionStatus.granted &&
         statusStorage == PermissionStatus.granted &&
-        statusPhotos == PermissionStatus.granted;
-    if (!isGranted) {
+        statusPhotos == PermissionStatus.granted; */
+    /* if (!isGranted) {
       GenericDialog.showPermissionDialog(context, AppLocalizations.of(context).galleryPermissionTitle, AppLocalizations.of(context).gallerypermissionContent, openAppSettings);
-    } else {
+    } else { */
       final XFile? image = await _picker.pickImage(
         source: ImageSource.gallery,
         imageQuality: 50,
@@ -67,7 +67,7 @@ class _ProfilEditPageState extends ConsumerState<ProfilEditPage> {
     if (image != null) {
       return image;
     }
-    }
+    //}
     
     return null;
   }
