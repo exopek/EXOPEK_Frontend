@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.exopek_workout_app">
+    package="com.exopek.workout_app">
    <application
         android:label="EXOPEK"
         android:name="${applicationName}"
