@@ -44,7 +44,7 @@ class GenericBottomSheet {
       ),
       builder: (BuildContext context) {
         return Container(
-          height: 150,
+          height: 100,
           decoration: BoxDecoration(
             color: Color(0xFF212326),
             borderRadius: BorderRadius.only(
@@ -52,20 +52,27 @@ class GenericBottomSheet {
               topRight: Radius.circular(15),
             ),
           ),
-          child: ListView.separated(
-            separatorBuilder: (context, index) => Divider(
-              color: Colors.white,
-              height: 1,
-            ),
+          child: ListView.builder(
+            
             itemCount: items.length,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: Icon(items[index]['icon'] as IconData?),
-                title: Text(items[index]['title'].toString()),
-                onTap: () {
-                  (items[index]['onTap'] as void Function())();
-                  Navigator.pop(context);
-                },
+              return Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color(0xFF161719),
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: ListTile(
+                  leading: Icon(items[index]['icon'] as IconData?),
+                  title: Text(items[index]['title'].toString()),
+                  onTap: () {
+                    (items[index]['onTap'] as void Function())();
+                    Navigator.pop(context);
+                  },
+                ),
               );
             },
           ),

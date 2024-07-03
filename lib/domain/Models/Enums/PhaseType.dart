@@ -19,19 +19,19 @@ extension PhaseTypeExtension on PhaseType {
       case PhaseType.phase1:
         return "${localizations.planDetailsPageSubTitleDetails} 1";
       case PhaseType.phase2:
-        return "${localizations.difficultyTypeBeginner} 2";
+        return "${localizations.planDetailsPageSubTitleDetails} 2";
       case PhaseType.phase3:
-        return "${localizations.difficultyTypeIntermediate} 3";
+        return "${localizations.planDetailsPageSubTitleDetails} 3";
       case PhaseType.phase4:
-        return "${localizations.difficultyTypeAdvanced} 4";
+        return "${localizations.planDetailsPageSubTitleDetails} 4";
       case PhaseType.phase5:
-        return "${localizations.difficultyTypeAdvanced} 5";
+        return "${localizations.planDetailsPageSubTitleDetails} 5";
       case PhaseType.phase6:
-        return "${localizations.difficultyTypeAdvanced} 6";
+        return "${localizations.planDetailsPageSubTitleDetails} 6";
       case PhaseType.phase7:
-        return "${localizations.difficultyTypeAdvanced} 7";
+        return "${localizations.planDetailsPageSubTitleDetails} 7";
       case PhaseType.phase8:
-        return "${localizations.difficultyTypeAdvanced} 8";      
+        return "${localizations.planDetailsPageSubTitleDetails} 8";      
       default:
         return "";
     }

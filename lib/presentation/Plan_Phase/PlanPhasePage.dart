@@ -9,6 +9,7 @@ import '../../components/GenericBottomSheet.dart';
 import '../../data/AppStateProvider.dart';
 import '../../dependencyInjection/coachProvider/coachPageControllerProvider.dart';
 import '../../dependencyInjection/plansProvider/PlansProvider.dart';
+import '../../domain/Models/Enums/PhaseType.dart';
 import '../../domain/Models/Workout.dart';
 import '../../utils/AppRouter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -83,7 +84,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                                     .read(planPhaseStopButtonProvider.notifier)
                                     .stopPlan(data.planStatus!.id)
                               },
-                              {
+                              /* {
                                 'icon': Icons.change_circle_outlined,
                                 'title': AppLocalizations.of(context)
                                     .planPhasePageNextPhaseButton,
@@ -102,7 +103,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                                             data.planStatus!.phaseTypeAsType.index],
                                     workoutIds: data.planStatus!.workoutIds,
                                     status: data.planStatus!.statusTypeAsType)
-                              },
+                              }, */
                             ]),
                     icon: const Icon(Icons.menu)),
               ],
@@ -119,7 +120,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        data.planStatus!.phaseTypeAsType.name,
+                        PhaseType.values.firstWhere((element) => element.index == data.planStatus!.currentPhase).name(context),
                         style: ThemeBase.of(context).headlineMedium.copyWith(
                               color: ThemeBase.of(context).primaryText,
                             ),

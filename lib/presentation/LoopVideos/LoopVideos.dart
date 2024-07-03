@@ -381,6 +381,8 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                   color: Colors.transparent,
                   hasBorder: true,
                   onPressed: () {
+                    ref.read(loopVideosControllerProvider.notifier).reset();
+                    //ref.read(timerAnimationControllerProvider.notifier).reset();
                     AppRouter.goToWorkoutSummary(WorkoutSummaryPageViewModel(
                         workoutDetails: widget.viewModel.workoutDetails,
                         planStatus: widget.viewModel.planStatus,

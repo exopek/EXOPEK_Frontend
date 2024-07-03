@@ -274,22 +274,6 @@ class PlanStatus {
     }
   }
 
-  
-
-  String get phaseTypeAsString {
-    switch (currentPhase) {
-      case 0:
-        return 'Phase 1';
-      case 1:
-        return 'Phase 2';
-      case 2:
-        return 'Phase 3';
-      case 3:
-        return 'Phase 4';
-      default:
-        return 'Phase 1';
-    }
-  }
 
   StatusType get statusTypeAsType {
     if (status == 0) {
