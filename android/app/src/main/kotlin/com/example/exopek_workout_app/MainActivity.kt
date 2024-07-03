@@ -1,4 +1,4 @@
-package com.example.exopek_workout_app
+package com.exopek.workout_app
 
 import io.flutter.embedding.android.FlutterActivity
 
