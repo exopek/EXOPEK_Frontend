@@ -1,5 +1,6 @@
 import 'package:exopek_workout_app/components/Shared/GenericAppBar.dart';
 import 'package:exopek_workout_app/dependencyInjection/commentsProvider/commentsPageProvider.dart';
+import 'package:exopek_workout_app/theme/ThemeBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../components/WorkoutDetailPage/CommentRatingCard.dart';
@@ -48,9 +49,12 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
         );
       },
       loading: () {
-        return const Scaffold(
+        return Scaffold(
           body: Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              strokeWidth: 0.5,
+              color: ThemeBase.of(context).primaryText,
+            ),
           ),
         );
       },

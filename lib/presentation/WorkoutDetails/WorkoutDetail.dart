@@ -107,9 +107,9 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 16.0, bottom: 8),
+                        padding: const EdgeInsets.only(left: 16.0, bottom: 8, right: 16.0),
                         child: SizedBox(
-                          width: 350,
+                          width: MediaQuery.sizeOf(context).width,
                           child: Text(
                             result.workout.description,
                             style: ThemeBase.of(context).bodySmall.copyWith(
