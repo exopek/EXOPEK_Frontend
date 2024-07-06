@@ -50,10 +50,10 @@ class _CoachState extends ConsumerState<Coach> {
     _scrollController = ScrollController();
     
     _assets = [
-      "assets/images/testImage.jpeg",
-      "assets/images/startImage.jpg",
-      "assets/images/loginImage.jpg",
-      "assets/images/testImage.jpeg"
+      "assets/images/HighKnees.jpg",
+      "assets/images/LungeBoxing.jpg",
+      "assets/images/HighKneesBoxingFortgeschritten.jpg",
+      "assets/images/ShoulderPress.jpg"
     ];
   }
 

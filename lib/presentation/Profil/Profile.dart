@@ -203,9 +203,7 @@ class _ProfileState extends ConsumerState<Profile> {
       },
       error: (error, stackTrace) {
         return Scaffold(
-          body: Center(
-            child: Text('Error: $error'),
-          ),
+          body: Container()
         );
       },
     );

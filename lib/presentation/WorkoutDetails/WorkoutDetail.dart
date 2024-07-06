@@ -278,6 +278,6 @@ class _WorkoutDetailState extends ConsumerState<WorkoutDetail> {
               strokeWidth: 0.5,
               color: ThemeBase.of(context).primaryText,
             )),
-        error: (e, s) => Center(child: Text(e.toString())));
+        error: (e, s) => Container());
   }
 }

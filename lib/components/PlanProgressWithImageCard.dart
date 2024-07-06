@@ -50,111 +50,119 @@ class PlanProgressWithImageCard extends StatelessWidget {
             color: ThemeBase.of(context).secondary,
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Hashtags
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.42,
-                  child: Text(plan.hashtagsStringWithHash.toString(),
-                      overflow: TextOverflow.ellipsis,
-                      style: ThemeBase.of(context).bodySmall.copyWith(
-                          color: ThemeBase.of(context).secondaryText,
-                          fontSize: 10,
-                          overflow: TextOverflow.ellipsis)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Name
-                      SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.42,
-                        child: Text(
-                          plan.name,
-                          overflow: TextOverflow.ellipsis,
-                          style: ThemeBase.of(context).titleMedium),
-                      ),
-                      const SizedBox(height: 2),
-                      // Information Block
-
-                      CardInformationBlock(
-                        value: plan.duration.toString() + " ${AppLocalizations.of(context).planProgressCardDuration}",
-                        icon: _svgBt('Uhr',
-                            height: 12.0,
-                            width: 12.0,
-                            color: ThemeBase.of(context).primaryText),
-                      ),
-                    ],
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Hashtags
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width * 0.42,
+                    child: Text(plan.hashtagsStringWithHash.toString(),
+                        overflow: TextOverflow.ellipsis,
+                        style: ThemeBase.of(context).bodySmall.copyWith(
+                            color: ThemeBase.of(context).secondaryText,
+                            fontSize: 10,
+                            overflow: TextOverflow.ellipsis)),
                   ),
-                ),
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Progress bar
-                    if (planStatus.progressPercentage != 100)
-                      Container(
-                        height: 10,
-                        width: MediaQuery.sizeOf(context).width * 0.42,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 1, color: Color(0xFF262424)),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Name
+                        SizedBox(
+                          width: MediaQuery.sizeOf(context).width * 0.42,
+                          child: Text(plan.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: ThemeBase.of(context).titleMedium),
                         ),
-                        child: Stack(
+                        const SizedBox(height: 2),
+                        // Information Block
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Container(
-                                width: MediaQuery.sizeOf(context).width *
-                                    0.42 *
-                                    planStatus.progressPercentage /
-                                    100,
-                                height: 8,
-                                decoration: ShapeDecoration(
-                                  color: ThemeBase.of(context).secondary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                              ),
+                            CardInformationBlock(
+                              value: plan.duration.toString() +
+                                  " ${AppLocalizations.of(context).planProgressCardDuration}",
+                              icon: _svgBt('Uhr',
+                                  height: 12.0,
+                                  width: 12.0,
+                                  color: ThemeBase.of(context).primaryText),
                             ),
+                            Text(planStatus.createdAt.toString().split("T")[0],
+                                style: ThemeBase.of(context).bodySmall.copyWith(
+                                    color: ThemeBase.of(context).secondaryText,
+                                    fontSize: 10,
+                                    height: 0))
                           ],
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
 
-                    // Progress text
-                    if (planStatus.progressPercentage != 100)
-                      SizedBox(
-                        child: Text(
-                            '${planStatus.progressPercentage}% ${AppLocalizations.of(context).planProgressCardFinished}',
-                            style: ThemeBase.of(context).bodySmall.copyWith(
-                                  color: ThemeBase.of(context).secondaryText,
-                                  fontSize: 10,
-                                  height: 0,
-                                )),
-                      ),
-                    if (planStatus.progressPercentage == 100)
-                      Text(
-                          "Plan Abgeschlossen: " +
-                              planStatus.createdAt.toString().split("T")[0],
-                          style: ThemeBase.of(context).bodySmall.copyWith(
-                              color: ThemeBase.of(context).secondaryText,
-                              fontSize: 10,
-                              height: 0)),
-                  ],
-                )
-              ],
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Progress bar
+                      if (planStatus.progressPercentage != 100)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child:
+                              _progressBar(planStatus.progressPercentage / 100),
+                        ),
+
+                      // Progress text
+                      if (planStatus.progressPercentage != 100)
+                        SizedBox(
+                          child: Text(
+                              '${planStatus.progressPercentage}% ${AppLocalizations.of(context).planProgressCardFinished}',
+                              style: ThemeBase.of(context).bodySmall.copyWith(
+                                    color: ThemeBase.of(context).secondaryText,
+                                    fontSize: 10,
+                                    height: 0,
+                                  )),
+                        ),
+                    ],
+                  )
+                ],
+              ),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _progressBar(double progress) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: Color(0xFF262424),
+          width: 1.0,
+        ),
+      ),
+      width: double.infinity,
+      height: 10.0,
+      child: Stack(
+        children: [
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth * progress;
+              return Container(
+                width: width,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

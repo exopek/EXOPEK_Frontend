@@ -218,6 +218,6 @@ class _PlanDetailPageState extends ConsumerState<PlanDetailPage> {
         loading: () => Center(
             child: CircularProgressIndicator(
                 strokeWidth: 0.5, color: ThemeBase.of(context).primaryText)),
-        error: (e, s) => Center(child: Text(e.toString())));
+        error: (e, s) => Container());
   }
 }

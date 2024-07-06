@@ -255,7 +255,9 @@ class _LoopVideosState extends ConsumerState<LoopVideos>
                                       GenericDialog.showCloseWorkoutDialog(
                                           context,
                                           AppLocalizations.of(context).cancelWorkoutTitle,
-                                          AppLocalizations.of(context).cancelWorkoutContent),
+                                          AppLocalizations.of(context).cancelWorkoutContent,
+                                          AppLocalizations.of(context).dialogSubmitButton,
+                                          AppLocalizations.of(context).dialogCancelButton),
                                   child: const Icon(Icons.cancel)),
                             ),
                           ),

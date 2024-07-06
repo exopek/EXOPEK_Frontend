@@ -74,89 +74,96 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
             width: 2,
             color: ThemeBase.of(context).secondary,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.36,
-                  child: Text(
-                    widget.workout.hashtagsStringWithHash as String,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: ThemeBase.of(context).bodySmall.copyWith(
-                        color: ThemeBase.of(context).secondaryText,
-                        fontSize: 10,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 
-                      MediaQuery.of(context).size.width * 0.36,
-                      child: Text(
-                        widget.workout.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: ThemeBase.of(context).titleMedium,
-                      ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.36,
+                    child: Text(
+                      widget.workout.hashtagsStringWithHash as String,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: ThemeBase.of(context).bodySmall.copyWith(
+                          color: ThemeBase.of(context).secondaryText,
+                          fontSize: 10,
+                          overflow: TextOverflow.ellipsis),
                     ),
-                    const SizedBox(height: 2),
-                    // Information Block
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CardInformationBlock(
-                            value: widget.workout.duration.toString() + ' min',
-                            icon: _svgBt('Uhr',
-                            height: 12.0,
-                            width: 12.0,
-                            color: ThemeBase.of(context).primaryText)),
-                        const SizedBox(width: 10),
-                        if (widget.workout.rating != null &&
-                            widget.workout.ratingAsDouble != 0.0)
-                          Container(
-                            height: 12.05,
-                            decoration: const ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  width: 0.50,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                  color: Color(0xFF838282),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 
+                        MediaQuery.of(context).size.width * 0.36,
+                        child: Text(
+                          widget.workout.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: ThemeBase.of(context).titleMedium,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      // Information Block
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [ 
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CardInformationBlock(
+                              value: widget.workout.duration.toString() + ' min',
+                              icon: _svgBt('Uhr',
+                              height: 12.0,
+                              width: 12.0,
+                              color: ThemeBase.of(context).primaryText)),
+                          const SizedBox(width: 10),
+                          if (widget.workout.rating != null &&
+                              widget.workout.ratingAsDouble != 0.0)
+                            Container(
+                              height: 12.05,
+                              decoration: const ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 0.50,
+                                    strokeAlign: BorderSide.strokeAlignCenter,
+                                    color: Color(0xFF838282),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        if (widget.workout.rating != null &&
-                            widget.workout.ratingAsDouble != 0.0)
-                          const SizedBox(width: 10),
-                        if (widget.workout.rating != null &&
-                            widget.workout.ratingAsDouble != 0.0)
-                          CardInformationBlock(
-                              value: widget.workout.ratingAsString.toString(),
-                              icon: Icon(
-                                Icons.star,
-                                color: ThemeBase.of(context).primaryText,
-                                size: 12,
-                              )),
-                              
-                        if (widget.lastTrained != null)
-                          Text('${widget.lastTrained}',
-                              style: const TextStyle(
-                                color: Color(0xFF838282),
-                                fontSize: 10,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w300,
-                              )),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                          if (widget.workout.rating != null &&
+                              widget.workout.ratingAsDouble != 0.0)
+                            const SizedBox(width: 10),
+                          if (widget.workout.rating != null &&
+                              widget.workout.ratingAsDouble != 0.0)
+                            CardInformationBlock(
+                                value: widget.workout.ratingAsString.toString(),
+                                icon: Icon(
+                                  Icons.star,
+                                  color: ThemeBase.of(context).primaryText,
+                                  size: 12,
+                                )),
+                            ],
+                          ),   
+                          if (widget.lastTrained != null)
+                            Text('${widget.lastTrained}',
+                            textAlign: TextAlign.right,
+                                style: const TextStyle(
+                                  color: Color(0xFF838282),
+                                  fontSize: 10,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w300,
+                                )),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           if (widget.hasLikeOption)

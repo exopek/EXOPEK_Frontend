@@ -298,7 +298,7 @@ class _PlanPhasePageState extends ConsumerState<PlanPhasePage> {
         strokeWidth: 0.5,
         color: ThemeBase.of(context).primaryText,
       )),
-      error: (error, stack) => Center(child: Text(error.toString())),
+      error: (error, stack) => Container(),
     );
   }
 }

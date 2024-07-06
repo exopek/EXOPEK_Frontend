@@ -27,7 +27,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
     return Material(
       color: Colors.transparent,
       child: SizedBox(
-        width: MediaQuery.sizeOf(context).width * widget.xsize,
+        width: MediaQuery.sizeOf(context).width,
         height: 32,
         child: Stack(
           children: [
@@ -36,7 +36,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
               top: 0,
               right: 0,
               child: Container(
-                width: MediaQuery.sizeOf(context).width * widget.xsize,
+                width: MediaQuery.sizeOf(context).width,
                 height: 32,
                 decoration: ShapeDecoration(
                   color: const Color(0xFF0C0C0C),

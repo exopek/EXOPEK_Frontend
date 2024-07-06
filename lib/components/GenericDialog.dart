@@ -54,7 +54,7 @@ class GenericDialog {
   }
 
   static void showCloseWorkoutDialog(
-      BuildContext context, String title, String message) {
+      BuildContext context, String title, String message, String confirm, String cancel) {
     showDialog(
         context: context,
         builder: (_) {
@@ -67,13 +67,13 @@ class GenericDialog {
                   onPressed: () {
                     AppRouter.goToMainPage();
                   },
-                  child: Text(AppLocalizations.of(context).dialogSubmitButton),
+                  child: Text(confirm),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text(AppLocalizations.of(context).dialogCancelButton),
+                  child: Text(cancel),
                 ),
               ],
             );
@@ -86,13 +86,13 @@ class GenericDialog {
                   onPressed: () {
                     AppRouter.goToMainPage();
                   },
-                  child: Text(AppLocalizations.of(context).dialogSubmitButton),
+                  child: Text(confirm),
                 ),
                 CupertinoDialogAction(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text(AppLocalizations.of(context).dialogCancelButton),
+                  child: Text(cancel),
                 ),
               ],
             );
