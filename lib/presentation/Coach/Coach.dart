@@ -320,7 +320,7 @@ class _CoachState extends ConsumerState<Coach> {
                                                       progressPercentage: 0,
                                                       planId: "",
                                                       createdAt:
-                                                          DateTime.now().toString()),
+                                                          DateTime.now().toString().split(" ")[0]),
                                                   plan: PlanListItem(
                                                     id: "",
                                                     name: "EXOPEK Starter",

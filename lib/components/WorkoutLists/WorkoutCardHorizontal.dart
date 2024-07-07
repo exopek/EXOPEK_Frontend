@@ -81,9 +81,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.36,
-                    child: Text(
+                  Text(
                       widget.workout.hashtagsStringWithHash as String,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -93,19 +91,16 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                           fontSize: 10,
                           overflow: TextOverflow.ellipsis),
                     ),
-                  ),
+                  
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 
-                        MediaQuery.of(context).size.width * 0.36,
-                        child: Text(
+                      Text(
                           widget.workout.name,
                           overflow: TextOverflow.ellipsis,
                           style: ThemeBase.of(context).titleMedium,
                         ),
-                      ),
+                      
                       const SizedBox(height: 2),
                       // Information Block
                       Row(
@@ -167,8 +162,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
             ),
           ),
           if (widget.hasLikeOption)
-            Expanded(
-              child: Column(
+            Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -211,7 +205,7 @@ class _WorkoutCardHorizontalState extends ConsumerState<WorkoutCardHorizontal> {
                   ),
                 ],
               ),
-            ),
+            
         ],
       ),
     );
