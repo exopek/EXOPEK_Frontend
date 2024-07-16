@@ -98,8 +98,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
     return Scaffold(
       backgroundColor: ThemeBase.of(context).primaryBackground,
       body: SingleChildScrollView(
-        child: Expanded(
-          child: Column(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
@@ -303,7 +302,7 @@ class _OnBoarding1State extends ConsumerState<OnBoarding1> {
                     
                 ],
               ),
-        ),
+        
           
         
       ),
